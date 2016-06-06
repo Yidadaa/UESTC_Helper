@@ -1,0 +1,30 @@
+button {
+    width: 120px;
+    background-color: dodgerblue;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    height: 40px;
+    font-size: 14px;
+    font-family: "新宋体";
+    text-align: center;
+    padding: 10px;
+    -webkit-transition: all 0.1s ease;
+    -moz-transition: all 0.1s ease;
+    transition: all 0.1s ease;
+    border-radius: 5px;
+    box-shadow: 0 5px deepskyblue;
+    margin-bottom: 5px;
+}
+button:active {
+    margin-top: 5px;
+    margin-bottom: 0;
+    box-shadow: 0 0 deepskyblue;
+}
+button:hover {
+    background-color: #4DA7FF;
+}
+body {
+    min-height: 170px;
+}

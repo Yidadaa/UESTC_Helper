@@ -1,0 +1,27 @@
+{
+    "manifest_version":2,
+    
+    "name":"电子科大教务助手",
+    "description":"查询成绩，考试通知，课程表",
+    "version":"0.1",
+    
+    "permissions":[
+        "http://idas.uestc.edu.cn/*",
+        "http://eams.uestc.edu.cn/*",
+        "tabs"
+    ],
+    "browser_action":{
+        "default_icon":"static/img/icon.png",
+        "default_popup":"pop_up.html"
+    },
+    "content_scripts":[
+        {
+            "matches":["http://idas.uestc.edu.cn/authserver/login*"],
+            "css":["static/css/login.css"],
+            "js":["static/js/login.js"]
+        }
+    ],
+    "icons":{
+        "128":"static/img/icon.png"
+    }
+}
