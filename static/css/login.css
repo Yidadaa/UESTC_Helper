@@ -12,7 +12,7 @@
   height:38px;
   width:304px;
   margin-bottom:20px;
-  border:1px solid #bdbdbd;
+  border:1px solid #aaa;
   position:relative;
 }
 .ico-username{
@@ -42,6 +42,13 @@
   float:none;
   overflow:hidden;
   font-size:14px;
+  outline: none;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.login-form-input:focus {
+  box-shadow: 0 5px 10px #aaa;
 }
 h1{
     height: 27px;
@@ -69,9 +76,6 @@ h1{
 .login-button:hover{
   background-color: #004BAF;
 }
-.login-button:active{
-  
-}
 .logo-container{
   position:absolute;
   top:0;
@@ -82,6 +86,8 @@ h1{
 }
 body{
   background:url(http://www.uestc.edu.cn/public/2015/02/c2a66751c4509b678562128277ce484b85004.jpg) no-repeat 50% 100px;
+  padding: 0;
+  margin: 0;
 }
 .logo-ico{
   height:64px;
@@ -100,8 +106,10 @@ body{
   margin-bottom:8px;
 }
 a{
-  text-decoration:none;
   color:#666666;
+}
+a:hover {
+  color: dodgerblue;
 }
 .forget-pwd{
   float:right;
@@ -111,10 +119,14 @@ a{
   text-align:center;
   font-size:12px;
   color:#666666;
-  margin-top: 300px;
   float: left;
+  margin-top: 40px;
 }
 .auth_bg,
 .auth_page_wrapper{
   display: none;
+}
+#wrap {
+  overflow: auto;
+  height: 556px;
 }
