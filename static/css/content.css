@@ -1,0 +1,104 @@
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "微软雅黑","等线";
+}
+
+#header {
+    height: 50px;
+    background-color: rgb(0, 44, 103);
+    color: #fff;
+    padding: 0 100px 0px 100px;
+}
+#header img { 
+    height: 40px;
+    margin-top: 5px;
+    float: left;
+}
+#header #title {
+    float: left;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+#nav {
+    position: fixed;
+    top: 200px;
+    width: 100px;
+    border-bottom: 1px solid #aaa;
+}
+#nav ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+#nav li {
+    height: 60px;
+    border-top: 1px solid #aaa;
+    text-align: center;
+    padding-top: 40px;
+}
+#wrap {
+    padding: 0 100px 0 100px;
+    min-height: 600px;
+    overflow: auto;
+}
+.block {
+    box-shadow: 0px 2px 5px #ddd;
+    min-height: 200px;
+    margin-top: 40px;
+    width: 1070px;
+    padding: 20px 40px 20px 40px;
+}
+#grade-block #abstract {
+    height: 220px;
+    border-bottom: 1px #ddd solid;
+}
+.little-block {
+    height: 180px;
+    width: 150px;
+    position: relative;
+    display: inline-block;
+}
+.little-block #title,#value {
+    position: absolute;
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+.little-block #value {
+    top: 75px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.little-chart {
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+    margin-top: 15px;
+    display: block;
+}
+#chart-1 {
+    margin-left: 40px;
+    float: left;
+}
+#chart-2 {
+    height: 200px;
+    width: 40%;
+    float: right;
+    border-left: 1px #ddd dotted;
+    padding-left: 80px;
+}
+#grade-block #detail {
+    min-height: 400px;
+}
+#detail-selector {
+    height: 50px;
+    border: 1px #aaa solid;
+    margin-top: 20px;
+}
+#detail-chart {
+    height: 400px;
+    border: 1px #aaa solid;
+    margin-top: 20px;
+}
