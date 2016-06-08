@@ -23,7 +23,7 @@
         },{
             "matches":["http://portal.uestc.edu.cn/*"],
             "css":["static/css/content.less"],
-            "js":["static/js/content.js"]
+            "js":["static/js/chart/echarts.js","static/js/chart/mon.js","static/js/content.js"]
         }
     ],
     "icons":{

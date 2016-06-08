@@ -4,33 +4,9 @@ function $(name) {
 function $$(name) {
     return document.querySelectorAll(name);
 }
-function clearAll() {
-    /**
-     * 清除现有页面
-     */
-    var html = $('html');
-    var length = html.childElementCount;
-    for (var i = 0; i <= length; i++) {
-        html.removeChild(html.childNodes[0]);
-    }
-}
-function newPage(theData) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", chrome.extension.getURL('/content.html'), true);
-    xhr.send();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            var login_page_src = xhr.responseText;
-            $('html').innerHTML = login_page_src;
-            var source = getGradeSource();
-            //var data = {intro: getData($('table')),detail: getData($$('table')[1])}
-            data = sumDataFormater(data);
-
-            renderNav();
-            renderGradePart(data);
-        }
-    }
-}
+/**
+ * 获取子元素的索引
+ */
 function getIndex(node) {
     var parent = node.parentNode;
 
@@ -39,18 +15,82 @@ function getIndex(node) {
             return i;
         }
     }
-
     return null;
 }
+/**
+ * 解析table中的数据
+ */
+function getData(table) {
+    var data = {
+        tableHead: [],
+        tableContent: []
+    };
+    var head = table.querySelector('.gridhead tr');
+    for (var i in head.children) {
+        if (head.children[i].innerText) {
+            data.tableHead.push(head.children[i].innerText);
+        }
+    }
+    var content = table.querySelectorAll('tbody tr');
+    for (var i in content) {
+        var lineContent = [];
+        for (var k in content[i].children) {
+            if (content[i].children[k].innerText) {
+                lineContent.push(content[i].children[k].innerText);
+            } else if (k == 2 || k == 7) {
+                lineContent.push('');
+            }
+        }
+        if (lineContent.length) {
+            data.tableContent.push(lineContent);
+        }
+    }
+
+    return data;
+}
+
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<以下是私有函数部分>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+/**
+ * 清除现有页面
+ */
+function clearAll() {
+    var html = $('html');
+    var length = html.childElementCount;
+    for (var i = 0; i <= length; i++) {
+        html.removeChild(html.childNodes[0]);
+    }
+}
+/**
+ * 加载新页面
+ */
+function newPage(theData) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", chrome.extension.getURL('/content.html'), true);
+    xhr.send();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            var login_page_src = xhr.responseText;
+            $('html').innerHTML = login_page_src;
+            getGradeSource();//创建新页面后开始请求数据
+            renderNav();
+        }
+    }
+}
+/**
+ * 异步加载原始数据
+ */
 function getGradeSource() {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR', true);
     xhr.send();
     xhr.onreadystatechange = function () {
-        if (xhr.status == 4) {
+        if (xhr.readyState == 4) {
             var div = document.createElement('div');
             div.innerHTML = xhr.responseText;
-            return div;
+            var data = { intro: getData(div.querySelector('table')), detail: getData(div.querySelectorAll('table')[1]) };//获取源数据
+            data = sumDataFormater(data);//格式化源数据
+            renderGradePart(data);//渲染成绩模块
+            console.log(data);
         }
     }
 }
@@ -78,6 +118,9 @@ function renderNav() {
  */
 function renderGradePart(data) {
     if (!data) {
+        /**
+         * 下面同时也是数据样例
+         */
         data = {
             sum: {
                 sum: {
@@ -95,7 +138,7 @@ function renderGradePart(data) {
             eachYear:
             {
                 year: ['大一上', '大一下', '大二上', '大二下', '大三上', '大三下', '大四上', '大四下'],
-                aver: ['77', 87, 80, 67, 74, 87, 78, 76],
+                aver: [77, 87, 80, 67, 74, 87, 78, 76],
                 gpa: [3.3, 3.5, 3.0, 2.8, 3.5, 3.6, 3.3, 3.5]
             },
             detail: [{
@@ -333,18 +376,30 @@ function renderGradePart(data) {
             xAxis: [
                 {
                     type: 'category',
-                    data: curData.subject
+                    data: curData.subject,
+                    axisLabel: {
+                        textStyle: {
+                            fontSize: '10'
+                        },
+                        formatter: function (value) {
+                            if (value.length > 4) {
+                                return value.match(/.{0,4}/) + '...';
+                            } else {
+                                return value;
+                            }
+                        }
+                    }
                 }
             ],
             yAxis: [
                 {
                     type: 'value',
                     max: 100,
-                    min: 50
+                    min: 40
                 }, {
                     type: 'value',
                     max: 4.0,
-                    min: 1.5
+                    min: 1.0
                 }
             ],
             series: [
@@ -352,12 +407,12 @@ function renderGradePart(data) {
                     name: '成绩',
                     type: 'bar',
                     data: curData.grade,
-                    yAxisIndex: 0
+                    yAxisIndex: 0,
                 }, {
                     name: 'GPA',
                     type: 'bar',
                     data: curData.gpa,
-                    yAxisIndex: 1
+                    yAxisIndex: 1,
                 }
             ]
         }
@@ -386,40 +441,10 @@ function renderGradePart(data) {
     setDetailChart(0);
 }
 /**
- * 获取解析table中的数据
+ * 将原始数据转换为可用的图表数据
  */
-function getData(table) {
-    var data = {
-        tableHead: [],
-        tableContent: []
-    };
-    var head = table.querySelector('.gridhead tr');
-    for (var i in head.children) {
-        if (head.children[i].innerText) {
-            data.tableHead.push(head.children[i].innerText);
-        }
-    }
-    var content = table.querySelectorAll('tbody tr');
-    for (var i in content) {
-        var lineContent = [];
-        for (var k in content[i].children) {
-            if (content[i].children[k].innerText) {
-                lineContent.push(content[i].children[k].innerText);
-            } else if (k == 2 || k == 7) {
-                lineContent.push('');
-            }
-        }
-        if (lineContent.length) {
-            data.tableContent.push(lineContent);
-        }
-    }
-
-    return data;
-}
 function sumDataFormater(sourceData) {
-    /**
-     * 将原始数据转换为可用的图表数据
-     */
+    console.log(sourceData);
     var data = {
         sum: {
             sum: {
@@ -444,10 +469,11 @@ function sumDataFormater(sourceData) {
     /**
      * 归档data.sum的sum部分
      */
-    data.sum.sum.gpa = sourceData.intro.tableContent[4][3];
-    data.sum.sum.study = sourceData.intro.tableContent[4][2];
+    var length=sourceData.intro.tableContent.length;
+    data.sum.sum.gpa = sourceData.intro.tableContent[length-2][3];
+    data.sum.sum.study = sourceData.intro.tableContent[length-2][2];
     for (var i in sourceData.detail.tableContent) {
-        data.sum.sum.aver += parseFloat(sourceData.detail.tableContent[i][5]) / parseFloat(data.sum.sum.study) * parseFloat(sourceData.detail.tableContent[i][8]);
+        data.sum.sum.aver += parseFloat(sourceData.detail.tableContent[i][5]) / parseFloat(data.sum.sum.study) * parseFloat(sourceData.detail.tableContent[i][sourceData.detail.tableContent[i].length-1]);
     };
     data.sum.sum.aver = data.sum.sum.aver.toFixed(2);
 
@@ -477,7 +503,7 @@ function sumDataFormater(sourceData) {
     }
     for (var i in sourceData.detail.tableContent) {
         var tmp = sourceData.detail.tableContent[i];
-        tmpData[tmp[0].replace(/\s/, '-')].push([tmp[3], tmp[5], tmp[8]]);
+        tmpData[tmp[0].replace(/\s/, '-')].push([tmp[3], tmp[5], tmp[tmp.length-1]]);
     }
 
     for (var i in tmpData) {
@@ -523,13 +549,17 @@ function sumDataFormater(sourceData) {
             year: '',
             subject: [],
             grade: [],
-            gpa: []
+            gpa: [],
+            credit: []
         };
         for (var k in tmpData[chYear[i]]) {
             tmp.year = strReplace[i];
             tmp.grade.push(tmpData[chYear[i]][k][2]);
-            tmp.gpa.push(tmpData[chYear[i]][k][1]);
+            tmp.credit.push(tmpData[chYear[i]][k][1]);
             tmp.subject.push(tmpData[chYear[i]][k][0]);
+            tmp.gpa = tmp.grade.map(function (x) {
+                return parseFloat((((x > 85 ? x = 85 : x) - 60) * 0.1).toFixed(1)) + parseFloat(1.5);
+            });
         }
         data.detail.push(tmp);
     }
