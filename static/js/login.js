@@ -32,8 +32,6 @@ function newPage(theData) {
             }
         }
     }
-
-
 }
 function getData() {
     /**

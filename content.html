@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <link rel='shortcut icon' href='http://o8cuifl9z.bkt.clouddn.com/uestc/icon/icon.ico'>
-    <link rel="stylesheet" href="static/css/content.css">
+    <link rel="stylesheet" href="static/css/content.less">
+    <script src="static/js/less.js"></script>
     <title>信息门户</title>
 </head>
 <body>
     <div id="header">
-        <img src="static/img/icon.png" alt="icon">
+        <img src="http://o8cuifl9z.bkt.clouddn.com/uestc/img/icon.png" alt="icon">
         <span id="title">电子科技大学教务系统</span>
         <span><a href="#" style="float:right;color:#fff;margin-top:15px">退出登录</a></span>
     </div>
     <div id="nav">
         <ul>
-            <li id="my-grade">成绩</li>
-            <li id="my-class">课表</li>
-            <li id="my-exam">考试</li>
-            <li id="other">其他</li>
+            <li id="li-grade" class="nav-li-active">成绩</li>
+            <li id="li-class">课表</li>
+            <li id="li-exam">考试</li>
+            <li id="li-other">其他</li>
         </ul>
     </div>
     <div id="wrap">
@@ -40,7 +41,10 @@
                 <span id="chart-2"></span>
             </div>
             <div id="detail">
-                <div id="detail-selector"></div>
+                <div id="detail-selector">
+                    <ul>
+                    </ul>
+                </div>
                 <div id="detail-chart"></div>
             </div>
         </div>
@@ -48,9 +52,8 @@
         <div id="exam-block" class="block"></div>
         <div id="other-block" class="block"></div>
     </div>
-
     <script src="static/js/chart/echarts.js"></script>
-    <script src="static/js/chart/theme.js"></script>
+    <script src="static/js/chart/mon.js"></script>
     <script src="static/js/content.js"></script>
 </body>
 </html>

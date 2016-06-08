@@ -20,12 +20,17 @@
             "matches":["http://idas.uestc.edu.cn/authserver/login*"],
             "css":["static/css/login.css"],
             "js":["static/js/login.js"]
+        },{
+            "matches":["http://portal.uestc.edu.cn/*"],
+            "css":["static/css/content.less"],
+            "js":["static/js/content.js"]
         }
     ],
     "icons":{
         "128":"static/img/icon.png"
     },
     "web_accessible_resources":[
-        "loginPage.html"
+        "loginPage.html",
+        "content.html"
     ]
 }

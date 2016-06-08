@@ -1,0 +1,187 @@
+
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: "等线","微软雅黑";
+    background-color: #fff;
+}
+#container {
+    display: none;
+}
+#header {
+    height: 50px;
+    background-color: rgb(0, 44, 103);
+    color: #fff;
+    padding: 10px 100px 10px 100px;
+    font-size: 18px;
+}
+#header img { 
+    height: 40px;
+    margin-top: 5px;
+    float: left;
+}
+#header #title {
+    float: left;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+#nav {
+    position: fixed;
+    top: 200px;
+    width: 100px;
+}
+#nav ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+#nav li {
+    height: 50px;
+    width: 100px;
+    //background-color: #fff;
+    text-align: center;
+    display: block;
+    line-height: 50px;
+    margin-top: 10px;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.1);
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    border: none;
+    font-size: 16px;
+    -webkit-user-select: none;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+#nav li:hover {
+    box-shadow: 2px 2px 15px rgba(0,0,0,0.2);
+}
+#nav li:active {
+    box-shadow: none;
+}
+.nav-li-active {
+    box-shadow: 2px 2px 15px rgba(0,0,0,0.2) inset !important;
+    color: #fff!important;
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+}
+#li-grade {
+    background-color:  #5AB1EF;
+}
+#li-class {
+    background-color:  #72E480;
+}
+#li-exam {
+    background-color:  #EF5A5A;
+}
+#li-other {
+    background-color:  #EF915A;
+}
+#wrap {
+    padding: 0 100px 100px 110px;
+    min-height: 600px;
+    overflow: auto;
+}
+.block {
+    box-shadow: 0px 2px 5px #ddd;
+    min-height: 200px;
+    margin-top: 40px;
+    width: 1070px;
+    padding: 20px 40px 20px 40px;
+}
+#grade-block #abstract {
+    height: 220px;
+    border-bottom: 1px #ddd solid;
+}
+.little-block {
+    height: 180px;
+    width: 150px;
+    position: relative;
+    display: inline-block;
+}
+.little-block #title,#value {
+    position: absolute;
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+.little-block #value {
+    top: 80px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.little-chart {
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+    margin-top: 15px;
+    display: block;
+}
+#chart-1 {
+    margin-left: 40px;
+    float: left;
+}
+#chart-2 {
+    height: 200px;
+    width: 40%;
+    float: right;
+    border-left: 1px #ddd dotted;
+    padding-left: 80px;
+}
+#grade-block #detail {
+    min-height: 400px;
+}
+#detail-selector {
+    height: 50px;
+    padding-top: 40px;
+    margin: auto;
+}
+#detail-selector ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+    color: #aaa;
+}
+#detail-selector li {
+    float: left;
+    padding: 10px 30px 10px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #F5F5F5;
+    cursor: pointer;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    -webkit-user-select: none;
+}
+#detail-selector li:first-child {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+#detail-selector li:last-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+#detail-selector li:hover {
+    box-shadow: 0 0 8px #ddd inset;
+}
+#detail-selector li:active {
+    box-shadow: 0 0 10px #aaa inset;
+}
+.detail-li-active {
+    box-shadow: 0 0 8px #aaa inset;
+    color: #555;
+}
+#detail-chart {
+    height: 400px;
+    margin-top: 20px;
+}
+#color-palette {
+    color: 
+        #2ec7c9,#b6a2de,#5ab1ef,#ffb980,#d87a80,
+        #8d98b3,#e5cf0d,#97b552,#95706d,#dc69aa,
+        #07a2a4,#9a7fd1,#588dd5,#f5994e,#c05050,
+        #59678c,#c9ab00,#7eb00a,#6f5553,#c14089
+    ;
+}
