@@ -112,6 +112,7 @@ function renderGrade() {
      * @param data：成绩数据
      */
     function renderGradePart(data) {
+        console.log(data);
         if (!data) {
             //样例数据
             data = {
@@ -331,6 +332,7 @@ function renderGrade() {
             ]
         }
         chart4.setOption(option4);
+        chart4.hideLoading();
 
         //渲染选择器模块
         var selector = $('#detail-selector ul');
@@ -409,8 +411,9 @@ function renderGrade() {
                     }
                 ]
             }
-
+            chart.hideLoading();
             chart.setOption(option);
+            
         }
         for (var i in data.detail) {
             var li = document.createElement('li');
@@ -504,9 +507,14 @@ function renderGrade() {
              * 计算每学期的平均分，暂存入tmpYear
              */
             var aver = 0;
+            var gpa_sum=0;
             for (var k in tmpData[i]) {
                 var tmp = tmpData[i][k];
-                aver += parseFloat(tmp[1]) / parseFloat(tmpYear[i][0]) * parseFloat(tmp[2]);
+                gpa_sum += parseFloat(tmp[1]);
+            }
+            for (var k in tmpData[i]) {
+                var tmp = tmpData[i][k];
+                aver += parseFloat(tmp[1]) / gpa_sum * parseFloat(tmp[2]);
             }
             aver = aver.toFixed(2);
             tmpYear[i].push(aver);
