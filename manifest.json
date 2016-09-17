@@ -22,8 +22,8 @@
             "js":["static/js/login.js"]
         },{
             "matches":["http://portal.uestc.edu.cn/*"],
-            "css":["static/css/content.less"],
-            "js":["static/js/chart/echarts.js","static/js/chart/mon.js","static/js/content.js"]
+            "css":["static/css/content.css"],
+            "js":["static/js/base.js","static/js/chart/echarts.js","static/js/chart/mon.js","static/js/content.js"]
         }
     ],
     "icons":{

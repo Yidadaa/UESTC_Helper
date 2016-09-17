@@ -1,6 +1,4 @@
-function $(name){
-    return document.querySelector(name);
-}
+console.clear();
 /**
  * 获取子元素的索引
  */
@@ -63,7 +61,7 @@ function renderNewPage(theData) {
             $('html').innerHTML = login_page_src;
             renderNav();
             renderGrade();
-            renderCourseList();
+            //renderCourseList();
         }
     }
 }
@@ -85,26 +83,30 @@ function renderNav() {
 }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<渲染成绩模块>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 function renderGrade() {
-
+    var initTimes = 0;//用于控制请求的发出次数，超出后则停止发出请求
     getGradeSource();
-
     /**
      * 异步加载原始数据
      */
     function getGradeSource() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR', true);
-        xhr.send();
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4) {
+        ajax({
+            method: 'GET',
+            url: 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR',
+            async: true,
+            handler: function (response) {
                 var div = document.createElement('div');
-                div.innerHTML = xhr.responseText;
-                var data = { intro: getTableData(div.querySelector('table')), detail: getTableData(div.querySelectorAll('table')[1]) };//获取源数据
+                div.innerHTML = response;
+                try {
+                    var data = { intro: getTableData(div.querySelector('table')), detail: getTableData(div.querySelectorAll('table')[1]) };//获取源数据
+                } catch (e) {
+                    if (initTimes++ < 4) getGradeSource();//请求三次
+                    console.log("重试次数：" + initTimes);
+                }
                 data = sumDataFormater(data);//格式化源数据
                 renderGradePart(data);//渲染成绩模块
-                console.log(data);
+                renderRestudyPart(data);//渲染重修建议
             }
-        }
+        });
     }
 
     /**
@@ -114,59 +116,8 @@ function renderGrade() {
     function renderGradePart(data) {
         console.log(data);
         if (!data) {
-            //样例数据
-            data = {
-                sum: {
-                    sum: {
-                        gpa: 3.4,
-                        aver: 45,
-                        study: 65
-                    },
-                    detail: {
-                        year: [],
-                        gpa: [{ value: 3, name: "2014" }, { value: 4, name: '20141' }, { value: 3.4, name: '2014-2015-2' }],
-                        aver: [{ value: 76, name: "2014" }, { value: 84, name: '20141' }, { value: 73.4, name: '2014-2015-2' }],
-                        study: [{ value: 23, name: "2014" }, { value: 14, name: '20141' }, { value: 34, name: '2014-2015-2' }],
-                    }
-                },
-                eachYear:
-                {
-                    year: ['大一上', '大一下', '大二上', '大二下', '大三上', '大三下', '大四上', '大四下'],
-                    aver: [77, 87, 80, 67, 74, 87, 78, 76],
-                    gpa: [3.3, 3.5, 3.0, 2.8, 3.5, 3.6, 3.3, 3.5]
-                },
-                detail: [{
-                    year: "大一上",
-                    subject: ['篮球', '优秀个人', '大学物理', '学术英语', '数分', '大学语文'],
-                    grade: [95, 90, 79, 81, 60, 69],
-                    gpa: [4, 4, 3.4, 3.6, 1.5, 2.4]
-                }, {
-                        year: "大一下",
-                        subject: ['篮球', '优秀个人', '大学物理', '学术英语', '数分', '大学语文'],
-                        grade: [85, 80, 69, 86, 64, 69],
-                        gpa: [4, 4, 3.4, 3.6, 1.7, 2.4]
-                    }, {
-                        year: "大二上",
-                        subject: ['篮球', '优秀个人', '大学物理', '学术英语', '数分', '大学语文'],
-                        grade: [95, 90, 79, 81, 60, 69],
-                        gpa: [4, 4, 3.4, 3.6, 1.7, 2.4]
-                    }, {
-                        year: "大二下",
-                        subject: ['篮球', '优秀个人', '大学物理', '学术英语', '数分', '大学语文'],
-                        grade: [95, 90, 79, 81, 60, 69],
-                        gpa: [4, 4, 3.4, 3.6, 1.7, 2.4]
-                    }, {
-                        year: "大三上",
-                        subject: ['篮球', '优秀个人', '大学物理', '学术英语', '数分', '大学语文'],
-                        grade: [95, 90, 79, 81, 60, 69],
-                        gpa: [4, 4, 3.4, 3.6, 1.7, 2.4]
-                    }, {
-                        year: "大三下",
-                        subject: ['篮球', '优秀个人', '大学物理', '学术英语', '数分', '大学语文'],
-                        grade: [95, 90, 79, 81, 60, 69],
-                        gpa: [4, 4, 3.4, 3.6, 1.7, 2.4]
-                    }]
-            }
+            console.log('解析数据出错！');
+            return null;
         }
         //用于渲染综述部分的三个饼图
         var setChart = function (name, title, option, flag) {
@@ -413,7 +364,7 @@ function renderGrade() {
             }
             chart.hideLoading();
             chart.setOption(option);
-            
+
         }
         for (var i in data.detail) {
             var li = document.createElement('li');
@@ -440,7 +391,7 @@ function renderGrade() {
      * 将原始数据转换为可用的图表数据
      */
     function sumDataFormater(sourceData) {
-        console.log(sourceData);
+        //console.log(sourceData);
         var data = {
             sum: {
                 sum: {
@@ -507,7 +458,7 @@ function renderGrade() {
              * 计算每学期的平均分，暂存入tmpYear
              */
             var aver = 0;
-            var gpa_sum=0;
+            var gpa_sum = 0;
             for (var k in tmpData[i]) {
                 var tmp = tmpData[i][k];
                 gpa_sum += parseFloat(tmp[1]);
@@ -568,22 +519,118 @@ function renderGrade() {
         return data;
     }
 }
-//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<渲染课表>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
-function renderCourseList() {
-    getCourseSource();
-    function getCourseSource() {
-        var xhr=new XMLHttpRequest();
-        var data="ignoreHead=1&setting.kind=std&startWeek=1&semester.id=84&ids=134775";
-        xhr.open('POST','http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action?'+data,true);
-        xhr.send();
-        xhr.onreadystatechange=function () {
-            if(xhr.readyState==4){
-                var sourceStr=xhr.responseText;
-                //sourceStr=sourceStr.match(/TaskActivity\(.*\)/g);
-                console.log(sourceStr);
+
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<渲染重修建议列表>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+function renderRestudyPart(data) {
+    /**
+     * @param data：成绩数据
+     * @description 处理建议重修模块的数据，算法是用GPA与满绩的差值乘以该门课的学分，
+     *              分值越大越值得重修
+     */
+    if (!data) {
+        console.log('data有问题！');
+        return null;
+    }
+
+    var res = [];//用于存放结果数据
+    data = data.detail;
+    data.forEach(function (array) {
+        for (var i in array.credit) {
+            var studyInfo = {
+                value: 0,
+                name: array.subject[i]//课程名称
+            };
+            studyInfo.value = ((4 - parseFloat(array.gpa[i])) * parseFloat(array.credit[i])).toFixed(2);
+            if (studyInfo.value > 0) {
+                res.push(studyInfo);//剔除为0值
             }
         }
-    }
+    });
+    res.sort(function (a, b) {
+        return parseFloat(a.value) < parseFloat(b.value) ? 1 : -1;
+    });//将res降序排序
+    res = res.slice(0, 10);//截取前十个
+    var restudyChart = echarts.init($('#restudy-chart'), 'macarons');
+    var restudyOptions = {
+        grid: {
+            left: '30',
+            right: '30',
+            bottom: '10'
+        },
+        title: {
+            text: '重修排行榜',
+            x: 'center',
+            textStyle: {
+                fontSize: '20',
+                color: '#000'
+            }
+        },
+        tooltip: {
+            trigger: 'yxis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        xAxis: [
+            {
+                type: 'value',
+                position: 'top',
+                show: false
+            }
+        ],
+        yAxis: [
+            {
+                type: 'category',
+                inverse: true,
+                data: (function () {
+                    var data = [];
+                    res.forEach(function (i) {
+                        data.push(i.name);
+                    })
+                    return data;//获取科目名称
+                })(),
+                axisLabel: {
+                    show: false
+                },
+                axisTick: {
+                    show: false
+                }
+            }
+        ],
+        series: [
+            {
+                name: '重修指数',
+                type: 'bar',
+                barMaxWidth: 30,
+                barMinHeight: 30,
+                data: (function () {
+                    var data = [];
+                    res.forEach(function (i) {
+                        data.push(i.value);
+                    })
+                    return data;//获取重修指数
+                })(),
+                itemStyle: {
+                    normal: {
+                        color: 'rgb(239, 90, 90)'
+                    }
+                },
+                label: {
+                    normal: {
+                        show: true,
+                        position: 'insideLeft',
+                        formatter: ' {b}',
+                        textStyle: {
+                            fontSize: 14
+                        }
+                    }
+                }
+            }
+        ]
+    };
+    restudyChart.setOption(restudyOptions);
 }
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<渲染课表>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
+
 
 renderNewPage();

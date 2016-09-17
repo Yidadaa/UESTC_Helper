@@ -1,15 +1,15 @@
-##原始请求
-###大一上
+## 原始请求
+### 大一上
 2014000201010:ignoreHead=1&setting.kind=std&startWeek=1&project.id=1&semester.id=43&ids=134775
-###大一下
+### 大一下
 2014000201010:ignoreHead=1&setting.kind=std&startWeek=1&project.id=1&semester.id=63&ids=134775
-###大二上
+### 大二上
 2014000201010:ignoreHead=1&setting.kind=std&startWeek=1&semester.id=84&ids=134775
 2014000201016:ignoreHead=1&setting.kind=std&startWeek=1&semester.id=84&ids=134781
-###大二下
+### 大二下
 2014000201010:ignoreHead=1&setting.kind=std&startWeek=1&project.id=1&semester.id=103&ids=134775
 
-###eams.uestc.edu.cn/eams/dataQuery.action
+### eams.uestc.edu.cn/eams/dataQuery.action
 2014000201010:
 2014000201016:tagId=semesterBar9459456391Semester&dataType=semesterCalendar&value=84&empty=false
 
@@ -20,9 +20,22 @@
 ```
 可以获取到：semester.id
 
-###http://eams.uestc.edu.cn/eams/courseTableForStd.action?_=1465456078624
+### http://eams.uestc.edu.cn/eams/courseTableForStd.action?_=1465456078624
 可以获取到dataQuery所需的参数:tagId,value以及ids
 
-###http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action
+### http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action
 把上面得到的参数都post到这个地址，就能获取课程表的原始数据了
 然后用正则表达式匹配出所需数据，之后就是解析并格式化数据了。
+
+终于发现了课程表的奥秘所在！
+如下所示的代码，揭示了这门课的所有信息。
+```javascript
+activity = new TaskActivity("10024", "牟柳", "6794(B0000820.01)", "英语会议交流与汇报(B0000820.01)", "442", "品学楼C-204", "00000000001111111100000000000000000000000000000000000");
+index = 3 * unitCount + 2;
+table0.activities[index][table0.activities[index].length] = activity;
+index = 3 * unitCount + 3;
+```
+里面`TaskActivity`接收的参数很明了，其中一大堆0和1那个其实是课的分布图，对应了一年的53周。
+然后下面的几行代码则是这门课上课的时间，`unitCount`其实就是一天的课数，默认值为12，然后`index=m*unitCount+n`里面，m代表周几，n代表当天的第几节课，都是从0开始计数的。
+
+这样，课程表就很容易解析出来了。

@@ -185,3 +185,15 @@ body {
         #59678c,#c9ab00,#7eb00a,#6f5553,#c14089
     ;
 }
+
+#restudy-chart {
+    height: 400px;
+    width: 100%;
+    display: block;
+}
+
+.tip-text {
+    font-size: 14px;
+    color: #aaa;
+    padding-left: 30px;
+}
