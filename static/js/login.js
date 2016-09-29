@@ -29,7 +29,8 @@ function newPage(theData) {
             autoComplete();
             $('html').querySelector('.login-button').onclick = function () {
                 storage();
-            }
+            };
+            setBackground();
         }
     }
 }
@@ -65,6 +66,17 @@ function autoComplete() {
         $('#password').value=data['pwd'];
     });
 }
+
+function setBackground() {
+    /**
+     * 从Infnty标签页的服务器获取每日壁纸
+     */
+    var today = new Date;
+    var month = today.getMonth() + 1;
+    var day = today.getDate();
+    $('#wrap').style.backgroundImage = "url('http://img.infinitynewtab.com/InfinityWallpaper/"+month+"_"+day+".jpg')";
+}
+
 var data = getData();
 clearAll();
 newPage(data);
