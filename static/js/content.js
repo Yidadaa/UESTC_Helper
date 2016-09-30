@@ -121,7 +121,7 @@ function renderGrade() {
      * @param data：成绩数据
      */
     function renderGradePart(data) {
-        console.log(data);
+        //console.log(data);
         if (!data) {
             console.log('解析数据出错！');
             return null;
@@ -529,7 +529,7 @@ function renderGrade() {
                 tmp.credit.push(tmpData[chYear[i]][k][1]);
                 tmp.subject.push(tmpData[chYear[i]][k][0]);
                 tmp.gpa = tmp.grade.map(function (x) {
-                    return parseFloat((((x > 85 ? x = 85 : x) - 60) * 0.1).toFixed(1)) + parseFloat(1.5);
+                    return parseFloat((((x > 85 ? x = 85 : (x < 45 ? 45 : x)) - 60) * 0.1).toFixed(1)) + parseFloat(1.5);
                 });
             }
             data.detail.push(tmp);
@@ -690,34 +690,161 @@ timeTable.prototype = {
          * 为获取课程表数据做准备
          */
         var tmp = eval('(' + sourceData + ')').semesters;
-        this.getSourceTable(84);
+        var semester = {};
+        for (var i in tmp) {
+            var v = tmp[i];
+            var year = v[0].schoolYear.split('-')[0];
+            semester[year] = {
+                '1': v[0].id,
+                '2': v[1].id
+            };
+        }
+        this.data.semesters = semester;
+        this.getSourceTable(123);
     },
     getSourceTable: function (semester) {
         /**
          * 封装ajax方法，用来获取课程表的源数据
          */
         var url = 'http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action?ignoreHead=1&setting.kind=std&startWeek=1&semester.id=' + semester + '&ids=' + this.data.ids;
+        var func = this;
         ajax({
             method: 'GET',
             url: url,
-            handler: function (res) {
+            handler: (function (res) {
                 var tmp = JSON.stringify(res).match(/activity = new TaskActivity.*activity/g)[0].split('activity =');
                 var data = [];
                 tmp.forEach(function (value) {
                     if (value.length) {
-                        var info = value.match(/TaskActivity\((.*)\)/)[1].replace(/\,/g,'').split('\\\"');//获取每个课程的详细信息
-                        var tmpTime = value.match(/index =.*?\;/g);//获取每节课的排课时间
+                        var info = value.match(/TaskActivity\((.*)\)/)[1].replace(/\,/g, '').split('\\\"'); //获取每个课程的详细信息
+                        var tmpTime = value.match(/index =.*?\;/g); //获取每节课的排课时间
                         var time = [];
-                        tmpTime.forEach(function(v){
-                            time.push(v.match(/\d/g));
+                        tmpTime.forEach(function (v) {
+                            time.push(v.match(/\d+/g));
                         });
-                        data.push({info, time});
+                        data.push({
+                            info,
+                            time
+                        });
                     }
                 });
-                debugger;
+                data = data.map(function (v) {
+                    return {
+                        courseName: v.info[7].split('(')[0],
+                        courseId: v.info[7].split('(')[1].replace(')', ''),
+                        teacher: v.info[3],
+                        room: v.info[11],
+                        time: v.time,
+                        date: func.timeStringParser(v.info[13])
+                    }
+                });
+                this.data.course = data;
+                func.renderCourseTable();
+            }).bind(func)
+        });
+    },
+    timeStringParser: function (str) {
+        /**
+         * 解析排课的字符串，转化为人类可读的文字
+         * str是长度为53的源字符串
+         */
+        //if (str.length != 53) return null;
+        var res = [];
+        var matchFullWeek = new RegExp(/1{2,}/g); //匹配连续周
+        var matchSingleWeek = new RegExp(/(10){2,}/g); //匹配奇偶周
+        var matchStr = function (pattern, str) { //获取str中匹配pattern的所有字串
+            var tmpRes = [];
+            var tmp = null;
+            var tmpStr = str;
+            var getZeroStr = function (num) {
+                /**
+                 * 获取num个0
+                 */
+                var zeros = '';
+                while (num-- > 0) {
+                    zeros += '0';
+                }
+                return zeros;
             }
+            while (true) {
+                tmp = pattern.exec(tmpStr);
+                if (tmp) {
+                    tmpRes.push(tmp);
+                    tmpStr = tmpStr.replace(tmp[0], getZeroStr(tmp[0].length)); //将匹配到的字串位置清零
+                } else {
+                    break;
+                }
+            }
+            return [tmpRes, tmpStr];
+        }
+        var fullWeek = matchStr(matchFullWeek, str);
+        var singleWeek = matchStr(matchSingleWeek, fullWeek[1]);
+        fullWeek[0].forEach(function (v) {
+            var startWeek = v.index;
+            var endWeek = v.index + v[0].length - 1;
+            res.push(startWeek + '-' + endWeek + '周'); //处理连续周
+        });
+        singleWeek[0].forEach(function (v) {
+            var startWeek = v.index;
+            var endWeek = v.index + v[0].length - 1;
+            var attr = startWeek % 2 ? '单' : '双';
+            res.push(startWeek + '-' + endWeek + attr + '周'); //处理奇偶周
+        });
+        res.push((() => {
+            var tmp = singleWeek[1].split('').map((v, i) => {
+                return v == '1' ? i : 0; //得到单周的索引
+            }).filter(v => {
+                return v != 0 //剔除无效值
+            }).join('/');
+            return tmp.length ? tmp + '周' : null; //加壳处理
+        })()); //处理单周
+
+        return res.filter(v => {
+            return isFinite(parseInt(v)) //剔除无效值
+        });
+    },
+    renderCourseTable: function () {
+        var color = ["#d87a80", "#8d98b3", "", "#95706d", "#dc69aa", "#07a2a4", "", "#c05050", "#59678c", "#c9ab00", "#7eb00a", "#6f5553", "#c14089"];
+        var getCourseBox = (x, y) => {
+            /**
+             * x => 星期几
+             * y => 第几节课
+             */
+            x = parseInt(x);
+            y = parseInt(y);
+            return $('#course-table').children[0].children[x].children[y];
+        }
+        this.data.course.forEach(v => {
+            var day = parseInt(v.time[0][0]) + 1;
+            var time = v.time[0][1];
+            parseInt(time) % 2 ? null : time = parseInt(time) / 2 + 1;
+            var node = getCourseBox(day, time);
+            if (node.dataset.hasCourse != '1') {
+                var virtualNode = createNode('div', 'course-box');
+                var courseName = v.courseName.length > 10 ? v.courseName.substr(0, 9) + '...' : v.courseName;
+                virtualNode.innerHTML = '\
+                    <div class="title" title="' + v.courseName + '">' + courseName + '\
+                    </div>\
+                    <div class="info">\
+                        <span>' + v.teacher + '</span><span>' + v.courseId + '</span>\
+                    </div>\
+                    <div class="detail-info">\
+                    </div>';
+                virtualNode.querySelector('.title').style.color = color[parseInt(Math.random() * color.length - 1)];
+                node.appendChild(virtualNode);
+                node.dataset.hasCourse = '1';
+            }
+            var infoNode = createNode('div', 'detail-info-line');
+            var room = v.room.length > 12 ? v.room.substr(0, 11) + '...' : v.room;
+            room = room.replace('-', '');
+            infoNode.innerHTML = '\
+                    <div class="detail-room" title="' + v.room + '">' + room + '</div>\
+                    <div class="detail-date">' + v.date.join('，') + '</div>';
+            node.querySelector('.detail-info').appendChild(infoNode);
         });
     }
 }
+
+
 
 var tmp = new timeTable(); //渲染课表
