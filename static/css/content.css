@@ -44,7 +44,7 @@ ul {
 }
 
 #container {
-    display: none;
+    visibility: hidden;
 }
 
 #header {

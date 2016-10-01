@@ -28,3 +28,44 @@ button:hover {
 body {
     min-height: 170px;
 }
+
+.switch {
+    width: 120px;
+    height: 30px;
+    border-radius: 5px;
+    display: flex;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2) inset;
+    margin-top: 10px;
+    padding: 2px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.switch:after {
+    content: '已关闭';
+    display: inline-flex;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 28px;
+    width: 50%;
+    padding-left: 10px;
+}
+.switch-btn {
+    display: inline-flex;
+    height: 100%;
+    width: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.switch-on {
+    flex-direction: row-reverse;
+    background-color: dodgerblue;
+}
+
+.switch-on:after {
+    content: '已开启';
+    color: #fff;
+}

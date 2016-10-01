@@ -1,5 +1,10 @@
-console.clear();
-renderNewPage(); //渲染成绩模块
+chrome.storage.local.get('on', function (data) {
+    if (data['on'] == '1') {
+        renderNewPage(); //开始渲染
+    } else {
+        $('#container').style.visibility = 'visible';
+    }
+});
 /**
  * 获取子元素的索引
  */
@@ -62,7 +67,7 @@ function renderNewPage(theData) {
             $('html').innerHTML = login_page_src;
             renderNav();
             renderGrade();
-            renderCourse();//渲染课程表
+            renderCourse(); //渲染课程表
         }
     }
 }
@@ -572,15 +577,8 @@ function renderRestudyPart(data) {
         grid: {
             left: '30',
             right: '30',
-            bottom: '10'
-        },
-        title: {
-            text: '重修排行榜',
-            x: 'center',
-            textStyle: {
-                fontSize: '20',
-                color: '#000'
-            }
+            bottom: '10',
+            top: '10'
         },
         tooltip: {
             trigger: 'yxis',
@@ -645,6 +643,7 @@ function renderRestudyPart(data) {
 
 function timeTable() {
     this.data = {};
+    this.requestTmp = 0;
     this.init();
 }
 timeTable.prototype = {
@@ -653,7 +652,7 @@ timeTable.prototype = {
          * 获取初始数据
          */
         var func = this;
-        this.data.originalTable = document.querySelector('#course-table').innerHTML;//保存课程表的初始状态
+        this.data.originalTable = document.querySelector('#course-table').innerHTML; //保存课程表的初始状态
         var timeStamp = new Date().getTime(); //获取时间戳
         var url = 'http://eams.uestc.edu.cn/eams/courseTableForStd.action?_=' + timeStamp;
         ajax({
@@ -891,11 +890,19 @@ timeTable.prototype = {
                 }
             }
             node.lastChild.click();
-            node.lastChild.click();//模拟点击最后一个，默认显示最新的课程表
+            node.lastChild.click(); //模拟点击最后一个，默认显示最新的课程表
         });
     }
 }
 
-function renderCourse() {
-    var tmp = new timeTable();
+function renderCourse(times) {
+    var tmps = !times ? 0 : times;
+    try {
+        new timeTable();
+    } catch (e) {
+        console.log(e.message + '(已重试' + tmps + '次)');
+        if (tmps++ < 4) {
+            renderCourse(tmps);
+        }
+    }
 }
