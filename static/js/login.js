@@ -64,7 +64,7 @@ function storage() {
             'username': username.value
         });
         chrome.storage.local.set({
-            'studyYear': username.value.match(/\d{4}/)//从学号中获取入学年份，并保存待用
+            'studyYear': username.value.match(/\d{4}/)[0]//从学号中获取入学年份，并保存待用
         })
     }
     if (pwd.value) {

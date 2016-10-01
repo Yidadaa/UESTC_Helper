@@ -8,7 +8,7 @@
 <body>
     <div id="header">
         <img src="http://o8cuifl9z.bkt.clouddn.com/uestc/img/icon.png" alt="icon">
-        <span id="title">电子科技大学教务系统<span style="font-size:16px;color:#fff">Beta</span></span>
+        <span id="title">电子科技大学教务助手<span style="font-size:16px;color:#fff">Beta v0.5</span></span>
         <span><a href="logout.portal" style="float:right;color:#fff;margin-top:15px">退出登录</a></span>
     </div>
     <div id="nav">
@@ -39,7 +39,7 @@
                 <span id="chart-2"></span>
             </div>
             <div id="detail">
-                <div id="detail-selector">
+                <div id="detail-selector" class="selector">
                     <ul>
                     </ul>
                 </div>
@@ -51,15 +51,19 @@
             <p class="tip-text">*注：重修指数计算方式：(4.0 - 该门课GPA) * 该门课学分，分值越高，越建议重修，当然满绩大神可以忽略#(滑稽)</p>
         </div>
         <div id="class-block" class="block">
+            <div class="dropdown" id="course-dropdown">
+                <ul>
+                </ul>
+            </div>
             <div class="block-title">课程表</div>
             <table class="table" id="course-table">
                 <tr class="line head">
                     <td class="td-block"></td>
-                    <td class="td-block">上午</td>
-                    <td class="td-block">中午</td>
-                    <td class="td-block">下午</td>
-                    <td class="td-block">傍晚</td>
-                    <td class="td-block">晚上</td>
+                    <td class="td-block">8:30~10:05</td>
+                    <td class="td-block">10:20~11:55</td>
+                    <td class="td-block">14:30~16:05</td>
+                    <td class="td-block">16:20~17:55</td>
+                    <td class="td-block">19:30</td>
                 </tr>
                 <tr class="line odd">
                     <td class="td-block">周一</td>
@@ -118,7 +122,9 @@
                     <td class="td-block"></td>
                 </tr>
             </table>
-            <p class="tip-text">*注：有些奇葩的课程安排，把两种课程按照单双周排列到同一天的同一时段，这里没有进行区分</p>
+            <p class="tip-text">*注：有些奇葩的课程安排，把两种课程按照单双周排列到同一天的同一时段，这里没有进行区分
+                <span onclick="window.print()" class="do-not-print" id="print-course-table">打印课程表</span>
+            </p>
         </div>
         <div id="exam-block" class="block"></div>
         <div id="other-block" class="block"></div>

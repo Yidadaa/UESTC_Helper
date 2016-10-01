@@ -9,11 +9,24 @@
     }
     #class-block {
         box-shadow: none;
-        transform: scale(0.6, 0.6);
+        transform: scale(0.9, 0.9);
+        -webkit-transform-origin: top;
         transform-origin: top;
-        position: absolute;
-        left: 0;
-        top: 0;
+        width: 90%;
+        margin: auto;
+        margin-top: 0.5cm;
+    }
+    #wrap {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
+    .do-not-print {
+        display: none;
     }
 }
 
@@ -22,6 +35,12 @@ body {
     margin: 0;
     font-family: "等线", "微软雅黑";
     background-color: #fff;
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
 }
 
 #container {
@@ -54,43 +73,32 @@ body {
     width: 100px;
 }
 
-#nav ul {
-    padding: 0;
-    list-style: none;
-    margin: 0;
-}
-
 #nav li {
+    -webkit-transition: all ease 0.3;
+    -moz-transition: all ease 0.3;
+    transition: all ease 0.3;
     height: 50px;
     width: 100px;
-    //background-color: #fff;
     text-align: center;
     display: block;
     line-height: 50px;
     margin-top: 10px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    border-bottom: 5px solid rgba(0, 0, 0, 0.1);
     color: #fff;
     cursor: pointer;
     font-weight: bold;
-    border: none;
     font-size: 16px;
     -webkit-user-select: none;
-    -webkit-transition: all 0.3s ease;
-    transition: all 0.3s ease;
 }
 
 #nav li:hover {
     box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
 }
 
-#nav li:active {
-    box-shadow: none;
-}
-
 .nav-li-active {
-    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2) inset !important;
-    color: #fff!important;
     text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+    border-bottom: 0!important;
+    margin-top: 15px!important;
 }
 
 #li-grade {
@@ -119,7 +127,7 @@ body {
     box-shadow: 0px 2px 5px #ddd;
     min-height: 200px;
     margin-top: 40px;
-    width: 1070px;
+    width: 1150px;
     padding: 20px 40px 20px 40px;
 }
 
@@ -174,20 +182,20 @@ body {
     min-height: 400px;
 }
 
-#detail-selector {
+.selector {
     height: 50px;
     padding-top: 40px;
     margin: auto;
 }
 
-#detail-selector ul {
+.selector ul {
     padding: 0;
     list-style: none;
     margin: 0;
     color: #aaa;
 }
 
-#detail-selector li {
+.selector li {
     float: left;
     padding: 10px 30px 10px 30px;
     font-size: 16px;
@@ -199,21 +207,21 @@ body {
     -webkit-user-select: none;
 }
 
-#detail-selector li:first-child {
+.selector li:first-child {
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
 }
 
-#detail-selector li:last-child {
+.selector li:last-child {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-#detail-selector li:hover {
+.selector li:hover {
     box-shadow: 0 0 8px #ddd inset;
 }
 
-#detail-selector li:active {
+.selector li:active {
     box-shadow: 0 0 10px #aaa inset;
 }
 
@@ -250,11 +258,12 @@ body {
 .td-block {
     font-size: 14px;
     vertical-align: top;
+    min-width: 200px;
 }
 
 .head {
-    text-align: center;
     border: none;
+    text-align: center;
 }
 
 .head td {
@@ -269,6 +278,7 @@ body {
     padding: 10px;
     width: 20px;
     border-right: 1px #ddd solid;
+    min-width: 20px;
 }
 
 .course-box {
@@ -282,7 +292,7 @@ body {
 .title {
     font-weight: bold;
     font-size: 16px;
-    text-shadow: 0px 1px 1px #fff inset;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .info {
@@ -295,8 +305,8 @@ body {
 
 .info span {
     -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
     border-left: #aaa 2px solid;
     padding-left: 5px;
 }
@@ -306,7 +316,7 @@ body {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
+    flex-wrap: wrap;
     border-left: #aaa 2px solid;
     padding-left: 5px;
 }
@@ -314,17 +324,18 @@ body {
 .detail-info-line {
     margin-top: 5px;
     -webkit-box-flex: 1;
-        -ms-flex-positive: 1;
-            flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
 }
 
 .detail-date {
     font-size: 14px;
     margin-top: 3px;
+    color: #666;
 }
 
 .line {
-    border-bottom: 1px #ddd solid;
+    border: 1px #ddd solid;
 }
 
 .line:hover {
@@ -335,4 +346,44 @@ body {
     font-size: 20px;
     text-align: center;
     margin-bottom: 40px;
+}
+
+.dropdown {
+    float: right;
+    font-size: 16px;
+    position: relative;
+    width: auto;
+    height: 29px;
+    overflow: hidden;
+}
+
+.dropdown ul {
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.dropdown li {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.dropdown li:hover {
+    background-color: #666;
+    color: #fff;
+}
+
+.dropdown-show {
+    overflow: visible;
+}
+
+#print-course-table {
+    float: right;
+    cursor: pointer;
+    color: #ef915a;
+}
+
+#print-course-table:hover {
+    background-color: #ef915a;
+    color: #fff;
 }

@@ -1,6 +1,5 @@
 console.clear();
 renderNewPage(); //渲染成绩模块
-
 /**
  * 获取子元素的索引
  */
@@ -63,7 +62,7 @@ function renderNewPage(theData) {
             $('html').innerHTML = login_page_src;
             renderNav();
             renderGrade();
-            //renderCourseList();
+            renderCourse();//渲染课程表
         }
     }
 }
@@ -121,7 +120,6 @@ function renderGrade() {
      * @param data：成绩数据
      */
     function renderGradePart(data) {
-        //console.log(data);
         if (!data) {
             console.log('解析数据出错！');
             return null;
@@ -655,6 +653,7 @@ timeTable.prototype = {
          * 获取初始数据
          */
         var func = this;
+        this.data.originalTable = document.querySelector('#course-table').innerHTML;//保存课程表的初始状态
         var timeStamp = new Date().getTime(); //获取时间戳
         var url = 'http://eams.uestc.edu.cn/eams/courseTableForStd.action?_=' + timeStamp;
         ajax({
@@ -700,7 +699,7 @@ timeTable.prototype = {
             };
         }
         this.data.semesters = semester;
-        this.getSourceTable(123);
+        this.renderDropdown();
     },
     getSourceTable: function (semester) {
         /**
@@ -804,7 +803,6 @@ timeTable.prototype = {
         });
     },
     renderCourseTable: function () {
-        var color = ["#d87a80", "#8d98b3", "", "#95706d", "#dc69aa", "#07a2a4", "", "#c05050", "#59678c", "#c9ab00", "#7eb00a", "#6f5553", "#c14089"];
         var getCourseBox = (x, y) => {
             /**
              * x => 星期几
@@ -814,6 +812,7 @@ timeTable.prototype = {
             y = parseInt(y);
             return $('#course-table').children[0].children[x].children[y];
         }
+        $('#course-table').innerHTML = this.data.originalTable;
         this.data.course.forEach(v => {
             var day = parseInt(v.time[0][0]) + 1;
             var time = v.time[0][1];
@@ -830,7 +829,6 @@ timeTable.prototype = {
                     </div>\
                     <div class="detail-info">\
                     </div>';
-                virtualNode.querySelector('.title').style.color = color[parseInt(Math.random() * color.length - 1)];
                 node.appendChild(virtualNode);
                 node.dataset.hasCourse = '1';
             }
@@ -842,9 +840,62 @@ timeTable.prototype = {
                     <div class="detail-date">' + v.date.join('，') + '</div>';
             node.querySelector('.detail-info').appendChild(infoNode);
         });
+    },
+    renderDropdown: function () {
+        /**
+         * 渲染下拉列表，写的稀烂，懒得改了
+         */
+        var func = this;
+        var node = $('#course-dropdown').querySelector('ul');
+        var startYear = null;
+        var curYear = new Date().getFullYear();
+        var curStudyYear = new Date().getMonth() >= 7 ? 1 : 2;
+        var ids = [];
+        var keyMap = ['大一', '大二', '大三', '大四'];
+
+        chrome.storage.local.get('studyYear', function (data) {
+            startYear = data['studyYear'];
+            startYear = parseInt(startYear);
+            for (var i = startYear; i <= curYear; i++) {
+                ids.push({
+                    name: keyMap[i - startYear] + '上',
+                    id: func.data.semesters[i][1]
+                });
+                if (i == curYear && curStudyYear == 1) continue; //本年第二学期没有排课
+                ids.push({
+                    name: keyMap[i - startYear] + '下',
+                    id: func.data.semesters[i][2]
+                });
+            }
+            for (var i in ids) {
+                var num = i;
+                i = ids[i];
+                var li = createNode('li');
+                li.innerHTML = i.name;
+                li.dataset.id = i.id;
+                li.dataset.order = num;
+                node.appendChild(li);
+            }
+            node.onclick = function (e) {
+                if (this.dataset.open == '1') {
+                    if (e.target.dataset.id) {
+                        var len = e.target.clientHeight;
+                        this.style.top = '-' + e.target.dataset.order * parseInt(len) + 'px';
+                        func.getSourceTable(e.target.dataset.id);
+                        this.parentNode.classList.remove('dropdown-show');
+                        this.dataset.open = '0';
+                    }
+                } else {
+                    this.parentNode.classList.add('dropdown-show');
+                    this.dataset.open = '1';
+                }
+            }
+            node.lastChild.click();
+            node.lastChild.click();//模拟点击最后一个，默认显示最新的课程表
+        });
     }
 }
 
-
-
-var tmp = new timeTable(); //渲染课表
+function renderCourse() {
+    var tmp = new timeTable();
+}
