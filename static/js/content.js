@@ -6,9 +6,9 @@ chrome.storage.local.get('on', function (data) {
     }
 });
 /**
- * 获取子元素的索引
+ * 获取子元素在父元素的的索引
  */
-function getIndex(node) {
+function indexOf(node) {
     var parent = node.parentNode;
 
     for (var i in parent.children) {
@@ -21,7 +21,7 @@ function getIndex(node) {
 /**
  * 解析table中的数据
  */
-function getTableData(table) {
+function parseTableData(table) {
     var data = {
         tableHead: [],
         tableContent: []
@@ -86,7 +86,7 @@ function renderNav() {
             }
         }
         e.target.className = 'nav-li-active';
-        window.scrollTo(0, $('#' + blocks[getIndex(e.target)]).offsetTop - 50);
+        window.scrollTo(0, $('#' + blocks[indexOf(e.target)]).offsetTop - 50);
     }
 }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<渲染成绩模块>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
@@ -106,8 +106,8 @@ function renderGrade() {
                 div.innerHTML = response;
                 try {
                     var data = {
-                        intro: getTableData(div.querySelector('table')),
-                        detail: getTableData(div.querySelectorAll('table')[1])
+                        intro: parseTableData(div.querySelector('table')),
+                        detail: parseTableData(div.querySelectorAll('table')[1])
                     }; //获取源数据
                 } catch (e) {
                     if (initTimes++ < 4) getGradeSource(); //请求三次
@@ -395,7 +395,7 @@ function renderGrade() {
             }
 
             e.target.className = 'detail-li-active';
-            setDetailChart(getIndex(e.target));
+            setDetailChart(indexOf(e.target));
         }
         $('#detail-selector ul').children.className = 'detail-li-active';
         setDetailChart(0);
@@ -699,6 +699,7 @@ timeTable.prototype = {
         }
         this.data.semesters = semester;
         this.renderDropdown();
+        this.renderExamPart();
     },
     getSourceTable: function (semester) {
         /**
@@ -892,17 +893,91 @@ timeTable.prototype = {
             node.lastChild.click();
             node.lastChild.click(); //模拟点击最后一个，默认显示最新的课程表
         });
+    },
+    renderExamPart: function () {
+        var func = this;
+        var curYear = new Date().getFullYear();
+        //curYear = 2015;
+        var curStudyYear = new Date().getMonth() >= 7 ? 1 : 2;
+        //curStudyYear = 2;
+        var id = func.data.semesters[curYear][curStudyYear];
+        var getData = function (examType, lastData) {
+            var data = lastData;
+            if (examType < 5) { //要取回所有的数据，其实examType是查询的考试类型1,2,3,4代表了期末|期中|补考|缓考
+                ajax({
+                    method: 'GET',
+                    url: 'http://eams.uestc.edu.cn/eams/stdExamTable!examTable.action?examType.id=' + examType + '&semester.id=' + id,
+                    handler: function (res) {
+                        var node = createNode('div');
+                        node.innerHTML = res;
+                        data.push(node.querySelector('table').children[0]);
+
+                        getData(++examType, data);
+                    }
+                });
+            } else {
+                render(parseData(data));
+            }
+        }
+        var parseData = function (data) {
+            var res = [];
+            data.forEach((v, index) => {
+                var nodes = v.children;
+                if (nodes.length == 1) return null;
+                for (var i = 1; i < nodes.length - 1; i++) {
+                    var node = nodes[i];
+                    if (node.children.length == 8) {
+                        var tmp = node.children;
+                        res.push({
+                            name: tmp[1].innerHTML,
+                            date: tmp[2].innerHTML,
+                            detail: tmp[3].innerHTML,
+                            address: tmp[4].innerHTML,
+                            num: tmp[5].innerHTML,
+                            status: tmp[6].innerHTML,
+                            type: index + 1
+                        });
+                    }
+                }
+            });
+            return res;
+        }
+        var render = function (examdata) {
+            var finalData = examdata.sort((a, b) => {
+                return new Date(a.date).getTime() > new Date(b.date).getTime() ? 1 : -1;
+            }); //将数据按照时间排序
+            var typeMap = {
+                '1': '期末考试',
+                '2': '期中考试',
+                '3': '补考',
+                '4': '缓考'
+            };
+            if (finalData.length) {
+                finalData.forEach(v => {
+                    var node = createNode('tr');
+                    node.innerHTML = '<td><span class="exam-date">' + v.date + '</span></td>\
+                        <td class="exam-line">\
+                            <div class="exam-box">\
+                                <div class="exam-name">' + v.name + '<span class="exam-type-' + v.type + '">' + typeMap[v.type] + '</span></div>\
+                                <div class="exam-detail">' + v.detail.replace(/\(.*\)/, '') + '</div>\
+                                <div class="exam-address">' + v.address.replace('-', '') + ' - ' + v.num + '号</div>\
+                            </div>\
+                        </td>';
+                    $('#exam-table').appendChild(node);
+                });
+            } else {
+                var node = createNode('p', 'blank-tips');
+                node.innerHTML = '- 说出来你可能不信，最近根本就没有考试 -';
+                $('#exam-block').appendChild(node);
+            }
+        }
+        getData(1, []);
     }
 }
 
-function renderCourse(times) {
-    var tmps = !times ? 0 : times;
-    try {
-        new timeTable();
-    } catch (e) {
-        console.log(e.message + '(已重试' + tmps + '次)');
-        if (tmps++ < 4) {
-            renderCourse(tmps);
-        }
-    }
+function renderCourse() {
+    new timeTable();
+    setTimeout(function () {
+        $('#course-dropdown').children[0].children.length == 0 ? renderCourse() : null; //防止有时候出现无响应的情况
+    }, 5000);
 }
