@@ -64,7 +64,7 @@ function storage() {
             'username': username.value
         });
         chrome.storage.local.set({
-            'studyYear': username.value.match(/\d{4}/)[0]//从学号中获取入学年份，并保存待用
+            'studyYear': username.value.match(/\d{4}/)[0] //从学号中获取入学年份，并保存待用
         })
     }
     if (pwd.value) {
@@ -76,10 +76,10 @@ function storage() {
 
 function autoComplete() {
     chrome.storage.local.get('username', function (data) {
-        $('#username').value = data['username'];
+        $('#username').value = data['username'] == undefined ? '' : data['username'];
     });
     chrome.storage.local.get('pwd', function (data) {
-        $('#password').value = data['pwd'];
+        $('#password').value = data['pwd'] == undefined ? '' : data['pwd'];
     });
 }
 

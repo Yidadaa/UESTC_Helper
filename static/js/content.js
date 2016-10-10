@@ -91,8 +91,15 @@ function renderNav() {
 }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<渲染成绩模块>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 function renderGrade() {
-    var initTimes = 0; //用于控制请求的发出次数，超出后则停止发出请求
-    getGradeSource();
+    let initTimes = 0; //用于控制请求的发出次数，超出后则停止发出请求
+    try {
+        getGradeSource();
+    } catch (e) {
+        if (initTimes++ < 4) {
+            setTimeout(getGradeSource(), 1000);
+        }; //请求三次
+        console.log("重试次数：" + initTimes);
+    }
     /**
      * 异步加载原始数据
      */
@@ -104,15 +111,10 @@ function renderGrade() {
             handler: function (response) {
                 var div = document.createElement('div');
                 div.innerHTML = response;
-                try {
-                    var data = {
-                        intro: parseTableData(div.querySelector('table')),
-                        detail: parseTableData(div.querySelectorAll('table')[1])
-                    }; //获取源数据
-                } catch (e) {
-                    if (initTimes++ < 4) getGradeSource(); //请求三次
-                    console.log("重试次数：" + initTimes);
-                }
+                var data = {
+                    intro: parseTableData(div.querySelector('table')),
+                    detail: parseTableData(div.querySelectorAll('table')[1])
+                }; //获取源数据
                 data = sumDataFormater(data); //格式化源数据
                 renderGradePart(data); //渲染成绩模块
                 renderRestudyPart(data); //渲染重修建议
@@ -976,8 +978,7 @@ timeTable.prototype = {
 }
 
 function renderCourse() {
-    new timeTable();
-    setTimeout(function () {
-        $('#course-dropdown').children[0].children.length == 0 ? renderCourse() : null; //防止有时候出现无响应的情况
-    }, 5000);
+    setTimeout(function() {
+        new timeTable();//立即发出请求会出错
+    }, 1000);
 }
