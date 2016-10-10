@@ -1,3 +1,5 @@
+'use strict';
+
 chrome.storage.local.get('on', function (data) {
     if (data['on'] == '1') {
         renderNewPage(); //开始渲染
@@ -20,7 +22,7 @@ function indexOf(node) {
 }
 /**
  * 解析table中的数据
- */ 
+ */
 function parseTableData(table) {
     var data = {
         tableHead: [],
@@ -69,7 +71,7 @@ function renderNewPage(theData) {
             renderGrade();
             renderCourse(); //渲染课程表
         }
-    }
+    };
 }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<渲染导航栏>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 function renderNav() {
@@ -87,7 +89,7 @@ function renderNav() {
         }
         e.target.className = 'nav-li-active';
         window.scrollTo(0, $('#' + blocks[indexOf(e.target)]).offsetTop - 50);
-    }
+    };
 }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<渲染成绩模块>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 function renderGrade() {
@@ -108,7 +110,7 @@ function renderGrade() {
             method: 'GET',
             url: 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR',
             async: true,
-            handler: function (response) {
+            handler: function handler(response) {
                 var div = document.createElement('div');
                 div.innerHTML = response;
                 var data = {
@@ -132,15 +134,15 @@ function renderGrade() {
             return null;
         }
         //用于渲染综述部分的三个饼图
-        var setChart = function (name, title, option, flag) {
-                var chart = echarts.init($(name + ' #chart'), 'macarons');
-                chart.setOption(option);
-                var value = $(name + ' #value');
-                value.innerText = data.sum.sum[flag];
-                var titleNode = $(name + ' #title');
-                titleNode.innerText = title;
-            }
-            //下面开始设置综合的三大块
+        var setChart = function setChart(name, title, option, flag) {
+            var chart = echarts.init($(name + ' #chart'), 'macarons');
+            chart.setOption(option);
+            var value = $(name + ' #value');
+            value.innerText = data.sum.sum[flag];
+            var titleNode = $(name + ' #title');
+            titleNode.innerText = title;
+        };
+        //下面开始设置综合的三大块
         var option1 = {
             tooltip: {
                 show: true
@@ -302,13 +304,13 @@ function renderGrade() {
                 data: data.eachYear.aver,
                 yAxisIndex: 1
             }]
-        }
+        };
         chart4.setOption(option4);
         chart4.hideLoading();
 
         //渲染选择器模块
         var selector = $('#detail-selector ul');
-        var setDetailChart = function (index) {
+        var setDetailChart = function setDetailChart(index) {
             /**
              * 设置详细分数图表的配置项
              */
@@ -347,7 +349,7 @@ function renderGrade() {
                         textStyle: {
                             fontSize: '10'
                         },
-                        formatter: function (value) {
+                        formatter: function formatter(value) {
                             if (value.length > 4) {
                                 return value.match(/.{0,4}/) + '...';
                             } else {
@@ -369,18 +371,17 @@ function renderGrade() {
                     name: '成绩',
                     type: 'bar',
                     data: curData.grade,
-                    yAxisIndex: 0,
+                    yAxisIndex: 0
                 }, {
                     name: 'GPA',
                     type: 'bar',
                     data: curData.gpa,
-                    yAxisIndex: 1,
+                    yAxisIndex: 1
                 }]
-            }
+            };
             chart.hideLoading();
             chart.setOption(option);
-
-        }
+        };
         for (var i in data.detail) {
             var li = document.createElement('li');
             li.innerText = data.detail[i].year;
@@ -398,7 +399,7 @@ function renderGrade() {
 
             e.target.className = 'detail-li-active';
             setDetailChart(indexOf(e.target));
-        }
+        };
         $('#detail-selector ul').children.className = 'detail-li-active';
         setDetailChart(0);
     }
@@ -418,7 +419,7 @@ function renderGrade() {
                     year: [],
                     gpa: [],
                     aver: [],
-                    study: [],
+                    study: []
                 }
             },
             eachYear: {
@@ -534,7 +535,7 @@ function renderGrade() {
                 tmp.credit.push(tmpData[chYear[i]][k][1]);
                 tmp.subject.push(tmpData[chYear[i]][k][0]);
                 tmp.gpa = tmp.grade.map(function (x) {
-                    return parseFloat((((x > 85 ? x = 85 : (x < 45 ? 45 : x)) - 60) * 0.1).toFixed(1)) + parseFloat(1.5);
+                    return parseFloat((((x > 85 ? x = 85 : x < 45 ? 45 : x) - 60) * 0.1).toFixed(1)) + parseFloat(1.5);
                 });
             }
             data.detail.push(tmp);
@@ -596,13 +597,13 @@ function renderRestudyPart(data) {
         yAxis: [{
             type: 'category',
             inverse: true,
-            data: (function () {
+            data: function () {
                 var data = [];
                 res.forEach(function (i) {
                     data.push(i.name);
-                })
+                });
                 return data; //获取科目名称
-            })(),
+            }(),
             axisLabel: {
                 show: false
             },
@@ -615,13 +616,13 @@ function renderRestudyPart(data) {
             type: 'bar',
             barMaxWidth: 30,
             barMinHeight: 30,
-            data: (function () {
+            data: function () {
                 var data = [];
                 res.forEach(function (i) {
                     data.push(i.value);
-                })
+                });
                 return data; //获取重修指数
-            })(),
+            }(),
             itemStyle: {
                 normal: {
                     color: 'rgb(239, 90, 90)'
@@ -649,7 +650,7 @@ function timeTable() {
     this.init();
 }
 timeTable.prototype = {
-    init: function () {
+    init: function init() {
         /**
          * 获取初始数据
          */
@@ -660,14 +661,14 @@ timeTable.prototype = {
         ajax({
             method: 'GET',
             url: url,
-            handler: function (res) {
+            handler: function handler(res) {
                 if (res) {
                     func.step1(res);
                 }
             }
         });
     },
-    step1: function (sourceText) {
+    step1: function step1(sourceText) {
         /**
          * 继续获取下一步数据
          */
@@ -680,12 +681,12 @@ timeTable.prototype = {
         ajax({
             method: 'GET',
             url: url,
-            handler: function (res) {
+            handler: function handler(res) {
                 func.step2(res);
             }
         });
     },
-    step2: function (sourceData) {
+    step2: function step2(sourceData) {
         /**
          * 为获取课程表数据做准备
          */
@@ -703,7 +704,7 @@ timeTable.prototype = {
         this.renderDropdown();
         this.renderExamPart();
     },
-    getSourceTable: function (semester) {
+    getSourceTable: function getSourceTable(semester) {
         /**
          * 封装ajax方法，用来获取课程表的源数据
          */
@@ -712,7 +713,7 @@ timeTable.prototype = {
         ajax({
             method: 'GET',
             url: url,
-            handler: (function (res) {
+            handler: function (res) {
                 var tmp = JSON.stringify(res).match(/activity = new TaskActivity.*activity/g)[0].split('activity =');
                 var data = [];
                 tmp.forEach(function (value) {
@@ -724,8 +725,8 @@ timeTable.prototype = {
                             time.push(v.match(/\d+/g));
                         });
                         data.push({
-                            info,
-                            time
+                            info: info,
+                            time: time
                         });
                     }
                 });
@@ -737,14 +738,14 @@ timeTable.prototype = {
                         room: v.info[11],
                         time: v.time,
                         date: func.timeStringParser(v.info[13])
-                    }
+                    };
                 });
                 this.data.course = data;
                 func.renderCourseTable();
-            }).bind(func)
+            }.bind(func)
         });
     },
-    timeStringParser: function (str) {
+    timeStringParser: function timeStringParser(str) {
         /**
          * 解析排课的字符串，转化为人类可读的文字
          * str是长度为53的源字符串
@@ -753,11 +754,12 @@ timeTable.prototype = {
         var res = [];
         var matchFullWeek = new RegExp(/1{2,}/g); //匹配连续周
         var matchSingleWeek = new RegExp(/(10){2,}/g); //匹配奇偶周
-        var matchStr = function (pattern, str) { //获取str中匹配pattern的所有字串
+        var matchStr = function matchStr(pattern, str) {
+            //获取str中匹配pattern的所有字串
             var tmpRes = [];
             var tmp = null;
             var tmpStr = str;
-            var getZeroStr = function (num) {
+            var getZeroStr = function getZeroStr(num) {
                 /**
                  * 获取num个0
                  */
@@ -766,7 +768,7 @@ timeTable.prototype = {
                     zeros += '0';
                 }
                 return zeros;
-            }
+            };
             while (true) {
                 tmp = pattern.exec(tmpStr);
                 if (tmp) {
@@ -777,7 +779,7 @@ timeTable.prototype = {
                 }
             }
             return [tmpRes, tmpStr];
-        }
+        };
         var fullWeek = matchStr(matchFullWeek, str);
         var singleWeek = matchStr(matchSingleWeek, fullWeek[1]);
         fullWeek[0].forEach(function (v) {
@@ -791,21 +793,21 @@ timeTable.prototype = {
             var attr = startWeek % 2 ? '单' : '双';
             res.push(startWeek + '-' + endWeek + attr + '周'); //处理奇偶周
         });
-        res.push((() => {
-            var tmp = singleWeek[1].split('').map((v, i) => {
+        res.push(function () {
+            var tmp = singleWeek[1].split('').map(function (v, i) {
                 return v == '1' ? i : 0; //得到单周的索引
-            }).filter(v => {
-                return v != 0 //剔除无效值
+            }).filter(function (v) {
+                return v != 0; //剔除无效值
             }).join('/');
             return tmp.length ? tmp + '周' : null; //加壳处理
-        })()); //处理单周
+        }()); //处理单周
 
-        return res.filter(v => {
-            return isFinite(parseInt(v)) //剔除无效值
+        return res.filter(function (v) {
+            return isFinite(parseInt(v)); //剔除无效值
         });
     },
-    renderCourseTable: function () {
-        var getCourseBox = (x, y) => {
+    renderCourseTable: function renderCourseTable() {
+        var getCourseBox = function getCourseBox(x, y) {
             /**
              * x => 星期几
              * y => 第几节课
@@ -813,9 +815,9 @@ timeTable.prototype = {
             x = parseInt(x);
             y = parseInt(y);
             return $('#course-table').children[0].children[x].children[y];
-        }
+        };
         $('#course-table').innerHTML = this.data.originalTable;
-        this.data.course.forEach(v => {
+        this.data.course.forEach(function (v) {
             var day = parseInt(v.time[0][0]) + 1;
             var time = v.time[0][1];
             parseInt(time) % 2 ? null : time = parseInt(time) / 2 + 1;
@@ -843,7 +845,7 @@ timeTable.prototype = {
             node.querySelector('.detail-info').appendChild(infoNode);
         });
     },
-    renderDropdown: function () {
+    renderDropdown: function renderDropdown() {
         /**
          * 渲染下拉列表，写的稀烂，懒得改了
          */
@@ -891,25 +893,26 @@ timeTable.prototype = {
                     this.parentNode.classList.add('dropdown-show');
                     this.dataset.open = '1';
                 }
-            }
+            };
             node.lastChild.click();
             node.lastChild.click(); //模拟点击最后一个，默认显示最新的课程表
         });
     },
-    renderExamPart: function () {
+    renderExamPart: function renderExamPart() {
         var func = this;
         var curYear = new Date().getFullYear();
         //curYear = 2015;
         var curStudyYear = new Date().getMonth() >= 7 ? 1 : 2;
         //curStudyYear = 2;
         var id = func.data.semesters[curYear][curStudyYear];
-        var getData = function (examType, lastData) {
+        var getData = function getData(examType, lastData) {
             var data = lastData;
-            if (examType < 5) { //要取回所有的数据，其实examType是查询的考试类型1,2,3,4代表了期末|期中|补考|缓考
+            if (examType < 5) {
+                //要取回所有的数据，其实examType是查询的考试类型1,2,3,4代表了期末|期中|补考|缓考
                 ajax({
                     method: 'GET',
                     url: 'http://eams.uestc.edu.cn/eams/stdExamTable!examTable.action?examType.id=' + examType + '&semester.id=' + id,
-                    handler: function (res) {
+                    handler: function handler(res) {
                         var node = createNode('div');
                         node.innerHTML = res;
                         data.push(node.querySelector('table').children[0]);
@@ -920,10 +923,10 @@ timeTable.prototype = {
             } else {
                 render(parseData(data));
             }
-        }
-        var parseData = function (data) {
+        };
+        var parseData = function parseData(data) {
             var res = [];
-            data.forEach((v, index) => {
+            data.forEach(function (v, index) {
                 var nodes = v.children;
                 if (nodes.length == 1) return null;
                 for (var i = 1; i < nodes.length - 1; i++) {
@@ -943,9 +946,9 @@ timeTable.prototype = {
                 }
             });
             return res;
-        }
-        var render = function (examdata) {
-            var finalData = examdata.sort((a, b) => {
+        };
+        var render = function render(examdata) {
+            var finalData = examdata.sort(function (a, b) {
                 return new Date(a.date).getTime() > new Date(b.date).getTime() ? 1 : -1;
             }); //将数据按照时间排序
             var typeMap = {
@@ -955,7 +958,7 @@ timeTable.prototype = {
                 '4': '缓考'
             };
             if (finalData.length) {
-                finalData.forEach(v => {
+                finalData.forEach(function (v) {
                     var node = createNode('tr');
                     node.innerHTML = '<td><span class="exam-date">' + v.date + '</span></td>\
                         <td class="exam-line">\
@@ -972,13 +975,13 @@ timeTable.prototype = {
                 node.innerHTML = '- 说出来你可能不信，最近根本就没有考试 -';
                 $('#exam-block').appendChild(node);
             }
-        }
+        };
         getData(1, []);
     }
-}
+};
 
 function renderCourse() {
-    setTimeout(function() {
-        new timeTable();//立即发出请求会出错
+    setTimeout(function () {
+        new timeTable(); //立即发出请求会出错
     }, 1000);
 }
