@@ -20,7 +20,7 @@ function indexOf(node) {
 }
 /**
  * 解析table中的数据
- */
+ */ 
 function parseTableData(table) {
     var data = {
         tableHead: [],
@@ -91,7 +91,7 @@ function renderNav() {
 }
 //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<渲染成绩模块>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>//
 function renderGrade() {
-    let initTimes = 0; //用于控制请求的发出次数，超出后则停止发出请求
+    var initTimes = 0; //用于控制请求的发出次数，超出后则停止发出请求
     try {
         getGradeSource();
     } catch (e) {
