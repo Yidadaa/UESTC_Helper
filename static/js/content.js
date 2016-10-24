@@ -436,7 +436,14 @@ function renderGrade() {
         data.sum.sum.gpa = sourceData.intro.tableContent[length - 2][3];
         data.sum.sum.study = sourceData.intro.tableContent[length - 2][2];
         for (var i in sourceData.detail.tableContent) {
-            data.sum.sum.aver += parseFloat(sourceData.detail.tableContent[i][5]) / parseFloat(data.sum.sum.study) * parseFloat(sourceData.detail.tableContent[i][sourceData.detail.tableContent[i].length - 1]);
+            var point = parseFloat(sourceData.detail.tableContent[i][5]);
+            var grade = sourceData.detail.tableContent[i][sourceData.detail.tableContent[i].length - 1];
+            if (grade.trim() == '通过') {
+                grade = 85;
+            } else {
+                grade = isFinite(parseFloat(grade)) ? parseFloat(grade) : 60;
+            }
+            data.sum.sum.aver += grade / parseFloat(data.sum.sum.study) * point;
         };
         data.sum.sum.aver = data.sum.sum.aver.toFixed(2);
 
@@ -466,7 +473,13 @@ function renderGrade() {
         }
         for (var i in sourceData.detail.tableContent) {
             var tmp = sourceData.detail.tableContent[i];
-            tmpData[tmp[0].replace(/\s/, '-')].push([tmp[3], tmp[5], tmp[tmp.length - 1]]);
+            var className = tmp[3].trim();
+            var classPoint = tmp[5].trim();
+            var classGrade = tmp[tmp.length - 1].trim();
+            if (isNaN(parseFloat(classGrade))) {
+                classGrade = classGrade == '通过' ? 85 : 45;
+            }
+            tmpData[tmp[0].replace(/\s/, '-')].push([className, classPoint, classGrade]);
         }
 
         for (var i in tmpData) {
