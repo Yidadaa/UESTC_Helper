@@ -154,3 +154,31 @@ a:hover {
   width: 100%;
   opacity: 0.6;
 }
+
+#msg {
+  padding: 5px;
+  padding-left: 10px;
+  background-color: #ddd;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+#captcha-response {
+  display: inline-block;
+  width: 234px;
+  padding-left: 10px;
+}
+
+#captcha-img {
+  float: right;
+  width: 60px;
+  height: 100%;
+  background-size: 100% 100%;
+  background-image: url('captcha.html');
+  background-repeat: no-repeat;
+  cursor: pointer;
+}

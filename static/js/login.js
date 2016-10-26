@@ -26,14 +26,21 @@ function newPage(theData) {
             var login_page_src = xhr.responseText;
             $('html').innerHTML = login_page_src;
             var div = $('form') //将反爬虫数据添加到新页面中
-            for (var i in theData) {
-                div.appendChild(theData[i]);
+            for (var i in theData.formData) {
+                div.appendChild(theData.formData[i]);
+            }
+            if (theData.msg) {
+                $('#msg').innerHTML = theData.msg.innerHTML;
+                $('#msg').classList.remove('hidden');
             }
             autoComplete();
             $('html').querySelector('.login-button').onclick = function () {
                 storage();
             };
             setBackground();
+            setTimeout(function () {
+                afterPage();
+            }, 500);
         }
     }
 }
@@ -43,10 +50,13 @@ function getData() {
      * 获取关键的反爬虫数据
      */
     var data = $$('form input');
-    var return_data = [];
+    var return_data = {
+        formData: [],
+        msg: $('#msg')
+    };
     for (var i in data) {
         if (data[i].type == 'hidden') {
-            return_data.push(data[i]);
+            return_data.formData.push(data[i]);
         }
     }
 
@@ -96,3 +106,28 @@ function setBackground() {
 var data = getData();
 clearAll();
 newPage(data);
+
+function afterPage() {
+    if ($('#username').value) {
+        needCaptcha();
+    } else {
+        $('#username').onchange = needCaptcha;
+    }
+    $('#captcha-img').onclick = function () {
+        this.style.backgroundImage = "url('captcha.html?ts=" + Math.round(Math.random() * 1000) + ")";
+    }
+}
+
+function needCaptcha() {
+    var username = $('#username').value;
+    var time = new Date().getTime();
+    ajax({
+        method: 'GET',
+        url: 'http://idas.uestc.edu.cn/authserver/needCaptcha.html?username=' + username + '&_=' + time,
+        handler: function (res) {
+            if (res.match('true')) {
+                $('#captcha-div').classList.remove('hidden');
+            }
+        }
+    });
+}

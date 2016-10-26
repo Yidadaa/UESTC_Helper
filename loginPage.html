@@ -24,6 +24,11 @@
                             <label for='password' class='ico-password'></label>
                             <input id='password' name='password' placeholder='请输入密码' class='login-form-input' type='password' value='' autocomplete='on' />
                         </div>
+                        <div class="login-form-item hidden" id="captcha-div">
+                            <input type="text" class="login-form-input" placeholder="请输入验证码" name="captchaResponse" id="captcha-response">
+                            <span id="captcha-img"></span>
+                        </div>
+                        <div id="msg" class="hidden"></div>
                         <div class='login-other'>
                             <span class='how-to-login'><a href='http://idas.uestc.edu.cn/authserver/articles/loginRule.jsp' target='_blank' tabindex='3000'>如何登陆</a></span>
                             <span class='forget-pwd'><a href='http://idas.uestc.edu.cn/authserver/getBackPasswordMainPage.do' target='_blank' tabindex='2000'>忘记密码</a></span>
