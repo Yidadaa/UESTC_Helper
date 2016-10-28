@@ -69,3 +69,9 @@ body {
     content: '已开启';
     color: #fff;
 }
+
+#link {
+    text-align: center;
+    padding-top: 10px;
+    display: block;
+}
