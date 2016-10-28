@@ -1,0 +1,505 @@
+@media print {
+    #header,
+    #nav,
+    #grade-block,
+    #restudy-block,
+    #exam-block,
+    #other-block {
+        display: none;
+    }
+    #class-block {
+        box-shadow: none;
+        transform: scale(0.9, 0.9);
+        -webkit-transform-origin: top;
+        transform-origin: top;
+        width: 90%;
+        margin: auto;
+        margin-top: 0.5cm;
+    }
+    #wrap {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
+    .do-not-print {
+        display: none;
+    }
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif; 
+    background-color: #fff;
+}
+
+ul,
+td {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+
+#container {
+    visibility: hidden;
+}
+
+#header {
+    height: 50px;
+    background-color: rgb(0, 44, 103);
+    color: #fff;
+    padding: 10px 100px 10px 100px;
+    font-size: 18px;
+}
+
+#header img {
+    height: 40px;
+    margin-top: 5px;
+    float: left;
+}
+
+#header #title {
+    float: left;
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+#nav {
+    position: fixed;
+    top: 200px;
+    width: 100px;
+}
+
+#nav li {
+    -webkit-transition: all ease 0.3;
+    -moz-transition: all ease 0.3;
+    transition: all ease 0.3;
+    height: 50px;
+    width: 100px;
+    text-align: center;
+    display: block;
+    line-height: 50px;
+    margin-top: 10px;
+    border-bottom: 5px solid rgba(0, 0, 0, 0.1);
+    color: #fff;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    -webkit-user-select: none;
+}
+
+#nav li:hover {
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
+}
+
+.nav-li-active {
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+    border-bottom: 0!important;
+    margin-top: 15px!important;
+}
+
+#li-grade {
+    background-color: #5AB1EF;
+}
+
+#li-class {
+    background-color: #72E480;
+}
+
+#li-exam {
+    background-color: #EF5A5A;
+}
+
+#li-other {
+    background-color: #EF915A;
+}
+
+#wrap {
+    padding: 0 100px 100px 110px;
+    min-height: 600px;
+    overflow: auto;
+}
+
+.block {
+    box-shadow: 0px 2px 5px #ddd;
+    min-height: 200px;
+    margin-top: 40px;
+    width: 1100px;
+    padding: 40px;
+}
+
+#grade-block #abstract {
+    height: 220px;
+    border-bottom: 1px #ddd solid;
+}
+
+.little-block {
+    height: 180px;
+    width: 150px;
+    position: relative;
+    display: inline-block;
+}
+
+.little-block #title,
+#value {
+    position: absolute;
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+.little-block #value {
+    top: 80px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.little-chart {
+    width: 150px;
+    height: 150px;
+    margin-right: 20px;
+    margin-top: 15px;
+    display: block;
+}
+
+#chart-1 {
+    margin-left: 40px;
+    float: left;
+}
+
+#chart-2 {
+    height: 200px;
+    width: 40%;
+    float: right;
+    border-left: 1px #ddd dotted;
+    padding-left: 80px;
+}
+
+#grade-block #detail {
+    min-height: 400px;
+}
+
+.selector {
+    height: 50px;
+    padding-top: 40px;
+    margin: auto;
+}
+
+.selector ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+    color: #aaa;
+}
+
+.selector li {
+    float: left;
+    padding: 10px 30px 10px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #F5F5F5;
+    cursor: pointer;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    -webkit-user-select: none;
+}
+
+.selector li:first-child {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.selector li:last-child {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.selector li:hover {
+    box-shadow: 0 0 8px #ddd inset;
+}
+
+.selector li:active {
+    box-shadow: 0 0 10px #aaa inset;
+}
+
+.detail-li-active {
+    box-shadow: 0 0 8px #aaa inset;
+    color: #555;
+}
+
+#detail-chart {
+    height: 400px;
+    margin-top: 20px;
+}
+
+#restudy-chart {
+    height: 400px;
+    width: 100%;
+    display: block;
+}
+
+.tip-text {
+    font-size: 14px;
+    color: #aaa;
+    padding-left: 30px;
+}
+
+
+/**课程表*/
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.td-block {
+    font-size: 14px;
+    vertical-align: top;
+    min-width: 200px;
+}
+
+.head {
+    border: none;
+    text-align: center;
+}
+
+.head td {
+    padding: 5px;
+    background-color: #ddd;
+    color: #666;
+}
+
+.td-block:first-child {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+    width: 20px;
+    border-right: 1px #ddd solid;
+    min-width: 20px;
+}
+
+.course-box {
+    height: auto;
+    width: 200px;
+    padding: 15px;
+    font-size: 12px;
+    box-sizing: border-box;
+}
+
+.title {
+    font-size: 16px;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 5px;
+    color: #666;
+}
+
+.info span {
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    border-left: #aaa 2px solid;
+    padding-left: 5px;
+}
+
+.detail-info {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    border-left: #aaa 2px solid;
+    padding-left: 5px;
+}
+
+.detail-info-line {
+    margin-top: 5px;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+
+.detail-date {
+    font-size: 14px;
+    margin-top: 3px;
+    color: #666;
+}
+
+.line {
+    border: 1px #ddd solid;
+}
+
+.line:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.block-title {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.dropdown {
+    float: right;
+    font-size: 16px;
+    position: relative;
+    width: auto;
+    height: 29px;
+    overflow: hidden;
+    margin-top: -40px;
+}
+
+.dropdown ul {
+    position: relative;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown li {
+    padding: 5px;
+    cursor: pointer;
+}
+
+.dropdown li:hover {
+    background-color: #666;
+    color: #fff;
+}
+
+.dropdown li:after {
+    content: '学期';
+}
+
+.dropdown-show {
+    overflow: visible;
+}
+
+#print-course-table {
+    float: right;
+    cursor: pointer;
+    color: #ef915a;
+}
+
+#print-course-table:hover {
+    background-color: #ef915a;
+    color: #fff;
+}
+
+#exam-table {
+    border-collapse: collapse;
+    margin-left: 150px;
+}
+
+.exam-date {
+    padding: 15px;
+}
+
+.exam-date:after {
+    content: ' ';
+    display: block;
+    margin-top: 2px;
+    height: 14px;
+    width: 14px;
+    background-color: #ddd;
+    border-radius: 20px;
+    margin-right: -7px;
+    float: right;
+}
+
+.exam-line {
+    border-left: 1px #ddd solid;
+}
+
+.exam-box {
+    margin: 20px;
+    padding: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn ease 1s;
+}
+
+.exam-name {
+    min-width: 600px;
+    font-size: 16px;
+    border-bottom: 1px #eee solid;
+    padding-bottom: 8px;
+}
+.exam-detail,
+.exam-address {
+    margin-top: 8px;
+    display: inline-block;
+    font-size: 14px;
+}
+.exam-address {
+    float: right;
+}
+.exam-type-1 {
+    margin-left: 10px;
+    color: dodgerblue;
+    float: right;
+}
+.exam-type-2 {
+    margin-left: 10px;
+    color: mediumseagreen;
+    float: right;
+}
+.exam-type-3 {
+    margin-left: 10px;
+    color: #EF5A5A;
+    float: right;
+}
+.exam-type-4 {
+    margin-left: 10px;
+    color: #EF915A;
+    float: right;
+}
+
+@keyframes fadeIn {
+    from {
+        transform: translateX(20px);
+    }
+    to {
+        transform: translateX(0px);
+    }
+}
+
+.blank-tips {
+    background-color: #eee;
+    color: #aaa;
+    font-size: 16px;
+    padding: 50px;
+    text-align: center;
+}
+
+#other-links {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.link-box {
+    flex-grow: 1;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-left: 1px #eee solid;
+}
+.links {
+    text-decoration: none;
+    color: dodgerblue;
+    padding: 10px;
+    transition: all ease 0.5s;
+    display: block;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.links:hover {
+    background-color: dodgerblue;
+    color: #fff;
+}

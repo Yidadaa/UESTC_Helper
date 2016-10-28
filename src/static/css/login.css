@@ -1,0 +1,184 @@
+body {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  min-height: 650px;
+}
+
+#wrap {
+  overflow: auto;
+  height: 100%;
+  background-size: cover;
+}
+
+#login-form {
+  float: right;
+  margin-right: 15%;
+  margin-top: 10%;
+  width: 306px;
+  background: rgba(254, 254, 254, 0.9);
+  padding: 20px 20px 20px 20px;
+  overflow: visible;
+}
+
+.login-form-item {
+  height: 38px;
+  width: 304px;
+  margin-bottom: 20px;
+  border: 1px solid #aaa;
+  position: relative;
+}
+
+.ico-username {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  border-right: 1px solid #bdbdbd;
+  background: url(http://o8cuifl9z.bkt.clouddn.com/pwd-icons-new.png) no-repeat;
+}
+
+.ico-password {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 38px;
+  height: 38px;
+  border-right: 1px solid #bdbdbd;
+  background: url(http://o8cuifl9z.bkt.clouddn.com/pwd-icons-new.png) no-repeat;
+  background-position: -48px 0px;
+}
+
+.login-form-input {
+  line-height: 18px;
+  border: 0;
+  padding: 10px 0 10px 50px;
+  width: 254px;
+  float: none;
+  overflow: hidden;
+  font-size: 14px;
+  outline: none;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.login-form-input:focus {
+  box-shadow: 0 5px 10px #aaa;
+}
+
+h1 {
+  height: 27px;
+  line-height: 27px;
+  top: -5px;
+  color: #666;
+  font-family: '\5fae\8f6f\96c5\9ed1';
+  font-size: 20px;
+}
+
+.login-button {
+  height: 38px;
+  width: 304px;
+  background-color: #002C67;
+  border: 0;
+  border-radius: 3px;
+  color: #FFF;
+  font-size: 20px;
+  font-family: '\5fae\8f6f\96c5\9ed1';
+  cursor: pointer;
+  -webkit-transition: 0.2s all ease;
+  -moz-transition: 0.2s all ease;
+  transition: 0.2s all ease;
+  outline: none;
+}
+
+.login-button:hover {
+  background-color: #004BAF;
+}
+
+.logo-container {
+  width: 100%;
+  height: 100px;
+  background: RGBA(255, 255, 255, 0.8);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+.logo-ico {
+  height: 64px;
+  width: 281px;
+  position: absolute;
+  top: 18px;
+  left: 10%;
+  background: url(http://www.uestc.edu.cn/images/logo.png)no-repeat;
+}
+
+.login-other {
+  width: 284px;
+  height: auto;
+  padding: 0px 10px 0px 10px;
+  font-size: 10px;
+  font-family: '\5fae\8f6f\96c5\9ed1';
+  margin-bottom: 8px;
+}
+
+a {
+  color: #666666;
+}
+
+a:hover {
+  color: dodgerblue;
+}
+
+.forget-pwd {
+  float: right;
+}
+
+.auth_bg,
+.auth_page_wrapper {
+  display: none;
+}
+
+#footer {
+  text-align: center;
+  font-size: 14px;
+  color: #000;
+  margin-top: 40px;
+  height: 50px;
+  line-height: 50px;
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  width: 100%;
+  opacity: 0.6;
+}
+
+#msg {
+  padding: 5px;
+  padding-left: 10px;
+  background-color: #ddd;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+#captcha-response {
+  display: inline-block;
+  width: 234px;
+  padding-left: 10px;
+}
+
+#captcha-img {
+  float: right;
+  width: 60px;
+  height: 100%;
+  background-size: 100% 100%;
+  background-image: url('captcha.html');
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
