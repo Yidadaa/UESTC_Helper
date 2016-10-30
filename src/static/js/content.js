@@ -371,7 +371,36 @@ function renderGrade() {
                     name: '成绩',
                     type: 'bar',
                     data: curData.grade,
-                    yAxisIndex: 0
+                    yAxisIndex: 0,
+                    markLine: {
+                        symbol: '',
+                        lineStyle: {
+                            normal: {
+                                width: 2,
+                                type: 'solid'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data: [{
+                            yAxis: 85,
+                            lineStyle: {
+                                normal: {
+                                    color: '#00FF00'
+                                }
+                            }
+                        }, {
+                            yAxis: 60,
+                            lineStyle: {
+                                normal: {
+                                    color: '#FF0000'
+                                }
+                            }
+                        }]
+                    }
                 }, {
                     name: 'GPA',
                     type: 'bar',
