@@ -38,8 +38,6 @@
 
 下面给出本插件已经用到的 url 地址：
 
-- 成绩数据：``
-
 |模块|URL|返回数据|类型|
 |-|-|-|-|
 |成绩模块|`http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR`|最终数据|html|
