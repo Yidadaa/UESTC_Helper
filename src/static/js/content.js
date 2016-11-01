@@ -351,7 +351,7 @@ function renderGrade() {
                         },
                         formatter: function formatter(value) {
                             if (value.length > 4) {
-                                return value.match(/.{0,4}/) + '...';
+                                return value.match(/.{0,3}/) + '...';
                             } else {
                                 return value;
                             }
@@ -387,16 +387,22 @@ function renderGrade() {
                         },
                         data: [{
                             yAxis: 85,
+                            name: '优秀线',
                             lineStyle: {
                                 normal: {
-                                    color: '#00FF00'
+                                    color: '#72e480',
+                                    opacity: 0.5,
+                                    type: 'dotted'
                                 }
                             }
                         }, {
                             yAxis: 60,
+                            name: '及格线',
                             lineStyle: {
                                 normal: {
-                                    color: '#FF0000'
+                                    color: '#ef5a5a',
+                                    opacity: 0.5,
+                                    type: 'dotted'
                                 }
                             }
                         }]
