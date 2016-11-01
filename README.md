@@ -40,7 +40,7 @@
 
 下面给出本插件已经用到的 url 地址：
 
-模块|URL|返回数据|类型
+模块|URL|返回数据|类型  
 -|-|-|-
 成绩模块|`http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR`|最终数据|html     
 课表模块|`http://eams.uestc.edu.cn/eams/courseTableForStd.action?_=1477989054431`|中间数据：`tagId, value`|html    
