@@ -1,165 +1,49 @@
-## 原始请求
-### 大一上
-2014000201010:ignoreHead=1&setting.kind=std&startWeek=1&project.id=1&semester.id=43&ids=134775
-### 大一下
-2014000201010:ignoreHead=1&setting.kind=std&startWeek=1&project.id=1&semester.id=63&ids=134775
-### 大二上
-2014000201010:ignoreHead=1&setting.kind=std&startWeek=1&semester.id=84&ids=134775
-2014000201016:ignoreHead=1&setting.kind=std&startWeek=1&semester.id=84&ids=134781
-### 大二下
-2014000201010:ignoreHead=1&setting.kind=std&startWeek=1&project.id=1&semester.id=103&ids=134775
+## 插件官方网址  
+插件所有功能的介绍请访问这个网址：
+[电子科技大学教务系统美化插件](blog.simplenaive.cn/uestc_helper)  
+> 本插件使用[WTFPL开源协议](https://en.wikipedia.org/wiki/WTFPL)，请诸君随意玩耍。
 
-### eams.uestc.edu.cn/eams/dataQuery.action
-2014000201010:
-2014000201016:tagId=semesterBar9459456391Semester&dataType=semesterCalendar&value=84&empty=false
+## 插件思路  
+简单介绍一下插件的实现机制。  
+### 样式替换的实现  
+由于最开始写这个插件时，作者刚接触前端，对 JS 的使用还并不熟悉，于是为了解决 cookie 的问题，决定直接在原网页上动刀，思路就是插件检测到用户在访问教务系统网页时，
+直接遍历当前访问网页的 DOM 树，并移除所有子元素，此所谓清空原网页，然后从本地读取重新设计后的界面，加载到当前网页上，然后再对具体数据进行替换。  
 
-**response**:
-```json
-{
-    yearDom: "<tr><td class='calendar-bar-td-blankBorder' index='0'>2008-2009</td><td class='calendar-bar-td-blankBorder' index='1'>2009-2010</td><td class='calendar-bar-td-blankBorder' index='2'>2010-2011</td></tr><tr><td class='calendar-bar-td-blankBorder' index='3'>2011-2012</td><td class='calendar-bar-td-blankBorder' index='4'>2012-2013</td><td class='calendar-bar-td-blankBorder' index='5'>2013-2014</td></tr><tr><td class='calendar-bar-td-blankBorder' index='6'>2014-2015</td><td class='calendar-bar-td-blankBorder' index='7'>2015-2016</td><td class='calendar-bar-td-blankBorder' index='8'>2016-2017</td></tr>",
-    termDom: "<tr><td class='calendar-bar-td-blankBorder' val='84'><span>1</span>学期</td></tr><tr><td class='calendar-bar-td-blankBorder' val='103'><span>2</span>学期</td></tr>",
-    semesters: {
-        y0: [
-            {
-                id: 21,
-                schoolYear: "2008-2009",
-                name: "1"
-            },
-            {
-                id: 22,
-                schoolYear: "2008-2009",
-                name: "2"
-            }
-        ],
-        y1: [
-            {
-                id: 19,
-                schoolYear: "2009-2010",
-                name: "1"
-            },
-            {
-                id: 20,
-                schoolYear: "2009-2010",
-                name: "2"
-            }
-        ],
-        y2: [
-            {
-                id: 17,
-                schoolYear: "2010-2011",
-                name: "1"
-            },
-            {
-                id: 18,
-                schoolYear: "2010-2011",
-                name: "2"
-            }
-        ],
-        y3: [
-            {
-                id: 15,
-                schoolYear: "2011-2012",
-                name: "1"
-            },
-            {
-                id: 16,
-                schoolYear: "2011-2012",
-                name: "2"
-            }
-        ],
-        y4: [
-            {
-                id: 13,
-                schoolYear: "2012-2013",
-                name: "1"
-            },
-            {
-                id: 14,
-                schoolYear: "2012-2013",
-                name: "2"
-            }
-        ],
-        y5: [
-            {
-                id: 1,
-                schoolYear: "2013-2014",
-                name: "1"
-            },
-            {
-                id: 2,
-                schoolYear: "2013-2014",
-                name: "2"
-            }
-        ],
-        y6: [
-            {
-                id: 43,
-                schoolYear: "2014-2015",
-                name: "1"
-            },
-            {
-                id: 63,
-                schoolYear: "2014-2015",
-                name: "2"
-            }
-        ],
-        y7: [
-            {
-                id: 84,
-                schoolYear: "2015-2016",
-                name: "1"
-            },
-            {
-                id: 103,
-                schoolYear: "2015-2016",
-                name: "2"
-            }
-        ],
-        y8: [
-            {
-                id: 123,
-                schoolYear: "2016-2017",
-                name: "1"
-            }
-        ]
-    },
-    yearIndex: "7",
-    termIndex: "0",
-    semesterId: "84"
-}
+插件主要改动了两个页面，一个是登录页，对应的本地模板文件是`./loginPage.html`；另一个是登录后的主页，对应文件是`./content.html`。
 
-```
-可以获取到：semester.id
+### 登录页的逻辑  
+教务网站在2015年经历过一次改版，改版之前模拟登录只需要提交学号和密码就可以了，而改版之后还需要提交来自服务器的验证字符串，具体的可用审查元素功能在登录页上查看，
+登录表单中属性为`hidden`的`input`元素即为校验码，因此在`login.js`中，先提取原网页中的表单信息，然后插入到模板网页中，以保证登录可以顺利进行。
 
-### http://eams.uestc.edu.cn/eams/courseTableForStd.action?_=1465456078624
-可以获取到dataQuery所需的参数:tagId,value以及ids(第99行)
+此外，提取的信息也包括登录的出错信息和验证码信息，用于提示用户。
 
-### http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action
-把上面得到的参数都post到这个地址，就能获取课程表的原始数据了
-然后用正则表达式匹配出所需数据，之后就是解析并格式化数据了。
+### 主页的逻辑  
+主页各个模块的实现，流程都是一致的，前期先用 chrome 控制台的抓包工具，抓取访问目标网页时的请求，分析请求数据报文和返回报文，请求报文中如果需要附加字符串，
+则需要考虑先获取这些字符串，返回报文则用于数据的解析并获取，然后便是解析数据和渲染图表了。  
 
-终于发现了课程表的奥秘所在！
-如下所示的代码，揭示了这门课的所有信息。
-```javascript
-activity = new TaskActivity("10024", "牟柳", "6794(B0000820.01)", "英语会议交流与汇报(B0000820.01)", "442", "品学楼C-204", "00000000001111111100000000000000000000000000000000000");
-index = 3 * unitCount + 2;
-table0.activities[index][table0.activities[index].length] = activity;
-index = 3 * unitCount + 3;
-```
-里面`TaskActivity`接收的参数很明了，其中一大堆0和1那个其实是课的分布图，对应了一年的53周。
-然后下面的几行代码则是这门课上课的时间，`unitCount`其实就是一天的课数，默认值为12，然后`index=m*unitCount+n`里面，m代表周几，n代表当天的第几节课，都是从0开始计数的。
+以获取课表数据为例，其实信息门户各个子页面(我的成绩、我的课表等)，都是依靠`ajax`来实现加载的，在浏览器中打开 chrome 调试工具，点击 network 选项卡，
+然后访问我的成绩，为了合并请求，直接点击“所有学期的成绩”，可以看到 network 工具捕获到了所有的请求，过滤其中的 xhr 请求，可以看到请求数据的`http`请求。
 
-这样，课程表就很容易解析出来了。
+可以看到真实请求地址是`http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR`，我们只需用 ajax 访问该地址，
+即可获得所有学期的成绩数据。
 
-# 获取考试安排
+获取到的成绩数据是嵌入到 html 中的，我们需要从中解析出纯数据来，得益于 JS 在浏览器端得天独厚的运行环境，自带了 DOM 解析功能，只需用`document.createElement`创建
+一个虚拟 DOM 并将之前访问的 html 代码放入其中，便可以像正常 DOM 那样从中解析我们想要的数据了。
 
-```javascript
-ajax({
-    url: 'http://eams.uestc.edu.cn/eams/stdExamTable!examTable.action?semester.id=103&examType.id=1&_=1475140136119',
-    method: 'GET'
-});
-```
-参数说明：
-> semester.id: 学期代号  
-examType.id: 考试类型（1,2,3,4）  
-_： 时间戳
+数据的解析过程十分繁琐，需要付之巨大的耐心。
+
+下面给出本插件已经用到的 url 地址：
+
+- 成绩数据：``
+
+|模块|URL|返回数据|类型|
+|-|-|-|-|
+|成绩模块|`http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR`|最终数据|html|
+|课表模块|`http://eams.uestc.edu.cn/eams/courseTableForStd.action?_=1477989054431`|中间数据：`tagId, value`|html|
+|课表模块|`http://eams.uestc.edu.cn/eams/dataQuery.action?tagId=semesterBar19026361991Semester&dataType=semesterCalendar&value=123&empty=false`|中间数据：`semesters`(semesterId对照表)|json|
+|课表模块|`http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action?ignoreHead=1&setting.kind=std&startWeek=1&semester.id=123&ids=134775`|最终数据|js|
+|考试模块|`http://eams.uestc.edu.cn/eams/stdExamTable!examTable.action?examType.id=2&semester.id=123`|最终数据|html|
+
+从表中可以看到，所有数据中至关重要的一个是`semester.id`对照表，它用于将年份与学期对应起来，通过用户学号也可以得到入学年份，从而得到用户的当前就读学年。
+
+**如果你在本插件中添加了新功能，请按照格式同步更新上面这个表格。**
