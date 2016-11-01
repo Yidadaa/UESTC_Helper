@@ -28,6 +28,8 @@
 以获取课表数据为例，其实信息门户各个子页面(我的成绩、我的课表等)，都是依靠`ajax`来实现加载的，在浏览器中打开 chrome 调试工具，点击 network 选项卡，
 然后访问我的成绩，为了合并请求，直接点击“所有学期的成绩”，可以看到 network 工具捕获到了所有的请求，过滤其中的 xhr 请求，可以看到请求数据的`http`请求。
 
+![chrome控制台截图](http://o8cuifl9z.bkt.clouddn.com/github/img/chrome_screenshot.png)  
+
 可以看到真实请求地址是`http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR`，我们只需用 ajax 访问该地址，
 即可获得所有学期的成绩数据。
 
@@ -38,13 +40,13 @@
 
 下面给出本插件已经用到的 url 地址：
 
-|模块|URL|返回数据|类型|
-|-|-|-|-|
-|成绩模块|`http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR`|最终数据|html|
-|课表模块|`http://eams.uestc.edu.cn/eams/courseTableForStd.action?_=1477989054431`|中间数据：`tagId, value`|html|
-|课表模块|`http://eams.uestc.edu.cn/eams/dataQuery.action?tagId=semesterBar19026361991Semester&dataType=semesterCalendar&value=123&empty=false`|中间数据：`semesters`(semesterId对照表)|json|
-|课表模块|`http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action?ignoreHead=1&setting.kind=std&startWeek=1&semester.id=123&ids=134775`|最终数据|js|
-|考试模块|`http://eams.uestc.edu.cn/eams/stdExamTable!examTable.action?examType.id=2&semester.id=123`|最终数据|html|
+模块|URL|返回数据|类型
+-|-|-|-
+成绩模块|`http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR`|最终数据|html     
+课表模块|`http://eams.uestc.edu.cn/eams/courseTableForStd.action?_=1477989054431`|中间数据：`tagId, value`|html    
+课表模块|`http://eams.uestc.edu.cn/eams/dataQuery.action?tagId=semesterBar19026361991Semester&dataType=semesterCalendar&value=123&empty=false`|中间数据：`semesters`(semesterId对照表)|json    
+课表模块|`http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action?ignoreHead=1&setting.kind=std&startWeek=1&semester.id=123&ids=134775`|最终数据|js    
+考试模块|`http://eams.uestc.edu.cn/eams/stdExamTable!examTable.action?examType.id=2&semester.id=123`|最终数据|html    
 
 从表中可以看到，所有数据中至关重要的一个是`semester.id`对照表，它用于将年份与学期对应起来，通过用户学号也可以得到入学年份，从而得到用户的当前就读学年。
 
