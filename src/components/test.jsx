@@ -11,6 +11,7 @@ class myReact extends React.Component {
         return (
             <div>{this.state.ha}
                 <span>fasfd</span>
+                <span>热更新模块</span>
             </div>
         );
     }
