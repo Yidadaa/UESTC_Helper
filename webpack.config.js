@@ -5,27 +5,30 @@ module.exports = {
         path: './build',
         filename: 'bundle.js'
     },
-    resolve: ['', 'js', 'jsx', 'less'],
+    resolve: ['', 'js', 'jsx', 'less', 'css'],
     modulesDirectories: ['node_modules'],
+    devServer: {    
+        proxy: {
+            '/url*': {
+                target: 'http://localhost:3000',
+                secure: false
+            }
+        }
+    },
     module: {
         loaders: [
             {
                 test: /\.js|jsx$/,
-                loader: 'babel',
-                exclude: /node_modules/,
-                query: {
-                    presets: ['react', 'es2015']
-                }
+                loader: 'babel-loader',
+                exclude: /node_modules/
             },
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader',
-                exclude: /node_modules/
+                loader: 'style-loader!css-loader'
             }, {
                 test: /\.less$/,
-                loader: 'style-loader!css-loader!less-loader',
-                exclude: /node_modules/
+                loader: 'style-loader!css-loader!less-loader'
             }
         ]
     }
-}
+};
