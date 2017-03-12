@@ -1,5 +1,5 @@
 'use strict';
-
+/*eslint-disable*/
 chrome.storage.local.get('on', function (data) {
     if (data['on'] == '1') {
         renderNewPage(); //开始渲染

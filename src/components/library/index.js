@@ -9,19 +9,10 @@ class myReact extends React.Component {
             ha: 'ha'
         };
     }
-    componentDidMount() {
-        services.parsePage('www.baidu.com', (res) => {return res;}).then(res => {
-            this.setState({
-                ha: res.statusText
-            });
-        });
-    }
     render() {
         return (
             <div>{this.state.ha}
-                <span>fasfd</span>
-                <span>热更新模块</span>
-                <Button>sfd</Button>
+                library
             </div>
         );
     }
