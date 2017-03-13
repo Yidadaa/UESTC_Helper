@@ -4,10 +4,10 @@
  */
 const ReactDOM = require('react-dom');
 const React = require('react');
-const entry = require('./entry/layout.jsx');
+const entry = require('./entry/layout');
 
 require('antd/dist/antd.css');
 
 require('./style.less');
 
-ReactDOM.render(React.createElement(entry), document.body);
+ReactDOM.render(React.createElement(entry), document.body); 
