@@ -1,3 +1,4 @@
+/*eslint-disable*/
 /**
  * @file 代理服务器配置
  * @desc 用于代理开发服务器转发的跨域请求
@@ -12,7 +13,7 @@ const login = () => {
     const password = '204515';
     request('http://idas.uestc.edu.cn/authserver/login?service=http%3A%2F%2Fportal.uestc.edu.cn%2F', (error, res) => {
         let values = res.body.match(/<input type="hidden" [^>]*\"\/?\>/g);
-        values = values.map(v => {
+        values = values.map(v => { // 从首页获取关键key
             let value = v.match(/\.*name="(.*?)" value="(.*?)"\/?>/);
             return [value[1], value[2]];
         });
@@ -23,7 +24,7 @@ const login = () => {
         params.username = account;
         params.password = password;
         values.length == 5 ? request.post('http://idas.uestc.edu.cn/authserver/login?service=http%3A%2F%2Fportal.uestc.edu.cn%2F', {form: params}, (err, res) => {
-            console.log('登陆成功');
+            console.log('登陆成功'); // 模拟登陆，并且获得cookie，以后的每次请求都会默认使用cookie
         }) : null;
     });
 };

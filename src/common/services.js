@@ -8,9 +8,11 @@ const request = require('./request');
 
 const parsePage = (url, parser) => {
     return new Promise((resolve, reject) => {
-        request(url).then((res) => {
+        request(url).then(res => {
             if(typeof(parser) === 'function') {
-                resolve(parser(res));
+                res.text().then(res => {
+                    resolve(parser(res));
+                });
             } else {
                 reject('无效的parser，请指定一个解析函数');
             }

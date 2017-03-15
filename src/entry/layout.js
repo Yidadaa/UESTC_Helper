@@ -20,23 +20,23 @@ class LayoutDom extends React.Component {
         return (
             <div>
                 <Layout>
-                    <Header>Header</Header>
+                    <Header id="header">Header</Header>
                     <HashRouter>
                         <Layout>
-                            <Sider>
+                            <Sider id="sider">
                                 <Menu {...menuConfig}>
                                     <Item key={1}><Link to='/library'>图书馆</Link></Item>
                                     <Item key={2}><Link to='/report'>成绩信息</Link></Item>
                                 </Menu>
                             </Sider>
-                            <Content>
+                            <Content id="main-content">
                                 <Route exact path='/' component={Report}></Route>
                                 <Route path='/report' component={Report}></Route>
                                 <Route path='/library' component={Library}></Route>
                             </Content>
                         </Layout>
                     </HashRouter>
-                    <Footer>Footer</Footer>
+                    <Footer id="footer">Footer</Footer>
                 </Layout>
             </div>
         );
