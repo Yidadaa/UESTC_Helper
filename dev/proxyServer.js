@@ -24,7 +24,11 @@ const login = () => {
         params.username = account;
         params.password = password;
         values.length == 5 ? request.post('http://idas.uestc.edu.cn/authserver/login?service=http%3A%2F%2Fportal.uestc.edu.cn%2F', {form: params}, (err, res) => {
-            console.log('登陆成功'); // 模拟登陆，并且获得cookie，以后的每次请求都会默认使用cookie
+            console.log(
+                `\n=======================
+                 \n-   代理服务器登录成功   -
+                 \n=======================\n`
+            ); // 模拟登陆，并且获得cookie，以后的每次请求都会默认使用cookie
         }) : null;
     });
 };

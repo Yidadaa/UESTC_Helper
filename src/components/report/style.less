@@ -16,3 +16,45 @@
     font-size: 20px;
     font-weight: bold;
 }
+
+#abstract {
+    overflow: auto;
+}
+
+#detail {
+    margin-top: 30px;
+    border-top: 1px solid #eee;
+    #detail-header {
+        overflow: hidden;
+    }
+    #detail-title {
+        float: left;
+        line-height: 46px;
+        padding-left: 10px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #aaa;
+    }
+    #detail-title:after {
+        content: '——Report Card';
+        font-size: 14px;
+        font-style: italic;
+        padding-left: 5px;
+        color: #ccc;
+    }
+    #detail-menu {
+        float: right;
+    }
+    .table-line-gpa,
+    .table-line-grade {
+        border-radius: 5px;
+        transition: ease .3s width;
+    }
+    .table-line-grade {
+        background-color: #c2b1e3;
+    }
+    .table-line-gpa {
+        margin-top: 2px;
+        background-color: #3fcbcd;
+    }
+}
