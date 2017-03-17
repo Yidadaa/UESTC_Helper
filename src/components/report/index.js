@@ -2,7 +2,6 @@ const React = require('react');
 
 const Row = require('antd/lib/row');
 const Col = require('antd/lib/col');
-const Card = require('antd/lib/card');
 const Menu = require('antd/lib/menu');
 
 const Table = require('./components/Table.jsx');
@@ -95,7 +94,7 @@ class myReact extends React.Component {
                 </div></Row>
                 <div id="detail">
                     <div id="detail-header">
-                        <div id="detail-title">{detailData ? detailData.year + '学期详细成绩': '详细成绩'}</div>
+                        <div id="detail-title">{detailData.year ? detailData.year + '学期详细成绩': '详细成绩'}</div>
                         <div id="detail-menu">
                             <Menu {...menuConfig}>
                                 {detail.map((v, i) => {

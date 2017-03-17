@@ -6,5 +6,9 @@
  */
 module.exports = (url) => {
     !url.match(/^https?/) ? url = 'http://' + url : null; // 默认为url添加http前缀
-    return fetch('/url?url=' + url);
+    if (window.location.hostname === 'localhost') {
+        // 判断是否在开发环境下
+        url = `/url?url=${url}`;
+    }
+    return fetch(url).catch(e => e);
 };

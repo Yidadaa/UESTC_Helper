@@ -12,6 +12,15 @@ const login = () => {
     const account = '2014000201010';
     const password = '204515';
     request('http://idas.uestc.edu.cn/authserver/login?service=http%3A%2F%2Fportal.uestc.edu.cn%2F', (error, res) => {
+        if (error) {
+            console.log(error);
+            console.error(
+                `\n=======================
+                 \n-   代理服务器登录失败   -
+                 \n=======================\n`
+            ); // 模拟登陆，并且获得cookie，以后的每次请求都会默认使用cookie
+            return null;
+        }
         let values = res.body.match(/<input type="hidden" [^>]*\"\/?\>/g);
         values = values.map(v => { // 从首页获取关键key
             let value = v.match(/\.*name="(.*?)" value="(.*?)"\/?>/);
@@ -36,7 +45,11 @@ login();
 app.get('/url', (req, res) => {
     let url = req.query.url || '/';
     request(url, (error, response) => {
-        res.send(response.body);
+        if (error) {
+            res.status(500).send('学校服务器抽风了！');
+        } else {
+            res.send(response.body);
+        }
     });
 });
 

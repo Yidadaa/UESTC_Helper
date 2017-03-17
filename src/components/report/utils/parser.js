@@ -36,7 +36,6 @@ function parseTableData(table) {
  * 将原始数据转换为可用的图表数据
  */
 function sumDataFormater(sourceData) {
-    //console.log(sourceData);
     let data = {
         sum: {
             sum: {
@@ -58,6 +57,9 @@ function sumDataFormater(sourceData) {
         },
         detail: []
     };
+    const gradeDict = {
+        '通过': 85
+    };
     /**
      * 归档data.sum的sum部分
      */
@@ -67,13 +69,13 @@ function sumDataFormater(sourceData) {
     for (let i in sourceData.detail.tableContent) {
         let point = parseFloat(sourceData.detail.tableContent[i][5]);
         let grade = sourceData.detail.tableContent[i][sourceData.detail.tableContent[i].length - 1];
-        if (grade.trim() == '通过') {
-            grade = 85;
+        if (isNaN(parseInt(grade.trim()))) {
+            grade = gradeDict[grade.trim()];
         } else {
             grade = isFinite(parseFloat(grade)) ? parseFloat(grade) : 60;
         }
         data.sum.sum.aver += grade / parseFloat(data.sum.sum.study) * point;
-    };
+    }
     data.sum.sum.aver = data.sum.sum.aver.toFixed(2);
 
     /**

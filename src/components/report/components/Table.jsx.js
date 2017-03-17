@@ -26,7 +26,8 @@ class tableChart extends React.Component {
                 chart: {
                     gpa: this.props.gpa[i],
                     grade: this.props.grade[i]
-                }
+                },
+                restudy: ((4.0 - parseFloat(this.props.gpa[i])) * this.props.credit[i]).toFixed(2)
             };
         }) : [];
         const columns = [{
@@ -49,7 +50,16 @@ class tableChart extends React.Component {
             }
         }, {
             title: '绩点',
-            dataIndex: 'gpa'
+            dataIndex: 'gpa',
+            sorter: (a, b) => {
+                return a.gpa - b.gpa;
+            }
+        }, {
+            title: '重修指数',
+            dataIndex: 'restudy',
+            sorter: (a, b) => {
+                return a.restudy - b.restudy;
+            }
         }, {
             title: '展示',
             dataIndex: 'chart',
