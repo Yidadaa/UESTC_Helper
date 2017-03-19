@@ -4,6 +4,7 @@
  */
 const React = require('react');
 const echart = require('echarts');
+
 require('./theme/macarons');
 
 class Chart extends React.Component {

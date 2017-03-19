@@ -36,6 +36,8 @@ module.exports = props => {
                         <div className="content">
                             <div className="rate">{excitedRate}</div>
                             <div className="tip">满绩占比</div>
+                            <div className="text">* 满绩占比 = GPA为4的科目 / 全部科目。</div>
+                            <div className="text">* 重修指数 = (4 - 绩点 + 1 - 成绩 / 100) * 学分</div>
                         </div>
                     </div>
                     <div className="failed-exams">

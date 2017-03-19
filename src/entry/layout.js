@@ -28,7 +28,7 @@ class LayoutDom extends React.Component {
                             <img src="http://o8cuifl9z.bkt.clouddn.com/uestc/img/icon.png" alt="icon" className="icon"/>
                         </Col>
                         <Col span={8}>
-                            <p className="header-title">UESTC</p>
+                            <p className="header-title">UESTC - 电子科技大学教务助手</p>
                         </Col>
                     </Row></Header>
                     <HashRouter>

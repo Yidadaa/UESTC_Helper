@@ -17,7 +17,7 @@ const chartConfig = (data) => {
                     show: false
                 }
             },
-            hoverAnimation: false,
+            hoverAnimation: true,
             data: data
         }]
     };
@@ -112,14 +112,14 @@ const lineChartConfig = data => {
         series: [{
             name: 'GPA',
             type: 'line',
-            hoverAnimation: false,
+            hoverAnimation: true,
             data: data.eachYear.gpa,
             yAxisIndex: 0,
             smooth: true
         }, {
             name: '平均分',
             type: 'line',
-            hoverAnimation: false,
+            hoverAnimation: true,
             data: data.eachYear.aver,
             yAxisIndex: 1,
             smooth: true

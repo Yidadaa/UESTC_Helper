@@ -58,7 +58,6 @@ class myReact extends React.Component {
         };
         const lineChartStyle = {
             height: '200px',
-            width: '450px',
             margin: 'auto'
         };
         const detail = this.state.data ? this.state.data.detail : [];
