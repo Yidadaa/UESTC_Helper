@@ -3,15 +3,15 @@
     position: relative;
 }
 
-.little-block #title,
-#value {
+.little-block .title,
+.value {
     position: absolute;
     display: block;
     text-align: center;
     width: 100%;
 }
 
-.little-block #value {
+.little-block .value {
     top: 60px;
     font-size: 20px;
     font-weight: bold;
@@ -19,10 +19,10 @@
 
 #abstract {
     overflow: auto;
+    padding-bottom: 10px;
 }
 
 #detail {
-    margin-top: 30px;
     border-top: 1px solid #eee;
     #detail-header {
         overflow: hidden;
@@ -56,5 +56,86 @@
     .table-line-gpa {
         margin-top: 2px;
         background-color: #3fcbcd;
+    }
+}
+#failed-exam {
+    .failed-exam-header {
+        overflow: auto;
+        border-top: 1px solid #eee;
+    }
+    .failed-exam-title {
+        float: left;
+        line-height: 46px;
+        padding-left: 10px;
+        font-weight: bold;
+        font-size: 18px;
+        color: #aaa;
+    }
+    .failed-exam-title:after {
+        content: '——Report Card';
+        font-size: 14px;
+        font-style: italic;
+        padding-left: 5px;
+        color: #ccc;
+    }
+    .failed-exam-content {
+        display: flex;
+        .failed-exam-sum {
+            flex-grow: 1;
+            text-align: center;
+            padding: 20px;
+            .content {
+                padding-top: 20px;
+                .rate {
+                    font-size: 44px;
+                }
+                .rate:after {
+                    content: '%';
+                    font-size: 16px;
+                    font-style: italic;
+                }
+                .tip {
+                    width: 100px;
+                    text-align: center;
+                    margin: auto;
+                    border-radius: 50px;
+                    background-color: #5ab1ef;
+                    padding: 3px 10px;
+                    color: #fff;
+                }
+            }
+        }
+        .failed-exams {
+            flex-grow: 1;
+            .title {
+                text-align: center;
+            }
+            .failed-item {
+                border-bottom: 1px solid #eee;
+                padding: 10px;
+                padding-left: 0;
+                .index {
+                    font-size: 16px;
+                    color: #aaa;
+                    font-style: italic;
+                    margin-right: 5px;
+                }
+                .index:after {
+                    content: '.';
+                }
+                .count {
+                    float: right;
+                    font-weight: bold;
+                }
+            }
+            .failed-item:last-child {
+                border: 0;
+            }
+            .title {
+                font-size: 14px;
+                color: #aaa;
+                font-weight: bold;
+            }
+        }
     }
 }

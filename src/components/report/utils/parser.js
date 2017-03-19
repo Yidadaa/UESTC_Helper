@@ -1,10 +1,12 @@
 /**
  * 成绩解析模块
  */
-/**
- * 解析table中的数据
- */
 function parseTableData(table) {
+    /**
+     * @desc table解析函数
+     * @param {HTMLTableElement} table对象
+     * @returns {Object} tableHeader,tableContent表头和表内内容
+     */
     let data = {
         tableHead: [],
         tableContent: []
@@ -32,10 +34,12 @@ function parseTableData(table) {
 
     return data;
 }
-/**
- * 将原始数据转换为可用的图表数据
- */
+
 function sumDataFormater(sourceData) {
+    /**
+     * @desc 文件格式化函数
+     * @return 格式化后的数据，数据内容如下
+     */
     let data = {
         sum: {
             sum: {
@@ -43,19 +47,19 @@ function sumDataFormater(sourceData) {
                 aver: 0,
                 study: 0
             },
-            detail: {
+            detail: { // 汇总后的每年的数据
                 year: [],
                 gpa: [],
                 aver: [],
                 study: []
             }
         },
-        eachYear: {
+        eachYear: { // 每年的数据
             year: [],
             aver: [],
             gpa: []
         },
-        detail: []
+        detail: [] //按学期分组的数据
     };
     const gradeDict = {
         '通过': 85

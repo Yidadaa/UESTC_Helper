@@ -1,9 +1,8 @@
 /**
- * 各种配置项
+ * @file 各种配置项
  */
-//下面开始设置综合的三大块
 const chartConfig = (data) => {
-    return {
+    return { // 三个小图标的配置项
         tooltip: {
             show: true
         },

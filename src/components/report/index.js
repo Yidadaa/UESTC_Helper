@@ -1,3 +1,7 @@
+/**
+ * @file 组件 - 成绩单
+ * @desc 成绩汇总，成绩趋势，成绩详单，挂科分析
+ */
 const React = require('react');
 
 const Row = require('antd/lib/row');
@@ -6,6 +10,7 @@ const Menu = require('antd/lib/menu');
 
 const Table = require('./components/Table.jsx');
 const Chart = require('../common/chart/chart.jsx');
+const FailedExam = require('./components/FailedExam.jsx');
 
 const services = require('../../common/services');
 const parser = require('./utils/parser');
@@ -32,7 +37,6 @@ class myReact extends React.Component {
         const me = this;
         const url = 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR';
         services.parsePage(url, parser).then(res => {
-            console.log(res);
             me.setState({
                 data: res,
                 gpaConfig: config.chartConfig(res.sum.detail.gpa),
@@ -68,30 +72,32 @@ class myReact extends React.Component {
             selectedKeys: [this.state.detailIndex.toString()]
         };
         const detailData = this.state.data ? this.state.data.detail[this.state.detailIndex] : {};
+        const allCourseData = this.state.data ? this.state.data.detail : [];
         return (
             <div className="block">
                 <Row><div id="abstract">
                     <Col xs={24} sm={12}>
                         <Col className="little-block" id="gpa-sum" span={8}>
-                            <Chart style={littleChartStyle} id="gpa-chart" config={this.state.gpaConfig}></Chart>
-                            <span id="title">GPA</span>
-                            <span id="value">{this.state.gpa}</span>
+                            <Chart style={littleChartStyle} id="gpa-chart" config={this.state.gpaConfig} key="gpa-chart"></Chart>
+                            <span className="title">GPA</span>
+                            <span className="value">{this.state.gpa}</span>
                         </Col>
                         <Col className="little-block" id="aver-grade" span={8}>
-                            <Chart style={littleChartStyle} id="aver-chart" config={this.state.averConfig}></Chart>
-                            <span id="title">平均分</span>
-                            <span id="value">{this.state.aver}</span>
+                            <Chart style={littleChartStyle} id="aver-chart" config={this.state.averConfig} key="aver-chart"></Chart>
+                            <span className="title">平均分</span>
+                            <span className="value">{this.state.aver}</span>
                         </Col>
                         <Col className="little-block" id="study-grade" span={8}>
-                            <Chart style={littleChartStyle} id="study-chart" config={this.state.studyConfig}></Chart>
-                            <span id="title">总学分</span>
-                            <span id="value">{this.state.study}</span>
+                            <Chart style={littleChartStyle} id="study-chart" config={this.state.studyConfig} key="grade-chart"></Chart>
+                            <span className="title">总学分</span>
+                            <span className="value">{this.state.study}</span>
                         </Col>
                     </Col>
                     <Col id="chart-2" xs={24} sm={12}>
-                        <Chart id="line-chart" config={this.state.lineChartConfig} style={lineChartStyle}></Chart>
+                        <Chart id="line-chart" config={this.state.lineChartConfig} style={lineChartStyle} key="line-chart"></Chart>
                     </Col>
                 </div></Row>
+                <FailedExam allCourseData={allCourseData}></FailedExam>
                 <div id="detail">
                     <div id="detail-header">
                         <div id="detail-title">{detailData.year ? detailData.year + '学期详细成绩': '详细成绩'}</div>

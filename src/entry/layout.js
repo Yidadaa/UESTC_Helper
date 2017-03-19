@@ -12,7 +12,7 @@ const {Item} = Menu;
 const {Header, Content, Footer, Sider} = Layout;
 
 const Report = require('../components/report/index');
-const Library = require('../components/library/index');
+const Course = require('../components/course/index');
 
 class LayoutDom extends React.Component {
     render() {
@@ -36,7 +36,7 @@ class LayoutDom extends React.Component {
                             <Sider id="sider">
                                 <Menu {...menuConfig}>
                                     <Item key='report'><Link to='/report'>成绩信息</Link></Item>
-                                    <Item key='library'><Link to='/library'>图书馆</Link></Item>
+                                    <Item key='course'><Link to='/course'>课程及考试信息</Link></Item>
                                     <Item>测试</Item>
                                     <Item>测试</Item>
                                     <Item>测试</Item>
@@ -48,7 +48,7 @@ class LayoutDom extends React.Component {
                             <Content id="main-content">
                                 <Route exact path='/' component={Report}></Route>
                                 <Route path='/report' component={Report}></Route>
-                                <Route path='/library' component={Library}></Route>
+                                <Route path='/course' component={Course}></Route>
                             </Content>
                         </Layout>
                     </HashRouter>

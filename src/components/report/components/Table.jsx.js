@@ -1,5 +1,6 @@
 /**
  * @file 成绩单 - 表格组件
+ * @desc 用来展示各个学年成绩的详细信息
  */
 const Table = require('antd/lib/table');
 const Tooltip = require('antd/lib/tooltip');
@@ -27,7 +28,7 @@ class tableChart extends React.Component {
                     gpa: this.props.gpa[i],
                     grade: this.props.grade[i]
                 },
-                restudy: ((4.0 - parseFloat(this.props.gpa[i])) * this.props.credit[i]).toFixed(2)
+                restudy: ((4.0 - parseFloat(this.props.gpa[i]) - parseFloat(this.props.grade[i] / 100) + 1) * this.props.credit[i]).toFixed(2)
             };
         }) : [];
         const columns = [{

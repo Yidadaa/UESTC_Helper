@@ -1,5 +1,6 @@
 /**
- * 图表组件
+ * @file 图表组件
+ * @desc 封装echarts组件
  */
 const React = require('react');
 const echart = require('echarts');
