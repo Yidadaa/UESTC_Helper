@@ -1,17 +1,25 @@
 const React = require('react');
-const Button = require('antd/lib/button');
-const services = require('../../common/services');
+const func = require('./handle');
 
 class myReact extends React.Component {
     constructor() {
         super();
         this.state = {
-            ha: 'ha'
+            commonData: {},
+            getCourseData: () => {}
         };
+    }
+    componentDidMount() {
+        func().then(res => {
+            this.setState(...res);
+            res.getCourseData(143, res.commonData.basicData.ids).then(res => {
+                console.log(res);
+            });
+        });
     }
     render() {
         return (
-            <div>{this.state.ha}
+            <div>
                 library
             </div>
         );

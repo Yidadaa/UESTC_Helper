@@ -43,7 +43,15 @@ const login = () => {
 };
 login();
 app.get('/url', (req, res) => {
-    let url = req.query.url || '/';
+    let url = '';
+    for(let i in req.query) {
+        if(i == 'url') {
+            url = `${req.query[i]}`;
+        } else {
+            url = `${url}&${i}=${req.query[i]}`;
+        }
+    }
+    console.log(`代理：GET/${url}`);
     request(url, (error, response) => {
         if (error) {
             res.status(500).send('学校服务器抽风了！');
