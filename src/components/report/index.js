@@ -23,10 +23,10 @@ class myReact extends React.Component {
         super();
         this.state = {
             data: null,
-            gpaConfig: config.chartConfig([]),
-            averConfig: config.chartConfig([]),
-            studuConfig: config.chartConfig([]),
-            lineChartConfig: config.lineChartConfig({eachYear: {aver: [], gpa: [], study: []}}),
+            gpaConfig: null,
+            averConfig: null,
+            studuConfig: null,
+            lineChartConfig: null,
             aver: 0,
             gpa: 0,
             study: 0,

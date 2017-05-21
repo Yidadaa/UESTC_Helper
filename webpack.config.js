@@ -1,7 +1,11 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: [
+        './src/index.js',
+        'webpack/hot/dev-server'
+    ],
     output: {
         path: './build',
         filename: 'bundle.js'
@@ -14,9 +18,10 @@ module.exports = {
                 target: 'http://localhost:3000',
                 secure: false
             }
-        }
+        },
+        hot: true
     },
-    plugins: [new HtmlWebpackPlugin()],
+    plugins: [new HtmlWebpackPlugin(), new webpack.HotModuleReplacementPlugin()],
     module: {
         loaders: [
             {

@@ -26,7 +26,7 @@
   },
   "scripts": {
     "build": "webpack",
-    "dev": "webpack-dev-server --devtool eval --progress --colors --content-base build & node ./dev/proxyServer.js",
+    "dev": "webpack-dev-server --devtool eval --progress --hot --colors --content-base build & node ./dev/proxyServer.js",
     "dev-build": "webpack-dev-server --devtool eval --progress --colors --content-base build"
   },
   "devDependencies": {

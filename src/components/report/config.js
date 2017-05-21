@@ -115,7 +115,8 @@ const lineChartConfig = data => {
             hoverAnimation: true,
             data: data.eachYear.gpa,
             yAxisIndex: 0,
-            smooth: true
+            smooth: true,
+            animation: true
         }, {
             name: '平均分',
             type: 'line',
