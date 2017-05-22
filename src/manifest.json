@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "电子科大教务助手",
     "description": "查询成绩，考试通知，课程表",
-    "version": "0.9.1",
+    "version": "0.17.5.21",
     "permissions": [
         "http://idas.uestc.edu.cn/*",
         "http://eams.uestc.edu.cn/*",
@@ -14,8 +14,7 @@
         "default_icon": "static/img/icon.png",
         "default_popup": "pop_up.html"
     },
-    "content_scripts": [
-        {
+    "content_scripts": [{
             "matches": [
                 "http://idas.uestc.edu.cn/authserver/login*"
             ],
@@ -48,5 +47,13 @@
     "web_accessible_resources": [
         "loginPage.html",
         "content.html"
-    ]
+    ],
+    "app": {
+        "urls": [
+            "http://blog.simplenaive.cn/uestc_helper"
+        ],
+        "launch": {
+            "web_url": "http://blog.simplenaive.cn/uestc_helper"
+        }
+    }
 }
