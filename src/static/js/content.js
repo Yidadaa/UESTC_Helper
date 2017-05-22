@@ -747,7 +747,6 @@ timeTable.prototype = {
             v.forEach(function (value, index) {
                 semester[year][index.toString()] = value.id;
             });
-            // debugger;
         }
         this.data.semesters = semester;
         this.renderDropdown();
@@ -759,7 +758,6 @@ timeTable.prototype = {
          */
         var url = 'http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action?ignoreHead=1&setting.kind=std&startWeek=1&semester.id=' + semester + '&ids=' + this.data.ids;
         var func = this;
-        // debugger;
         ajax({
             method: 'GET',
             url: url,
@@ -903,7 +901,7 @@ timeTable.prototype = {
         var node = $('#course-dropdown').querySelector('ul');
         var startYear = null;
         var curYear = new Date().getFullYear();
-        var curStudyYear = new Date().getMonth() >= 7 ? 1 : 2;
+        var curStudyYear = new Date().getMonth() >= 7 ? 0 : 1;
         var ids = [];
         var keyMap = ['大一', '大二', '大三', '大四'];
 
@@ -915,7 +913,7 @@ timeTable.prototype = {
                     name: keyMap[i - startYear] + '上',
                     id: func.data.semesters[i][0]
                 });
-                if (i == curYear && curStudyYear == 2) continue; //第二学期没有排课
+                if (i == curYear && curStudyYear == 0) continue; //第二学期没有排课
                 ids.push({
                     name: keyMap[i - startYear] + '下',
                     id: func.data.semesters[i][1]
@@ -952,12 +950,24 @@ timeTable.prototype = {
         var func = this;
         var curYear = new Date().getFullYear();
         //curYear = 2015;
-        var curStudyYear = new Date().getMonth() >= 7 ? 1 : 2;
-        //curStudyYear = 2;
-        var id = func.data.semesters[curYear][curStudyYear];
-        if (id == undefined) {
-            id = func.data.semesters[curYear][1];
+        var month = new Date().getMonth();
+        var curStudyYear = 0;
+        if (month <= 7 && month > 2) {
+            curStudyYear = 0;
+        } else {
+            curStudyYear = 1;
         }
+        // 大于零表示是本学年的第一学期
+        // 等于零表示是上一学年的第二学期
+        //curStudyYear = 2;
+        var id = 0;
+        if (curStudyYear == 0) {
+            // 本年的前半部分，是本学年的后半部分（cnmd学年安排，简直有毒）
+            id = func.data.semesters[curYear - 1][1]
+        } else {
+            id = func.data.semesters[curYear][0]
+        }
+        // debugger;
         var getData = function getData(examType, lastData) {
             var data = lastData;
             if (examType < 5) {
@@ -982,8 +992,8 @@ timeTable.prototype = {
             var res = [];
             data.forEach(function (v, index) {
                 var nodes = v.children;
-                if (nodes.length == 1) return null;
-                for (var i = 1; i < nodes.length - 1; i++) {
+                if (nodes.length == 0) return null;
+                for (var i = 1; i < nodes.length; i++) {
                     var node = nodes[i];
                     if (node.children.length == 8) {
                         var tmp = node.children;
@@ -999,6 +1009,7 @@ timeTable.prototype = {
                     }
                 }
             });
+            // debugger;
             return res;
         };
         var render = function render(examdata) {
