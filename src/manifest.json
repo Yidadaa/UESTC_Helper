@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "电子科大教务助手",
     "description": "查询成绩，考试通知，课程表",
-    "version": "0.9",
+    "version": "0.9.1",
     "permissions": [
         "http://idas.uestc.edu.cn/*",
         "http://eams.uestc.edu.cn/*",

@@ -309,6 +309,7 @@ td {
     flex-grow: 1;
     border-left: #aaa 2px solid;
     padding-left: 5px;
+    line-height: 18px;
 }
 
 .detail-info {

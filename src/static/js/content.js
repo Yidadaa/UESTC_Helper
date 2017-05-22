@@ -422,7 +422,7 @@ function renderGrade() {
             li.innerText = data.detail[i].year;
             selector.appendChild(li);
         }
-        $('#detail-selector').style.width = 108 * data.detail.length + 'px';
+        $('#detail-selector').style.width = 109 * data.detail.length + 'px'; // 选择器的宽度
         $('#detail-selector ul').onclick = function (e) {
             var ul = $('#detail-selector ul');
             for (var i in ul.children) {
@@ -743,10 +743,11 @@ timeTable.prototype = {
         for (var i in tmp) {
             var v = tmp[i];
             var year = v[0].schoolYear.split('-')[0];
-            semester[year] = {
-                '1': v[0].id,
-                '2': v[1].id
-            };
+            semester[year] = {};
+            v.forEach(function (value, index) {
+                semester[year][index.toString()] = value.id;
+            });
+            // debugger;
         }
         this.data.semesters = semester;
         this.renderDropdown();
@@ -758,6 +759,7 @@ timeTable.prototype = {
          */
         var url = 'http://eams.uestc.edu.cn/eams/courseTableForStd!courseTable.action?ignoreHead=1&setting.kind=std&startWeek=1&semester.id=' + semester + '&ids=' + this.data.ids;
         var func = this;
+        // debugger;
         ajax({
             method: 'GET',
             url: url,
@@ -908,15 +910,15 @@ timeTable.prototype = {
         chrome.storage.local.get('studyYear', function (data) {
             startYear = data['studyYear'];
             startYear = parseInt(startYear);
-            for (var i = startYear; i <= curYear; i++) {
+            for (var i = startYear; i < curYear; i++) {
                 ids.push({
                     name: keyMap[i - startYear] + '上',
-                    id: func.data.semesters[i][1]
+                    id: func.data.semesters[i][0]
                 });
-                if (i == curYear && curStudyYear == 1) continue; //本年第二学期没有排课
+                if (i == curYear && curStudyYear == 2) continue; //第二学期没有排课
                 ids.push({
                     name: keyMap[i - startYear] + '下',
-                    id: func.data.semesters[i][2]
+                    id: func.data.semesters[i][1]
                 });
             }
             for (var i in ids) {
@@ -953,10 +955,14 @@ timeTable.prototype = {
         var curStudyYear = new Date().getMonth() >= 7 ? 1 : 2;
         //curStudyYear = 2;
         var id = func.data.semesters[curYear][curStudyYear];
+        if (id == undefined) {
+            id = func.data.semesters[curYear][1];
+        }
         var getData = function getData(examType, lastData) {
             var data = lastData;
             if (examType < 5) {
                 //要取回所有的数据，其实examType是查询的考试类型1,2,3,4代表了期末|期中|补考|缓考
+                // console.log(id);
                 ajax({
                     method: 'GET',
                     url: 'http://eams.uestc.edu.cn/eams/stdExamTable!examTable.action?examType.id=' + examType + '&semester.id=' + id,
@@ -1020,7 +1026,7 @@ timeTable.prototype = {
                 });
             } else {
                 var node = createNode('p', 'blank-tips');
-                node.innerHTML = '- 说出来你可能不信，最近根本就没有考试 -';
+                node.innerHTML = '- 说出来你可能不信，最近居然没有考试 -';
                 $('#exam-block').appendChild(node);
             }
         };
