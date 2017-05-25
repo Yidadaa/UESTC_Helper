@@ -8,7 +8,8 @@
         "http://eams.uestc.edu.cn/*",
         "http://img.infinitynewtab.com/*",
         "tabs",
-        "storage"
+        "storage",
+        "activeTab"
     ],
     "browser_action": {
         "default_icon": "static/img/icon.png",
@@ -47,13 +48,5 @@
     "web_accessible_resources": [
         "loginPage.html",
         "content.html"
-    ],
-    "app": {
-        "urls": [
-            "http://blog.simplenaive.cn/uestc_helper"
-        ],
-        "launch": {
-            "web_url": "http://blog.simplenaive.cn/uestc_helper"
-        }
-    }
+    ]
 }
