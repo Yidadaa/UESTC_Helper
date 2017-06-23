@@ -1,13 +1,27 @@
-/**
- * @file 主入口文件
- * @desc 此文件将挂载所有的内容到body里面
- */
-const ReactDOM = require('react-dom');
-const React = require('react');
-const entry = require('./entry/layout');
+import dva from 'dva';
+import './index.less';
+import 'antd/dist/antd.css';
 
-require('antd/dist/antd.css');
+// Models
+const models = [
+  require('./models/report'),
+  require('./models/course'),
+  require('./models/common')
+];
 
-require('./style.less');
+// 1. Initialize
+const app = dva();
 
-ReactDOM.render(React.createElement(entry), document.body); 
+// 2. Plugins
+// app.use({});
+
+// 3. Models
+models.forEach(model => {
+  app.model(model);
+});
+
+// 4. Router
+app.router(require('./router'));
+
+// 5. Start
+app.start('#root');
