@@ -1,0 +1,150 @@
+{
+  "IcoMoonType": "selection",
+  "icons": [
+    {
+      "icon": {
+        "paths": [
+          "M0 1024h512v-1024h-512v1024zM320 128h128v128h-128v-128zM320 384h128v128h-128v-128zM320 640h128v128h-128v-128zM64 128h128v128h-128v-128zM64 384h128v128h-128v-128zM64 640h128v128h-128v-128zM576 320h448v64h-448zM576 1024h128v-256h192v256h128v-576h-448z"
+        ],
+        "tags": [
+          "office",
+          "buildings",
+          "work"
+        ],
+        "defaultCode": 59651,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "office, buildings",
+        "name": "office",
+        "order": 7,
+        "id": 4,
+        "prevSize": 32,
+        "code": 59651
+      },
+      "setIdx": 0,
+      "setId": 1,
+      "iconIdx": 3
+    },
+    {
+      "icon": {
+        "paths": [
+          "M320 384h128v128h-128zM512 384h128v128h-128zM704 384h128v128h-128zM128 768h128v128h-128zM320 768h128v128h-128zM512 768h128v128h-128zM320 576h128v128h-128zM512 576h128v128h-128zM704 576h128v128h-128zM128 576h128v128h-128zM832 0v64h-128v-64h-448v64h-128v-64h-128v1024h960v-1024h-128zM896 960h-832v-704h832v704z"
+        ],
+        "tags": [
+          "calendar",
+          "date",
+          "schedule",
+          "time",
+          "day"
+        ],
+        "defaultCode": 59731,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "calendar, date",
+        "name": "calendar",
+        "order": 2,
+        "id": 84,
+        "prevSize": 32,
+        "code": 59731
+      },
+      "setIdx": 0,
+      "setId": 1,
+      "iconIdx": 83
+    },
+    {
+      "icon": {
+        "paths": [
+          "M576 706.612v-52.78c70.498-39.728 128-138.772 128-237.832 0-159.058 0-288-192-288s-192 128.942-192 288c0 99.060 57.502 198.104 128 237.832v52.78c-217.102 17.748-384 124.42-384 253.388h896c0-128.968-166.898-235.64-384-253.388z"
+        ],
+        "tags": [
+          "user",
+          "profile",
+          "avatar",
+          "person",
+          "member"
+        ],
+        "defaultCode": 59761,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "user, profile2",
+        "name": "user",
+        "order": 5,
+        "id": 114,
+        "prevSize": 32,
+        "code": 59761
+      },
+      "setIdx": 0,
+      "setId": 1,
+      "iconIdx": 113
+    },
+    {
+      "icon": {
+        "paths": [
+          "M976 768h-16v-208c0-61.756-50.242-112-112-112h-272v-128h16c26.4 0 48-21.6 48-48v-160c0-26.4-21.6-48-48-48h-160c-26.4 0-48 21.6-48 48v160c0 26.4 21.6 48 48 48h16v128h-272c-61.756 0-112 50.244-112 112v208h-16c-26.4 0-48 21.6-48 48v160c0 26.4 21.6 48 48 48h160c26.4 0 48-21.6 48-48v-160c0-26.4-21.6-48-48-48h-16v-192h256v192h-16c-26.4 0-48 21.6-48 48v160c0 26.4 21.6 48 48 48h160c26.4 0 48-21.6 48-48v-160c0-26.4-21.6-48-48-48h-16v-192h256v192h-16c-26.4 0-48 21.6-48 48v160c0 26.4 21.6 48 48 48h160c26.4 0 48-21.6 48-48v-160c0-26.4-21.6-48-48-48zM192 960h-128v-128h128v128zM576 960h-128v-128h128v128zM448 256v-128h128v128h-128zM960 960h-128v-128h128v128z"
+        ],
+        "tags": [
+          "tree",
+          "branches",
+          "inheritance"
+        ],
+        "defaultCode": 59836,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "tree, branches",
+        "name": "tree",
+        "order": 6,
+        "id": 189,
+        "prevSize": 32,
+        "code": 59836
+      },
+      "setIdx": 0,
+      "setId": 1,
+      "iconIdx": 188
+    }
+  ],
+  "height": 1024,
+  "metadata": {
+    "name": "icomoon"
+  },
+  "preferences": {
+    "showGlyphs": true,
+    "showQuickUse": true,
+    "showQuickUse2": true,
+    "showSVGs": true,
+    "fontPref": {
+      "prefix": "icon-",
+      "metadata": {
+        "fontFamily": "icomoon"
+      },
+      "metrics": {
+        "emSize": 1024,
+        "baseline": 6.25,
+        "whitespace": 50
+      },
+      "embed": false
+    },
+    "imagePref": {
+      "prefix": "icon-",
+      "png": true,
+      "useClassSelector": true,
+      "color": 0,
+      "bgColor": 16777215,
+      "classSelector": ".icon"
+    },
+    "historySize": 50,
+    "showCodes": true,
+    "gridSize": 16
+  }
+}

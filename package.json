@@ -27,7 +27,8 @@
   "scripts": {
     "build": "webpack",
     "dev": "webpack-dev-server --devtool eval --progress --hot --colors --content-base build & node ./dev/proxyServer.js",
-    "dev-build": "webpack-dev-server --devtool eval --progress --colors --content-base build"
+    "dev-build": "webpack-dev-server --devtool eval --progress --colors --content-base build",
+    "server": "node ./dev/proxyServer.js"
   },
   "devDependencies": {
     "babel-plugin-import": "^1.1.1",
