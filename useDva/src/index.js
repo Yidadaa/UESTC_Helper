@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 
 // Models
 const models = [
-    require('./models/report')
+  require('./models/report')
 ];
 
 // 1. Initialize
@@ -15,7 +15,7 @@ const app = dva();
 
 // 3. Models
 models.forEach(model => {
-    app.model(model);
+  app.model(model);
 });
 
 // 4. Router

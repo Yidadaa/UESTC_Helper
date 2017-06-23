@@ -8,15 +8,15 @@ const request = require('./request');
 const message = require('antd/lib/message');
 
 async function parsePage(url) {
-    const res = await request(url);
-    if (res === undefined || res.status === 500) {
-        message.error('土豆服务器又抽风了！一会儿刷新看看吧～');
-    } else {
-        const text = await res.text();
-        return text;
-    }
+  const res = await request(url);
+  if (res === undefined || res.status === 500) {
+    message.error('土豆服务器又抽风了！一会儿刷新看看吧～');
+  } else {
+    const text = await res.text();
+    return text;
+  }
 }
 
 module.exports = {
-    parsePage
+  parsePage
 };
