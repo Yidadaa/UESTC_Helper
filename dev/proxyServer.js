@@ -8,7 +8,10 @@ const request = require('request').defaults({jar: true});
 
 const app = express();
 
+let lastLoginTime = 0;
+
 const login = () => {
+    lastLoginTime = new Date().getTime();
     const account = '2014000201010';
     const password = '204515';
     request('http://idas.uestc.edu.cn/authserver/login?service=http%3A%2F%2Fportal.uestc.edu.cn%2F', (error, res) => {
@@ -24,7 +27,7 @@ const login = () => {
         let values = res.body.match(/<input type="hidden" [^>]*\"\/?\>/g);
         values = values.map(v => { // 从首页获取关键key
             let value = v.match(/\.*name="(.*?)" value="(.*?)"\/?>/);
-            return [value[1], value[2]];
+            return value ? [value[1], value[2]] : null;
         });
         let params = {};
         values.forEach(v => {
@@ -43,6 +46,10 @@ const login = () => {
 };
 login();
 app.get('/url', (req, res) => {
+    // const curTime = new Date().getTime();
+    // if (curTime - lastLoginTime >= 1000 * 60 * 20) {
+    //     login(); // 每二十分钟重新登录一次，防止cookie失效
+    // }
     let url = '';
     for(let i in req.query) {
         if(i == 'url') {

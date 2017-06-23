@@ -1,6 +1,5 @@
 const services = require('../services/services');
 const parser = require('../components/report/utils/parser');
-const config = require('../components/report/config.js');
 
 export default {
 
@@ -8,10 +7,6 @@ export default {
 
   state: {
     data: null,
-    gpaConfig: null,
-    averConfig: null,
-    studuConfig: null,
-    lineChartConfig: null,
     aver: 0,
     gpa: 0,
     study: 0,
@@ -40,10 +35,6 @@ export default {
         type: 'updateData',
         payload: {
           data: res,
-          gpaConfig: config.chartConfig(res.sum.detail.gpa),
-          averConfig: config.chartConfig(res.sum.detail.aver),
-          studyConfig: config.chartConfig(res.sum.detail.study),
-          lineChartConfig: config.lineChartConfig(res),
           aver: res.sum.sum.aver,
           gpa: res.sum.sum.gpa,
           study: res.sum.sum.study,

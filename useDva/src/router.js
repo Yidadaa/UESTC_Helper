@@ -1,17 +1,20 @@
 import React from 'react';
 import { Layout, Menu, Row, Col } from 'antd';
-import { Router, Route } from 'dva/router';
-import IndexPage from './routes/IndexPage';
+import { Router, Route, Link } from 'dva/router';
+
 import Report from './components/report/index';
+import Course from './components/course/index';
 import './index.less'
 
 const { Item } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
 function RouterConfig({ history }) {
+  let pathname = location.hash.match(/\/(.*)\?/) ? location.hash.match(/\/(.*)\?/)[1] : 'report';
+  pathname = pathname ? pathname : 'report';
   const menuConfig = {
-  mode: 'inline',
-  defaultSelectedKeys: ['report'],
+    mode: 'inline',
+    defaultSelectedKeys: [pathname],
   };
   return (<div><Layout>
   <Header id="header"><Row>
@@ -25,8 +28,8 @@ function RouterConfig({ history }) {
     <Layout>
     <Sider id="sider">
       <Menu {...menuConfig}>
-      <Item key="report"><a to="/report">成绩信息</a></Item>
-      <Item key="course"><a to="/course">课程及考试信息</a></Item>
+      <Item key="report"><a href="/#/report">成绩信息</a></Item>
+      <Item key="course"><a href="/#/course">课程及考试信息</a></Item>
       <Item>测试</Item>
       <Item>测试</Item>
       <Item>测试</Item>
@@ -37,8 +40,9 @@ function RouterConfig({ history }) {
     </Sider>
     <Content id="main-content">
       <Router history={history}>
-      <Route exact path="/" component={Report} />
-      <Route path="/report" component={Report} />
+        <Route exact path="/" component={Report} />
+        <Route path="report" component={Report} />
+        <Route path="course" component={Course} />
       </Router>
     </Content>
     </Layout>

@@ -1,43 +1,60 @@
 const React = require('react');
 const func = require('./handle');
 const CourseTable = require('./components/CourseTable.jsx');
+import {connect} from 'dva';
+import {Menu} from 'antd';
+import curSemYear from '../../utils/getCurSemYear';
 
 require('./style.less');
-require('./fonts/style.css');
+// require('./fonts/style.less');
 
-class myReact extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      commonData: {},
-      getCourseData: () => {},
-      course: []
-    };
-  }
-  componentDidMount() {
-    const me = this;
-    func().then(res => {
-      me.setState({
-        commonData: res.commonData,
-        getCourseData: res.getCourseData
+const Course = (props) => {
+  const {common, semester, basicData, course, detailIndex, studyYears, loading} = props;
+  const {admissionYear} = common;
+  const dispatch = props.dispatch;
+  const menuConfig = {
+    onClick: (e) => {
+      dispatch({
+        type: 'course/loadCourseData',
+        payload: {
+          semesterNum: e.key // 把要加载的学年索引发过去
+        }
       });
-      res.getCourseData(143, res.commonData.basicData.ids).then(res => {
-        me.setState({
-          course: res
-        });
-      });
-    });
-  }
-  render() {
-    return (
-      <div>
-        <div className="course-header">
-          <div className="course-title">三年级下学期课程表</div>
+    },
+    mode: 'horizontal',
+    selectedKeys: [detailIndex.toString()]
+  };
+  const numDict = ['一', '二', '三', '四'];
+  const semDict = ['上', '下'];
+
+  let name = `大${numDict[curSemYear.year - admissionYear]}${semDict[curSemYear.semesterIndex]}`;
+  studyYears.some(v => {
+    if (v.index.toString() === detailIndex) {
+      name = v.name;
+    }
+    return v.index.toString() === detailIndex;
+  }); // 找出当前学年对应的学期
+
+  return (
+    <div>
+      <div className="course-header">
+        <div className="course-title">{`${name}学期课程表`}</div>
+        <div className="detail-menu">
+          <Menu {...menuConfig}>
+            {studyYears.map((v, i) => {
+              return (
+                <Menu.Item key={v.index}>{v.name}</Menu.Item>
+              );
+            })}
+          </Menu>
         </div>
-        <CourseTable course={this.state.course}></CourseTable>
       </div>
-    );
-  }
+      <CourseTable course={course} loading={loading}></CourseTable>
+    </div>
+  );
 }
 
-module.exports = myReact;
+function mapStateToProps ({course, common}) {
+  return {...course, common};
+}
+module.exports = connect(mapStateToProps)(Course);

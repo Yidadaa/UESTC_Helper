@@ -7,13 +7,21 @@
 const request = require('./request');
 const message = require('antd/lib/message');
 
+let cache = {}; // 用来缓存请求
 async function parsePage(url) {
-  const res = await request(url);
-  if (res === undefined || res.status === 500) {
-    message.error('土豆服务器又抽风了！一会儿刷新看看吧～');
+  if (url in cache) {
+    // 直接返回缓存的请求，提高性能
+    return cache[url];
   } else {
-    const text = await res.text();
-    return text;
+    const res = await request(url);
+    if (res === undefined || res.status === 500) {
+      message.error('土豆服务器又抽风了！一会儿刷新看看吧～');
+      return '';
+    } else {
+      const text = await res.text();
+      cache[url] = text; // 缓存请求
+      return text;
+    }
   }
 }
 

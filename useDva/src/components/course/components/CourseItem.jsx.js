@@ -56,10 +56,13 @@ module.exports = props => {
       },
       className: 'course-box'
     };
+    const courseName = props.courseName.length > 10
+      ? props.courseName.slice(0, 10) + '...'
+      : props.courseName;
     return (
       <Popover {...popoverConfig}>
         <div {...config}><div className="course-content">
-          <div className="course-name">{props.courseName}</div>
+          <div className="course-name">{courseName}</div>
           <div className="course-room">
             <span className="icon-office"></span>
             <span className="content">{props.room}</span>

@@ -12,7 +12,7 @@ module.exports = props => {
     let index = v.time[0][0];
     courses[index] = courses[index].concat(v);
   });
-  const isLoading = props.course.length === 0;
+  const isLoading = props.loading;
 
   return (
     <Spin spinning={isLoading} tip="加载中...">
