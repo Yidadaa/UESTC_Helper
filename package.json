@@ -3,7 +3,8 @@
   "scripts": {
     "start": "roadhog server",
     "build": "roadhog build",
-    "lint": "eslint --ext .js src test"
+    "lint": "eslint --ext .js src test",
+    "server": "node ./dev/proxyServer.js"
   },
   "engines": {
     "install-node": "6.9.2"
