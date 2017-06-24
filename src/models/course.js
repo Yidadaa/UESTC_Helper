@@ -1,4 +1,4 @@
-import { init, getCourseData } from '../components/course/handle';
+import { init, getCourseData } from '../components/course/services';
 import curSemYear from '../utils/getCurSemYear';
 
 export default {

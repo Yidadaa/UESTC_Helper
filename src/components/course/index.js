@@ -1,5 +1,4 @@
 const React = require('react');
-const func = require('./handle');
 const CourseTable = require('./components/CourseTable.jsx');
 import {connect} from 'dva';
 import {Menu} from 'antd';

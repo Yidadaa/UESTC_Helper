@@ -13,14 +13,18 @@ async function parsePage(url) {
     // 直接返回缓存的请求，提高性能
     return cache[url];
   } else {
-    const res = await request(url);
-    if (res === undefined || res.status === 500) {
-      message.error('土豆服务器又抽风了！一会儿刷新看看吧～');
-      return '';
-    } else {
-      const text = await res.text();
-      cache[url] = text; // 缓存请求
-      return text;
+    try {
+      const res = await request(url);
+      if (res === undefined || res.status === 500) {
+        message.error('土豆服务器又抽风了！一会儿刷新看看吧～');
+        return '';
+      } else {
+        const text = await res.text();
+        cache[url] = text; // 缓存请求
+        return text;
+      }
+    } catch (e) {
+      message.error('网络出错了，请检查网络连接');
     }
   }
 }
