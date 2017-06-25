@@ -4,6 +4,7 @@
  * @param {String} url 请求的URL
  * @return {Object} Promise对象
  */
+
 module.exports = (url) => {
     !url.match(/^https?/) ? url = 'http://' + url : null; // 默认为url添加http前缀
     if (window.location.hostname === 'localhost') {

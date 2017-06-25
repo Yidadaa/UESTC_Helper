@@ -1,8 +1,6 @@
 /**
  * Model - 公共数据，无论加载哪个页面都需要的数据
  */
-import services from '../services/services';
-import parser from '../components/report/utils/parser';
 
 export default {
   namespace: 'common',

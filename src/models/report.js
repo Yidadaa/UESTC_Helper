@@ -1,5 +1,4 @@
-const services = require('../services/services');
-const parser = require('../components/report/utils/parser');
+import {getGradeData} from '../components/report/services';
 
 export default {
 
@@ -28,9 +27,7 @@ export default {
 
   effects: {
     *loadData({ payload }, { call, put }) {
-      const url = 'http://eams.uestc.edu.cn/eams/teach/grade/course/person!historyCourseGrade.action?projectType=MAJOR';
-      const resText = yield services.parsePage(url);
-      const res = parser(resText);
+      const res = yield call(getGradeData);
       yield put({
         type: 'updateData',
         payload: {

@@ -6,7 +6,8 @@ import 'antd/dist/antd.css';
 const models = [
   require('./models/report'),
   require('./models/course'),
-  require('./models/common')
+  require('./models/common'),
+  require('./models/ecard')
 ];
 
 // 1. Initialize

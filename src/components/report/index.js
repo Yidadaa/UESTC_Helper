@@ -12,7 +12,6 @@ import Table from './components/Table.jsx';
 import Chart from '../common/chart/chart.jsx';
 import FailedExam from './components/FailedExam.jsx';
 
-import parser from './utils/parser';
 import config from './config';
 
 require('./style.less');

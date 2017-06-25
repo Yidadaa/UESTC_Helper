@@ -4,7 +4,8 @@ import { Router, Route, Link } from 'dva/router';
 
 import Report from './components/report/index';
 import Course from './components/course/index';
-import './index.less'
+import Ecard from './components/ecard/index';
+import './index.less';
 
 const { Item } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
@@ -30,6 +31,7 @@ function RouterConfig({ history }) {
       <Menu {...menuConfig}>
       <Item key="report"><a href="/#/report">成绩信息</a></Item>
       <Item key="course"><a href="/#/course">课程及考试信息</a></Item>
+      <Item key="ecard"><a href="/#/ecard">一卡通信息</a></Item>
       <Item>测试</Item>
       <Item>测试</Item>
       <Item>测试</Item>
@@ -43,6 +45,7 @@ function RouterConfig({ history }) {
         <Route exact path="/" component={Report} />
         <Route path="report" component={Report} />
         <Route path="course" component={Course} />
+        <Route path="ecard" component={Ecard} />
       </Router>
     </Content>
     </Layout>

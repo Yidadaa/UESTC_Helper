@@ -2,7 +2,7 @@
  * @file 数据获取的方法
  * @desc 用来获取原始数据
  */
-const parsers = require('./utils/paser');
+const parsers = require('./parser');
 const services = require('../../services/services');
 
 async function getBasicData() {

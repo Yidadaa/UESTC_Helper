@@ -30,5 +30,6 @@ async function parsePage(url) {
 }
 
 module.exports = {
-  parsePage
+  parsePage,
+  sendRequest: parsePage // 原来的函数命名容易产生歧义，改了
 };
