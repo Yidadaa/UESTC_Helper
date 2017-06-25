@@ -124,4 +124,32 @@ func.parseCourseData = (sourceText) => {
   return data;
 };
 
+func.parseExamData = (sourceText) => {
+  /**
+   * 从网页中解析考试信息
+   * @param sourceText 原始网页
+   * @return 包含n门课考试信息的数组
+   */
+  const node = document.createElement('div');
+  node.innerHTML = sourceText;
+  const tableData = node.querySelector('table').children[0];
+  const nodes = tableData.children;
+  if (nodes.length === 1) return [];
+  const examData = Array.from(nodes).map((node, index) => {
+    if (node.children.length == 8 && index > 0) {
+      // 解析到的第一组数据是表头，没用
+        const tmp = node.children;
+        return {
+            name: tmp[1].innerHTML,
+            date: tmp[2].innerHTML,
+            detail: tmp[3].innerHTML,
+            address: tmp[4].innerHTML,
+            num: tmp[5].innerHTML,
+            status: tmp[6].innerHTML
+        };
+    }
+  }).filter(v => !!v);
+  return examData;
+}
+
 module.exports = func;

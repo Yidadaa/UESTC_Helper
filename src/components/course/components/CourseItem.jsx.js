@@ -4,6 +4,7 @@
  */
 const React = require('react');
 const Popover = require('antd/lib/popover');
+import style from './style.less';
 
 module.exports = props => {
   const courses = props.courses || [];
@@ -29,8 +30,9 @@ module.exports = props => {
     return <div {...config}></div>;
   };
   const CourseBox = props => {
+    const {className} = props;
     const PopoverContent = (
-      <div className='popover-content'>
+      <div className="popover-content">
         <div className="item">
           <span className="icon-tree"></span>
           <span className="content">{props.courseId}</span>
@@ -54,10 +56,10 @@ module.exports = props => {
         height: `${boxHeight * props.time.length}px`,
         cursor: 'pointer'
       },
-      className: 'course-box'
+      className: 'course-box ' + className
     };
     const courseName = props.courseName.length > 10
-      ? props.courseName.slice(0, 10) + '...'
+      ? props.courseName.slice(0, 8) + '...'
       : props.courseName;
     return (
       <Popover {...popoverConfig}>
@@ -76,8 +78,10 @@ module.exports = props => {
     {courseArray.map((v, i) => {
       if(i >= flag) {
         let returnDom = <EmptyBox key={i}></EmptyBox>;
+        const classDict = [style.morning, style.afternoon, style.evening];
         if(v != 0) {
-          returnDom = <CourseBox {...v} key={i}></CourseBox>;
+          const className = classDict[parseInt(i / 4)];
+          returnDom = <CourseBox {...v} key={i} className={className}></CourseBox>;
           flag = i + v.time.length;
         }
         return returnDom;

@@ -5,6 +5,7 @@
     border: 1px solid @border-color;
     border-right: 0;
     border-bottom: 0;
+    margin-bottom: 20px;
     .course-today {
       
     }
@@ -21,7 +22,7 @@
       }
       .course-box {
         width: 100%;
-        border-bottom: 1px solid @border-color;
+        border-bottom: 1px solid #eee;
         padding: 5px;
         box-sizing: border-box;
         text-align: center;
@@ -31,7 +32,9 @@
           width: 100%;
           .course-name {
             font-weight: bold;
-            color: dodgerblue;                }
+            color: dodgerblue;
+            font-size: 14px;
+          }
           .course-room {
             padding-top: 5px;
             .content {
@@ -69,6 +72,9 @@
       font-style: italic;
       padding-left: 5px;
       color: #ccc;
+    }
+    .exam-title:after {
+      content: '——Exam Schedule'
     }
   }
 }

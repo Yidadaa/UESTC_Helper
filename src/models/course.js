@@ -1,4 +1,4 @@
-import { init, getCourseData } from '../components/course/services';
+import { init, getCourseData, getExamData } from '../components/course/services';
 import curSemYear from '../utils/getCurSemYear';
 
 export default {
@@ -9,7 +9,9 @@ export default {
     course: [],
     detailIndex: 0,
     studyYears: [],
-    loading: true,
+    courseLoading: true,
+    examLoading: true,
+    examData: []
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -39,8 +41,10 @@ export default {
     },
     *loadCourseData({payload}, {call, put, select}) {
       yield put({
-        type: 'showLoading',
-        payload: {}
+        type: 'updateLoading',
+        payload: {
+          courseLoading: true
+        }
       });
       const {semesterNum} = payload;
       const ids = yield select(state => state.course.basicData.ids);
@@ -58,8 +62,40 @@ export default {
         }
       });
       yield put({
-        type: 'hideLoading',
-        payload: {}
+        type: 'loadExamData',
+        payload: {semesterNum}
+      });
+      yield put({
+        type: 'updateLoading',
+        payload: {
+          courseLoading: false
+        }
+      });
+    },
+    *loadExamData({payload}, {call, put, select}) {
+      /**
+       * 加载考试数据
+       * @param {Object} payload -> {semsterNum}学期索引
+       */
+      const {semesterNum} = payload;
+      const semesterExamData = yield call(getExamData, semesterNum);
+      yield put({
+        type: 'updateLoading',
+        payload: {
+          examLoading: true
+        }
+      });
+      yield put({
+        type: 'updateExam',
+        payload: {
+          examData: semesterExamData
+        }
+      });
+      yield put({
+        type: 'updateLoading',
+        payload: {
+          examLoading: false
+        }
       });
     },
   },
@@ -90,13 +126,11 @@ export default {
     changeTabIndex(state, action) {
       return {...state, ...action.payload};
     },
-    hideLoading(state, action) {
-      const loading = false;
-      return {...state, loading};
+    updateLoading(state, action) {
+      return {...state, ...action.payload};
     },
-    showLoading(state, action) {
-      const loading = true;
-      return {...state, loading};
+    updateExam(state, action) {
+      return {...state, ...action.payload};
     },
   },
 };

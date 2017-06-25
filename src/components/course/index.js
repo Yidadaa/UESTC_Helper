@@ -1,14 +1,20 @@
-const React = require('react');
-const CourseTable = require('./components/CourseTable.jsx');
+import React from 'react';
 import {connect} from 'dva';
 import {Menu} from 'antd';
 import curSemYear from '../../utils/getCurSemYear';
+
+import CourseTable from './components/CourseTable.jsx';
+import ExamTable from './components/ExamTable.jsx';
 
 require('./style.less');
 // require('./fonts/style.less');
 
 const Course = (props) => {
-  const {common, semester, basicData, course, detailIndex, studyYears, loading} = props;
+  const {
+    common, semester, basicData,
+    course, detailIndex, studyYears,
+    courseLoading, examLoading, examData
+  } = props;
   const {admissionYear} = common;
   const dispatch = props.dispatch;
   const menuConfig = {
@@ -48,7 +54,11 @@ const Course = (props) => {
           </Menu>
         </div>
       </div>
-      <CourseTable course={course} loading={loading}></CourseTable>
+      <CourseTable course={course} loading={courseLoading}></CourseTable>
+      <div className="course-header">
+        <div className="course-title exam-title">{`${name}学期考试安排`}</div>
+      </div>
+      <ExamTable exam={examData} isLoading={examLoading}/>
     </div>
   );
 }

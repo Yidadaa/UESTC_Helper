@@ -21,6 +21,28 @@ async function getCourseData(semester, ids) {
   return parsers.parseCourseData(resText);
 }
 
+async function getExamData(semester) {
+  /**
+   * 获取考试信息
+   * @param {Number} semester 学期索引
+   */
+  let semesterExamData = [];
+  for (let i = 1; i < 5; i++) {
+    const examType = i; // 考试类型1,2,3,4代表了期末|期中|补考|缓考
+    const url = 'http://eams.uestc.edu.cn/eams/stdExamTable!examTable.action?examType.id=' + examType + '&semester.id=' + semester;
+    const resText = await services.parsePage(url);
+    const examData = parsers.parseExamData(resText);
+    semesterExamData = semesterExamData.concat(examData.map(v => {
+      // 为考试信息添加考试类型字段
+      return {
+        ...v,
+        examType
+      };
+    }));
+  }
+  return semesterExamData;
+}
+
 async function init() {
   const basicData = await getBasicData();
   const semester = await getSemesterData(basicData);
@@ -30,4 +52,4 @@ async function init() {
   };
 }
 
-module.exports = {init, getCourseData};
+module.exports = {init, getCourseData, getExamData};
