@@ -85,7 +85,7 @@ app.get('/url', (req, res) => {
     // res.header("Access-Control-Allow-Origin", "*");
     // res.header("Access-Control-Allow-Headers", "X-Requested-With");
     // res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-    request({url, jar: jars[domain]}, (error, response) => {
+    request({url}, (error, response) => {
         if (error) {
             res.status(500).send('学校服务器抽风了！');
         } else {

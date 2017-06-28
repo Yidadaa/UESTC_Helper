@@ -7,7 +7,8 @@ const models = [
   require('./models/report'),
   require('./models/course'),
   require('./models/common'),
-  require('./models/ecard')
+  require('./models/ecard'),
+  require('./models/queryCourse')
 ];
 
 // 1. Initialize

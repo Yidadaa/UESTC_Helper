@@ -1,0 +1,25 @@
+/* @file 公用样式表
+ *
+ */
+
+// 内容块的标题样式
+.blockHeader {
+  width: 100%;
+  overflow: auto;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+}
+.blockTitle(@afterName) {
+  float: left;
+  line-height: 46px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #aaa;
+  &:after {
+    content: @afterName;
+    font-size: 14px;
+    font-style: italic;
+    padding-left: 5px;
+    color: #ccc;
+  }
+}
