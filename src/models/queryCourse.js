@@ -1,9 +1,9 @@
 export default {
   namespace: 'queryCourse',
   state: {
-    // fileds 表单项
+    // fields 表单项
     // 基础搜索
-    semsterID: null, // 开课学年
+    semesterID: null, // 开课学年
     lessonName: '', // 课程名称
     lessonTeachDepart: '', // 开课院系
     lessonDeport: '', // 上课院系
