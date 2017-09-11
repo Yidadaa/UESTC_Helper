@@ -461,6 +461,36 @@ function renderGrade() {
      */
     function sumDataFormater(sourceData) {
         //console.log(sourceData);
+        var processGrade = function(text) {
+            // 将成绩数据处理成标准数据，算法来自于电子科技大学成绩单
+            // if (grade.trim() == '通过') {
+            //     grade = 85;
+            // } else {
+            //     grade = isFinite(parseFloat(grade)) ? parseFloat(grade) : 60;
+            // }
+            var dict = {
+                '优秀': 95, '良好': 85, '中等': 75, '及格': 65, '不及格': 55, // 中文五分制
+                '通过': 85, '不通过': 0, // 二级制
+            };
+            // 下面是英文五级制，包括A+, A, A-这几种形式的
+            var enGradeMap = {
+                'A': 90, 'B': 85, 'C': 75, 'D': 65, 'E': 55
+            };
+            for (var i = 'A'.charCodeAt(0); i < 'E'.charCodeAt(0); i ++) {
+                var enKey = String.fromCharCode(i); // 为了代码可读性，这里啰嗦了一下
+                var enGrade = enGradeMap[enKey];
+                dict[enKey + '+'] = enGrade + 2; // 英文五分制的level+/-分别浮动两分
+                dict[enKey] = enGrade;
+                dict[enKey + '-'] = enGrade - 2;
+            }
+            if (isFinite(parseFloat(text))) {
+                // 是浮点数的话，直接返回
+                return parseFloat(text);
+            } else {
+                // 否则按照规则进行转义
+                return dict[text];
+            }
+        }
         var data = {
             sum: {
                 sum: {
@@ -491,12 +521,8 @@ function renderGrade() {
         for (var i in sourceData.detail.tableContent) {
             var point = parseFloat(sourceData.detail.tableContent[i][5]);
             var grade = sourceData.detail.tableContent[i][sourceData.detail.tableContent[i].length - 1];
-            if (grade.trim() == '通过') {
-                grade = 85;
-            } else {
-                grade = isFinite(parseFloat(grade)) ? parseFloat(grade) : 60;
-            }
-            data.sum.sum.aver += grade / parseFloat(data.sum.sum.study) * point;
+            grade = processGrade(grade); // 预处理成绩
+            data.sum.sum.aver += grade / parseFloat(data.sum.sum.study) * point; // 计算平均分
         };
         data.sum.sum.aver = data.sum.sum.aver.toFixed(2);
 
@@ -529,9 +555,7 @@ function renderGrade() {
             var className = tmp[3].trim();
             var classPoint = tmp[5].trim();
             var classGrade = tmp[tmp.length - 1].trim();
-            if (isNaN(parseFloat(classGrade))) {
-                classGrade = classGrade == '通过' ? 85 : 45;
-            }
+            classGrade = processGrade(classGrade); // 预处理成绩
             tmpData[tmp[0].replace(/\s/, '-')].push([className, classPoint, classGrade]);
         }
 
