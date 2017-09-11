@@ -1,3 +1,5 @@
+import processGrade from '../../utils/processGrade';
+
 /**
  * 成绩解析模块
  */
@@ -61,9 +63,6 @@ function sumDataFormater(sourceData) {
     },
     detail: [] //按学期分组的数据
   };
-  const gradeDict = {
-    '通过': 85
-  };
   /**
    * 归档data.sum的sum部分
    */
@@ -73,11 +72,7 @@ function sumDataFormater(sourceData) {
   for (let i in sourceData.detail.tableContent) {
     let point = parseFloat(sourceData.detail.tableContent[i][5]);
     let grade = sourceData.detail.tableContent[i][sourceData.detail.tableContent[i].length - 1];
-    if (isNaN(parseInt(grade.trim()))) {
-      grade = gradeDict[grade.trim()];
-    } else {
-      grade = isFinite(parseFloat(grade)) ? parseFloat(grade) : 60;
-    }
+    grade = processGrade(grade);
     data.sum.sum.aver += grade / parseFloat(data.sum.sum.study) * point;
   }
   data.sum.sum.aver = data.sum.sum.aver.toFixed(2);
@@ -111,9 +106,7 @@ function sumDataFormater(sourceData) {
     let className = tmp[3].trim();
     let classPoint = tmp[5].trim();
     let classGrade = tmp[tmp.length - 1].trim();
-    if (isNaN(parseFloat(classGrade))) {
-      classGrade = classGrade == '通过' ? 85 : 45;
-    }
+    classGrade = processGrade(classGrade);
     tmpData[tmp[0].replace(/\s/, '-')].push([className, classPoint, classGrade]);
   }
 
