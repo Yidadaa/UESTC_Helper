@@ -463,11 +463,6 @@ function renderGrade() {
         //console.log(sourceData);
         var processGrade = function(text) {
             // 将成绩数据处理成标准数据，算法来自于电子科技大学成绩单
-            // if (grade.trim() == '通过') {
-            //     grade = 85;
-            // } else {
-            //     grade = isFinite(parseFloat(grade)) ? parseFloat(grade) : 60;
-            // }
             var dict = {
                 '优秀': 95, '良好': 85, '中等': 75, '及格': 65, '不及格': 55, // 中文五分制
                 '通过': 85, '不通过': 0, // 二级制
