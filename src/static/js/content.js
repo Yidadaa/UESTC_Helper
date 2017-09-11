@@ -21,6 +21,24 @@ function indexOf(node) {
     return null;
 }
 /**
+ * 获取当前学年数据
+ */
+function getCurStuTime() {
+    var date = new Date();
+    var year = date.getFullYear(); // 获取当前年份
+    var month = date.getMonth() + 1; // 获取当前月份
+    var semesterIndex = 0;
+    var stuYear = year;
+    if (month >= 1 && month <= 7) {
+        semesterIndex = 1;
+        stuYear -= 1;
+    }
+    return {
+        year: stuYear,
+        semesterIndex
+    };
+}
+/**
  * 解析table中的数据
  */
 function parseTableData(table) {
@@ -900,23 +918,24 @@ timeTable.prototype = {
         var func = this;
         var node = $('#course-dropdown').querySelector('ul');
         var startYear = null;
-        var curYear = new Date().getFullYear();
-        var curStudyYear = new Date().getMonth() >= 7 ? 0 : 1;
+        var curTime = getCurStuTime();
+        var curYear = curTime.year;
+        var curStudyYear = curTime.semesterIndex;
         var ids = [];
         var keyMap = ['大一', '大二', '大三', '大四'];
 
         chrome.storage.local.get('studyYear', function (data) {
             startYear = data['studyYear'];
             startYear = parseInt(startYear);
-            for (var i = startYear; i < curYear; i++) {
+            for (var i = startYear; i <= curYear; i++) {
+                if (i - startYear > 3) break; // 防止数组越界
                 ids.push({
                     name: keyMap[i - startYear] + '上',
-                    id: func.data.semesters[i][0]
+                    id: func.data.semesters[i][0] || 0
                 });
-                if (i == curYear && curStudyYear == 0) continue; //第二学期没有排课
                 ids.push({
                     name: keyMap[i - startYear] + '下',
-                    id: func.data.semesters[i][1]
+                    id: func.data.semesters[i][1] || 0
                 });
             }
             for (var i in ids) {
@@ -942,32 +961,28 @@ timeTable.prototype = {
                     this.dataset.open = '1';
                 }
             };
-            node.lastChild.click();
-            node.lastChild.click(); //模拟点击最后一个，默认显示最新的课程表
+            var curNodeIndex = (curYear - startYear) * 2 + curStudyYear;
+            var curNode = node.children[curNodeIndex];
+            curNode.click();
+            curNode.click();
         });
     },
     renderExamPart: function renderExamPart() {
         var func = this;
-        var curYear = new Date().getFullYear();
-        //curYear = 2015;
-        var month = new Date().getMonth();
-        var curStudyYear = 0;
-        if (month <= 7 && month > 2) {
-            curStudyYear = 0;
-        } else {
-            curStudyYear = 1;
-        }
+        var curTime = getCurStuTime();
+        var curYear = curTime.year;
+        var curStudyYear = curTime.semesterIndex;
         // 大于零表示是本学年的第一学期
         // 等于零表示是上一学年的第二学期
         //curStudyYear = 2;
-        var id = 0;
-        if (curStudyYear == 0) {
-            // 本年的前半部分，是本学年的后半部分（cnmd学年安排，简直有毒）
-            id = func.data.semesters[curYear - 1][1]
-        } else {
-            id = func.data.semesters[curYear][0]
-        }
-        // debugger;
+        var id = func.data.semesters[curYear][curStudyYear];
+        // if (curStudyYear == 0) {
+        //     // 本年的前半部分，是本学年的后半部分（cnmd学年安排，简直有毒）
+        //     id = func.data.semesters[curYear - 1][1]
+        // } else {
+        //     id = func.data.semesters[curYear][0]
+        // }
+        // // debugger;
         var getData = function getData(examType, lastData) {
             var data = lastData;
             if (examType < 5) {
