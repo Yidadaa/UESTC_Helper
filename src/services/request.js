@@ -11,5 +11,8 @@ module.exports = (url) => {
         // 判断是否在开发环境下
         url = `/url?url=${url}`;
     }
-    return fetch(url).catch(e => e);
+    const config = {
+        credentials: 'include'
+    };
+    return fetch(url, config).catch(e => e);
 };

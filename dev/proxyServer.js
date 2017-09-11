@@ -4,17 +4,30 @@
  * @desc 用于代理开发服务器转发的跨域请求
  */
 const express = require('express');
-const request = require('request').defaults({jar: true});
+const portalRequest = require('request').defaults({jar: true});
+const ecardRequest = require('request').defaults({jar: true});
+const request = portalRequest;
 
 const app = express();
 
-let lastLoginTime = 0;
+let cookies = {}; // 保存会话
+// let jars = [];
 
-const login = () => {
+const getCookie = (res) => {
+    // 将cookie写入会话
+    const jar = request.jar();
+    const resCookie = res.headers['set-cookie'];
+    // const cookies = resCookie.map(v => {
+    //     jar.setCookie(request.cookie(v));
+    // });
+    return resCookie;
+};
+
+const login = ({url, index, request}) => {
     lastLoginTime = new Date().getTime();
     const account = '2014000201010';
     const password = '204515';
-    request('http://idas.uestc.edu.cn/authserver/login?service=http%3A%2F%2Fportal.uestc.edu.cn%2F', (error, res) => {
+    request(url, (error, res) => {
         if (error) {
             console.log(error);
             console.error(
@@ -35,21 +48,30 @@ const login = () => {
         });
         params.username = account;
         params.password = password;
-        values.length == 5 ? request.post('http://idas.uestc.edu.cn/authserver/login?service=http%3A%2F%2Fportal.uestc.edu.cn%2F', {form: params}, (err, res) => {
-            console.log(
-                `\n=======================
-                 \n-   代理服务器登录成功   -
-                 \n=======================\n`
-            ); // 模拟登陆，并且获得cookie，以后的每次请求都会默认使用cookie
+        values.length == 5 ? request.post(url, {form: params}, (err, res, body) => {
+            cookies[index] = getCookie(res);
+            console.log(`\n##${index}代理成功\n`);
         }) : null;
     });
 };
-login();
+const portal = {
+    url: 'http://idas.uestc.edu.cn/authserver/login?service=http%3A%2F%2Fportal.uestc.edu.cn%2F',
+    index: 'portal.uestc.edu.cn',
+    request: portalRequest
+};
+const ecard = {
+    url: 'http://idas.uestc.edu.cn/authserver/login?service=http%3A%2F%2Fecard.uestc.edu.cn%2Fcaslogin.jsp',
+    index: 'ecard.uestc.edu.cn',
+    request: ecardRequest
+};
+login(portal);
+login(ecard);
 app.get('/url', (req, res) => {
     // const curTime = new Date().getTime();
     // if (curTime - lastLoginTime >= 1000 * 60 * 20) {
     //     login(); // 每二十分钟重新登录一次，防止cookie失效
     // }
+    const request = portalRequest;
     let url = '';
     for(let i in req.query) {
         if(i == 'url') {
@@ -58,8 +80,12 @@ app.get('/url', (req, res) => {
             url = `${url}&${i}=${req.query[i]}`;
         }
     }
+    const domain = req.query.url.match(/\/\/(.*?)\//)[1];
     console.log(`代理：GET/${url}`);
-    request(url, (error, response) => {
+    // res.header("Access-Control-Allow-Origin", "*");
+    // res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    // res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    request({url}, (error, response) => {
         if (error) {
             res.status(500).send('学校服务器抽风了！');
         } else {

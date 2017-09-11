@@ -5,6 +5,7 @@ import { Router, Route, Link } from 'dva/router';
 import Report from './components/report/index';
 import Course from './components/course/index';
 import Ecard from './components/ecard/index';
+import QueryCourse from './components/queryOfferCourse/index';
 import './index.less';
 
 const { Item } = Menu;
@@ -16,6 +17,38 @@ function RouterConfig({ history }) {
   const menuConfig = {
     mode: 'inline',
     defaultSelectedKeys: [pathname],
+  };
+  const entries = [ // 配置入口，默认key就是path
+    {
+      key: 'report',
+      component: Report,
+      name: '成绩信息',
+      active: true
+    }, {
+      key: 'course',
+      component: Course,
+      name: '课程及考试信息',
+      active: true
+    }, {
+      key: 'ecard',
+      component: Ecard,
+      name: '一卡通信息',
+      active: false
+    }, {
+      key: 'queryCourse',
+      component: QueryCourse,
+      name: '全校开课查询',
+      active: true
+    }
+  ];
+  const routes = {
+    path: '/',
+    childRoutes: entries.map(v => {
+      return {
+        path: v.key,
+        component: v.component
+      };
+    })
   };
   return (<div><Layout>
   <Header id="header"><Row>
@@ -29,10 +62,11 @@ function RouterConfig({ history }) {
     <Layout>
     <Sider id="sider">
       <Menu {...menuConfig}>
-      <Item key="report"><a href="/#/report">成绩信息</a></Item>
-      <Item key="course"><a href="/#/course">课程及考试信息</a></Item>
-      <Item key="ecard"><a href="/#/ecard">一卡通信息</a></Item>
-      <Item>测试</Item>
+      {
+        entries.map(v => {
+          return v.active ? <Item key={v.key}><a href={`/#/${v.key}`}>{v.name}</a></Item> : null;
+        })
+      }
       <Item>测试</Item>
       <Item>测试</Item>
       <Item>测试</Item>
@@ -41,12 +75,7 @@ function RouterConfig({ history }) {
       <Footer id="footer">Footer</Footer>
     </Sider>
     <Content id="main-content">
-      <Router history={history}>
-        <Route exact path="/" component={Report} />
-        <Route path="report" component={Report} />
-        <Route path="course" component={Course} />
-        <Route path="ecard" component={Ecard} />
-      </Router>
+      <Router history={history} routes={routes}/>
     </Content>
     </Layout>
   </Layout></div>);
