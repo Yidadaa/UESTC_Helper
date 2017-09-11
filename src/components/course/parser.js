@@ -7,7 +7,9 @@ func.parseBasicData = (sourceText) => {
   /**
    * 获取基础数据
    */
-  let tmp = sourceText.match(/jQuery.*searchTable/)[0].split('.');
+  let pHtml = sourceText.match(/jQuery.*searchTable/);
+  if (!pHtml) return {};
+  let tmp = pHtml && pHtml[0].split('.');
   let res = {};
   res.tagId = tmp[0].match(/semester.*Semester/)[0];
   res.ids = sourceText.match(/ids.*\)/)[0].match(/\d+/)[0];
@@ -94,7 +96,9 @@ func.parseCourseData = (sourceText) => {
   /**
    * 解析课程数据
    */
-  let tmp = JSON.stringify(sourceText).match(/activity = new TaskActivity.*activity/g)[0].split('activity =');
+  const pHtml = JSON.stringify(sourceText).match(/activity = new TaskActivity.*activity/g);
+  if (!pHtml) return [];
+  let tmp = pHtml && pHtml[0].split('activity =');
   let data = [];
   tmp.forEach(function (value) {
     if (value.length) {

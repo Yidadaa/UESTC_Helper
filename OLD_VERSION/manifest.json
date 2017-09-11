@@ -40,6 +40,15 @@
                 "static/js/chart/mon.js",
                 "static/js/content.js"
             ]
+        },
+        {
+            "matches":[
+                // 这里放置需要跨域交互的脚本
+            ],
+            "js":[
+                
+            ],
+            "all_frames": true
         }
     ],
     "icons": {
