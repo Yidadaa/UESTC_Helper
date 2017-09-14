@@ -49,7 +49,6 @@ const login = ({url, index, request}) => {
         params.username = account;
         params.password = password;
         values.length == 5 ? request.post(url, {form: params}, (err, res, body) => {
-            cookies[index] = getCookie(res);
             console.log(`\n##${index}代理成功\n`);
         }) : null;
     });
@@ -65,13 +64,13 @@ const ecard = {
     request: ecardRequest
 };
 login(portal);
-login(ecard);
+// login(ecard);
 app.get('/url', (req, res) => {
     // const curTime = new Date().getTime();
     // if (curTime - lastLoginTime >= 1000 * 60 * 20) {
     //     login(); // 每二十分钟重新登录一次，防止cookie失效
     // }
-    const request = portalRequest;
+    let request = portalRequest;
     let url = '';
     for(let i in req.query) {
         if(i == 'url') {

@@ -9,7 +9,7 @@ export default function (text) {
   const enGradeMap = {
     'A': 90, 'B': 85, 'C': 75, 'D': 65, 'E': 55
   }
-  for (enKey in enGradeMap) {
+  for (let enKey in enGradeMap) {
     const enGrade = enGradeMap[enKey]
     dict[enKey + '+'] = enGrade + 2; // 英文五分制的level+/-分别浮动两分
     dict[enKey] = enGrade
