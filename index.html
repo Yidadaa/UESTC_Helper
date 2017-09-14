@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>电子科大教务助手-Chrome插件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <link href="https://cdn.bootcss.com/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-default" role="navigation" id="nav">
+        <div class="container" id="header">
+            <div class="col-md-12">
+                <img src="http://o8cuifl9z.bkt.clouddn.com/uestc/img/icon.png" alt="icon" id="logo">
+                <span id="header-name">电子科技大学教务助手</span>
+                <a class="btn pull-right" id="go-to-github" target="_blank" href="https://github.com/Yidadaa/UESTC_Helper" title="前往 github 查看源代码">Github</a>
+            </div>
+        </div>
+    </nav>
+    <div id="content-1" class="jumbotron">
+        <div class="container">
+            <div id="intro" class="col-xs-12 col-md-6">
+                <h2>一个美化教务网站的<br>Chrome 插件</h2>
+                <p id="intro-text">一页纸开卷，一页纸闭卷</p>
+                <div id="update-news">
+                    <h5>更新日志：</h5>
+                    <ul>
+                        <li>loading...</li>
+                    </ul>
+                </div>
+                <div id="all-news"></div>
+                <a href="https://raw.githubusercontent.com/Yidadaa/UESTC_Helper/master/release/UESTC_Helper.crx"><button class="btn col-xs-12 col-md-6" id="download-btn" title="点击无反应的话，请用右键->另存为保存到本地">下载(.crx~500kb)</button></a>
+                <a href="https://chrome.google.com/webstore/detail/%E7%94%B5%E5%AD%90%E7%A7%91%E5%A4%A7%E6%95%99%E5%8A%A1%E5%8A%A9%E6%89%8B/mfcooeijieefdjihffdodaiiikolkaed"><button class="btn col-xs-12 col-md-6" id="more-news-btn">在应用商店中安装</button></a>
+                <div class="col-xs-12 col-md-12" id="download-tips"><a class="col-xs-4 col-md-6" href="#all-news" id="more-news">查看更新日志</a>
+                    <a href="#install-text" class="col-xs-8 col-md-6">查看浏览器支持情况 <span class="glyphicon-circle-arrow-right glyphicon"></span></a>
+                </div>
+            </div>
+            <div id="preview" class="col-xs-12 col-md-6">
+                <img src="http://o8cuifl9z.bkt.clouddn.com/uestc_helper/img/1.png" alt="预览图" title="求放过吐槽我的渣成绩……" class="img-responsive"
+                    id="preview-img">
+            </div>
+        </div>
+    </div>
+    <section id="what-can-it-do">
+        <div class="container">
+            <div class="heading">
+                <h3>插件功能</h3>
+            </div>
+            <div id="fun-blocks">
+                <div class="col-xs-6 col-md-3 fun-block">
+                    <img src="http://o8cuifl9z.bkt.clouddn.com/uestc_helper/img/icon_chart.png" alt="" class="img-responsive">
+                    <h4>成绩可视化</h4>
+                    <p>将成绩数据展示为图表，可以清晰地看到自己成绩分布和趋势</p>
+                </div>
+                <div class="col-xs-6 col-md-3 fun-block">
+                    <img src="http://o8cuifl9z.bkt.clouddn.com/uestc_helper/img/icon_warning.png" alt="" class="img-responsive">
+                    <h4>重修课程建议</h4>
+                    <p>计算最需要重修的课程，一眼就可获知自己需要重修的科目</p>
+                </div>
+                <div class="col-xs-6 col-md-3 fun-block">
+                    <img src="http://o8cuifl9z.bkt.clouddn.com/uestc_helper/img/icon_course.png" alt="" class="img-responsive">
+                    <h4>课程表加强版</h4>
+                    <p>课程表重新排版，方便打印，一张A4纸便可以展现所有课程</p>
+                </div>
+                <div class="col-xs-6 col-md-3 fun-block">
+                    <img src="http://o8cuifl9z.bkt.clouddn.com/uestc_helper/img/icon_ring.png" alt="" class="img-responsive">
+                    <h4>近期考试提醒</h4>
+                    <p>解析获取近期的考试安排，从今以后要不再错过任何考试信息</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="other-fun">
+        <div class="container">
+            <div class="col-md-6 col-xs-12 fun-intro-text">
+                <h3>一键开启，方便快捷</h3>
+                <p>如果要进行选课操作或者其他操作，可以点击应用图标，在弹出窗口中点击切换按钮，就可以暂时屏蔽插件</p>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <img src="http://o8cuifl9z.bkt.clouddn.com/uestc_helper/img/2.png" alt="快捷开关" class="img-responsive fun-intro-img">
+            </div>
+        </div>
+    </section>
+    <section id="new-login-page">
+        <div class="container">
+            <div class="col-md-12 col-xs-12 heading">
+                <h3>全新设计的登录页</h3>
+                <p>每次登录享受不一样的风景</p>
+            </div>
+            <div class="col-md-12 col-xs-12">
+                <img src="http://o8cuifl9z.bkt.clouddn.com/uestc_helper/img/3.png" alt="新登录页" class="img-responsive fun-intro-img">
+            </div>
+        </div>
+    </section>
+    <section id="exam-ring">
+        <div class="container">
+            <div class="col-md-6 col-xs-12 fun-intro-text">
+                <h3>考试列表，一目了然</h3>
+                <p>期中、期末、补考，应有尽有，一应俱全</p>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <img src="http://o8cuifl9z.bkt.clouddn.com/uestc_helper/img/5.png" alt="快捷开关" class="img-responsive fun-intro-img">
+            </div>
+        </div>
+    </section>
+    <section id="printable-course-table">
+        <div class="container">
+            <div class="col-md-12 col-xs-12 heading">
+                <h3>可打印的课程表</h3>
+                <p>CTRL + P, CTRL UR LIFE.</p>
+            </div>
+            <div class="col-md-12 col-xs-12">
+                <img src="http://o8cuifl9z.bkt.clouddn.com/uestc_helper/img/4.png" alt="课程表" class="img-responsive fun-intro-img">
+            </div>
+        </div>
+    </section>
+    <section id="how-to-install">
+        <div class="container">
+            <div class="heading">
+                <h3>安装教程</h3>
+            </div>
+            <div id="install-video" class="col-md-12">
+                <embed height="100%" width="100%" quality="high" allowfullscreen="true" type="application/x-shockwave-flash" src="http://static.hdslb.com/miniloader.swf"
+                    flashvars="aid=6874596&page=1" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash"></embed>
+            </div>
+            <div id="install-text" class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped text-center">
+                        <tr>
+                            <td colspan="2"><b>各大浏览器兼容性</b></td>
+                        </tr>
+                        <tr>
+                            <th class="text-center">浏览器名称</th>
+                            <th class="text-center">支持情况</th>
+                        </tr>
+                        <tr class="success">
+                            <td>Chrome浏览器</td>
+                            <td>当然啦！</td>
+                        </tr>
+                        <tr>
+                            <td>360浏览器</td>
+                            <td>兹词</td>
+                        </tr>
+                        <tr>
+                            <td>360极速浏览器</td>
+                            <td>兹词</td>
+                        </tr>
+                        <tr>
+                            <td>QQ浏览器</td>
+                            <td>兹词</td>
+                        </tr>
+                        <tr>
+                            <td>百度浏览器</td>
+                            <td>兹词</td>
+                        </tr>
+                        <tr class="warning">
+                            <td>猎豹浏览器</td>
+                            <td>无可奉告</td>
+                        </tr>
+                        <tr>
+                            <td>UC浏览器</td>
+                            <td>兹词</td>
+                        </tr>
+                        <tr class="danger">
+                            <td>搜狗浏览器</td>
+                            <td>不兹词，I'm angry!</td>
+                        </tr>
+                    </table>
+                </div>
+                <h4>安装方法</h4>
+                <li>下载 crx 文件。</li>
+                <li>在浏览器菜单中找到“扩展程序”选项。</li>
+                <li>将下载的文件拖入扩展程序界面，即可进行安装。</li>
+                <li>如果还不知道怎么装的可以在 wifi 下观看上面这个视频教程。</li>
+                <li>遇到了问题记得查看下方的FAQ哦！</li>
+                <b>注意： 360浏览器默认启用“自动停用来源不明的插件”，这将导致安装插件一段时间后插件自动停用，请在 选项-> 高级设置 中将此项取消勾选</b>
+            </div>
+        </div>
+    </section>
+    <section id="FAQ">
+        <div class="container">
+            <div class="heading">
+                <h3>FAQ 问题时间</h3>
+            </div>
+            <div class="FAQ-content col-md-12">
+                <dl class="dl-horizontal">
+                    <dt>安全吗？</dt>
+                    <dd>绝对绿色无污染，不信可以去
+                        <del> Gayhub </del> <a href="https://github.com/Yidadaa/UESTC_Helper " target="_blank">Github</a>去看源代码！
+                        <del>（我写得这么烂才不信你有耐心看下去呢）</del>
+                    </dd>
+                    <br>
+                    <dt>靠谱吗？</dt>
+                    <dd>不太靠谱……因为有时候教务系统的服务器会抽风，所以如果你打开插件发现一片空白，很有可能是抽风了，通常情况下是刷新一次就好了。如果刷新没用，可以在扩展程序里停用插件，看教务网站挂了没，如果没挂 那就是确定插件有问题了，这时请尽快联系我，或者回到
+                        <a href="#header">本页面开头</a>看看插件有没有更新。
+                    </dd>
+                    <br>
+                    <dt>跳转到了奇怪的页面？</dt>
+                    <dd>那个是统一身份认证界面吧？有一定几率会进入到这个页面，这时只要重新打开一次教务网站的网址就行了。</dd>
+                    <br>
+                    <dt>插件不起作用啊！？</dt>
+                    <dd>有些浏览器（比如360浏览器）会以IE兼容模式打开教务网站，这时插件是不起作用的，需要点击地址栏中的“IE”按钮切换为极速模式，注意，登录之后还需要切换一次哦！更详细的说明可以看视频教程。</dd>
+                    <br>
+                    <dt>我有个 idea，就缺程序员了……</dt>
+                    <dd><a href="#footer">请联系我！</a></dd>
+                    <br>
+                    <dt>就这么多？</dt>
+                    <dd>当然不是啦，如果有必要，未来还会加入一键评教功能，你也可以把你使用教务系统过程中的痛点告诉我哦！</dd>
+                </dl>
+            </div>
+        </div>
+    </section>
+    <section id="footer">
+        <div class="container">
+            <div class="col-md-12">
+                <dl class="dl-horizontal">
+                    <h4>联系作者</h4>
+                    <p>QQ: 1143922395 邮箱: juhygf@163.com
+                        <br>由<a href="http://www.qiniu.com/">七牛云</a>提供静态文件存储
+                        <a href="https://www.qcloud.com/">腾讯云</a>提供云解析服务
+                        <br> 呵呵益达哒 © 2016 版权所有
+                    </p>
+                </dl>
+            </div>
+        </div>
+    </section>
+</body>
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/markdown.js/0.5.0/markdown.min.js"></script>
+<script src="https://cdn.bootcss.com/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+<script src="./index.js"></script>
+
+</html>

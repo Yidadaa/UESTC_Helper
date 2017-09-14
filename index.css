@@ -1,0 +1,180 @@
+@media screen and (max-width: 768px) {
+    .fun-intro-text {
+        margin-top: 0!important;
+        margin-bottom: 50px;
+    }
+    #install-video {
+        display: none;
+    }
+}
+
+.heading {
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+#all-news {
+    background-color: #fff;
+    padding: 20px;
+    max-width: 650px;
+    margin: auto;
+    color: #5A6064;
+    border-radius: 5px;
+    display: none;
+}
+
+#all-news h4 {
+    color: #555;
+}
+
+#nav {
+    margin: 0;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+}
+
+#header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#logo {
+    height: 30px;
+}
+
+#go-to-github {
+    border: 1px #555 solid;
+    color: #555;
+}
+
+#go-to-github:hover {
+    background-color: #555;
+    color: #fff;
+}
+
+#header-name {
+    font-size: 16px;
+    line-height: 30px;
+}
+
+#content-1 {
+    background-color: dodgerblue;
+    color: #fff;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    border-bottom: 1px #eee solid;
+    overflow: hidden;
+}
+
+#download-btn,
+#more-news-btn {
+    background-color: transparent;
+    border: #fff solid 1px;
+    margin-top: 10px;
+    font-size: 18px;
+    color: #fff;
+}
+
+#download-tips {
+    padding: 20px;
+    text-align: center;
+}
+
+#download-tips>a {
+    color: #fff;
+}
+
+#intro {
+    margin-top: 20px;
+}
+
+#intro-text {
+    opacity: 0.8;
+}
+
+#preview-img {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+#fun-blocks {
+    margin-top: 50px;
+    overflow: auto;
+    padding: 20px 0 20px 0;
+}
+
+.fun-intro-text {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.fun-block {
+    text-align: center;
+}
+
+.fun-block>img {
+    margin: auto;
+    width: 40%;
+}
+
+.fun-block>p {
+    color: #555;
+}
+
+#other-fun {
+    color: #fff;
+    margin-top: 50px;
+    padding: 50px;
+    text-align: center;
+    background-color: #2ec7c9;
+}
+
+.fun-intro-img {
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    margin: auto;
+}
+
+#exam-ring {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    background-color: #ffeb3b;
+}
+
+#new-login-page {
+    overflow: auto;
+    padding-bottom: 50px;
+}
+
+#printable-course-table {
+    padding-bottom: 50px;
+    background-color: deepskyblue;
+    color: #fff;
+}
+
+#install-video {
+    height: 600px;
+}
+
+#install-text {
+    margin-top: 50px;
+}
+
+#how-to-install {
+    padding-bottom: 50px;
+}
+
+#FAQ {
+    background-color: #eee;
+    padding-bottom: 50px;
+}
+
+#footer {
+    background-color: #555;
+    color: #aaa;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
