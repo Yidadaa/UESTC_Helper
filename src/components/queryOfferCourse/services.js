@@ -4,7 +4,7 @@
 import {sendRequest} from '../../services/services';
 import {parseFormField, parseResData} from './parser';
 
-async function getFromField(semsterID = 13) {
+async function getFormField(semesterID = 13) {
   /**
    * @name 获取全校开课查询列表的可选信息
    * @return {Object}
@@ -27,3 +27,7 @@ async function queryCourse(params) {
   const sourceText = await sendRequest(url);
   return parseResData(sourceText);
 }
+
+export default {
+  getFormField, queryCourse
+};

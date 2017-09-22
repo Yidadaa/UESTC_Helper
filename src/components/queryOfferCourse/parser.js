@@ -13,19 +13,22 @@ const parseFormField = (sourceText) => {
   const teachDepart = node.querySelector('[name="lesson.teachDepart.id"]'); // 开课院系
   const depart = node.querySelector('[name="limitGroup.depart.id"]'); // 上课院系
   const courseType = node.querySelector('[name="lesson.courseType.id"]'); // 课程类别
+  const semesterID = node.querySelector('[name="semester.id"]'); // 课程类别
+  const projectID = (node.querySelector('[name="lesson.project.id"]') || {}).value || '';
   const getOptions = (select) => {
-    return Array.from(select.options).map(option => {
+    return select ? Array.from(select.options).map(option => {
       return {
         value: option.value,
         text: option.innerText
       };
-    });
+    }).filter(v => isFinite(parseInt(v.value))) : []; // 筛选掉那三个点点
   };
 
   return {
     teachDepart: getOptions(teachDepart),
     depart: getOptions(depart),
-    courseType: getOptions(courseType)
+    courseType: getOptions(courseType),
+    projectID, semesterID: getOptions(semesterID)
   };
 };
 
