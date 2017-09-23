@@ -21,7 +21,7 @@ async function queryCourse(params) {
    */
   const baseURL = 'http://eams.uestc.edu.cn/eams/publicSearch!search.action';
   const paramters = Object.keys(params).map(v => {
-    return [v, queryString[v]].join('=');
+    return [v, params[v]].join('=');
   }).join('&');
   const url = `${baseURL}?${paramters}`;
   const sourceText = await sendRequest(url);

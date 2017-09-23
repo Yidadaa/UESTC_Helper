@@ -88,6 +88,7 @@ app.get('/url', (req, res) => {
     request({url}, (error, response) => {
         if (error) {
             res.status(500).send('学校服务器抽风了！');
+            console.error(error);
         } else {
             res.send(response.body);
         }

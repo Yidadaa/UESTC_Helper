@@ -89,7 +89,7 @@ export default Form.create({onFieldsChange: _.debounce(onSearch, 500)})((props) 
             )}
           </FormItem></Col>
           <Col span={8} offset={0}><FormItem {...formItemLayout} label="开课院系">
-            {getFieldDecorator('lesson.teachDepart.id"')(
+            {getFieldDecorator('lesson.teachDepart.id')(
               <Select showSearch placeholder='选择开课学院' optionFilterProp='children'>
                 {teachDepart.map(v => {
                   return <Option value={v.value} key={v.value}>{v.text}</Option>

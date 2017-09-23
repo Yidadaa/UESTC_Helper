@@ -62,18 +62,47 @@ export default {
     *search({payload}, {call, put, select}) {
       // 执行搜索
       const projectID = yield select(state => state.queryCourse.projectID);
-      console.log(payload, projectID);
-      let params = Object.assign({}, payload, {'lesson.project.id': projectID});
+      let params = Object.assign({}, payload, {
+        'lesson.project.id': projectID,
+        // 'lesson.semester.id': '163'
+      });
       if (params['rangeWeek']) {
         const rangeWeek = params['rangeWeek'];
         const startTime = rangeWeek[0];
         const endTime = rangeWeek[1];
-        // 假设开学日期是3.1和9.1
-        // TODO: 判断起止周
-        console.log(rangeWeek);
+        let startWeekSchedule = 0;
+        let endWeekSchedule = 0;
+        /** 自然周与学年周的转换：假设开学日期是3.1和9.1
+         * 这里以学年计算周数，比如一整个学年包含一下时间段
+         *     |__________/_________*________|
+         * 2017.3.1   2017.9.1    2017.12  2018.3.1
+         * 那么只需要计算对应的自然周数，就可以将自然时间转换为学期周了
+        **/
+        const termOne = startTime.clone().month(2).date(1).weeks(); // 今年3.1开学周数
+        const termTwo = startTime.clone().month(8).date(1).weeks(); // 今年9.1开学周数
+        const termThree = startTime.clone().add(1, 'years')
+          .month(2).date(1).weeks() + startTime.weeksInYear(); // 明年3.1开学周数
+        let startWeek = startTime.weeks();
+        let endWeek = endTime.weeks() + (endTime.year() - startTime.year()) * startTime.weeksInYear();
+        if (startWeek < termOne && endWeek < termOne) {
+          // 都在今年1-3月份之间，为了保持计算一致性，统一放到明年来算
+          startWeek += startTime.weeksInYear();
+          endWeek += startTime.weeksInYear();
+        }
+        if (endWeek < termTwo) {
+          // 表示选中范围是前半年
+          startWeekSchedule = Math.max(0, startWeek - termOne) + 1;
+          endWeekSchedule = endWeek - termOne + 1;
+        } else {
+          // 表示选中范围在后半年
+          startWeekSchedule = Math.max(0, startWeek - termTwo) + 1;
+          endWeekSchedule = endWeek - termTwo + 1;
+        }
+        delete params['rangeWeek']; // 删除多余项
+        params = Object.assign({}, params, {startWeekSchedule, endWeekSchedule});
       }
-      // const res = yield call(queryCourse, params);
-      // 对数据进行一些预处理
+      console.log(params);
+      const res = yield call(queryCourse, params);
     }
   },
   reducers: {

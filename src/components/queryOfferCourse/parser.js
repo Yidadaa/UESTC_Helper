@@ -40,7 +40,20 @@ const parseResData = (sourceText) => {
   const node = document.createElement('div');
   node.innerHTML = sourceText;
   const table = node.querySelector('table');
-  const tableContent = parseTableData(table);
+  if (!table) return null;
+  const contentNS = table.children[1].children;
+  const headNS = table.children[0].children[0].children;
+  const tableHead = Array.from(headNS).map(v => v.innerText);
+  const tableContent = Array.from(contentNS).map(v => {
+    const tds = Array.from(v.children);
+    let content = {};
+    tds.map((v, i) => {
+      content[tableHead[i]] = v.innerHTML;
+    });
+    return content;
+  });
+  console.log(tableContent, table);
+  return tableContent;
 }
 
 export default {
