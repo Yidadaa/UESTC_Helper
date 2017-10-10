@@ -7,7 +7,7 @@
 var port = chrome.runtime.connect({name: 'proxy'});
 port.onMessage.addListener(function (msg) {
   // 如果请求的 url 与当前 iframe 不同域，那么不进行通讯
-  console.log(msg, document.cookie)
+  // console.log(msg, document.cookie)
 
   var semesterID = query(msg.url)['lesson.semester.id'];
   if (semesterID) {

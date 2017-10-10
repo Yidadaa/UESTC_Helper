@@ -38,7 +38,8 @@
         {
             "matches": [
                 // 已经登录，准备跨页面通讯
-                "http://eams.uestc.edu.cn/eams/home!submenus.action?menu.id=*"
+                "http://eams.uestc.edu.cn/eams/home!submenus.action?menu.id=*",
+                "http://ecard.uestc.edu.cn/web/guest/personal*"
             ],
             "js": [
                 "scripts/message.js"

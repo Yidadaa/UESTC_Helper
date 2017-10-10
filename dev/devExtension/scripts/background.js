@@ -6,8 +6,8 @@ const REQUEST = 'request';
 const RESPONSE = 'response';
 let responsePorts = []; // 保存所有的响应端口
 let requestPorts = []; // 保存所有的请求端口
-const RES_P_MAX = 1;
-const REQ_Q_MAX = 1;
+const RES_P_MAX = 2; // 最大跨域脚本连接数
+const REQ_Q_MAX = 1; // 最大客户端连接数
 /**
  * 响应各方面的请求
  * @param {*Object} port 

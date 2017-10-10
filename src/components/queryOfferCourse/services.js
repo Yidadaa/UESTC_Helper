@@ -21,10 +21,10 @@ async function queryCourse(params) {
    * @return {Array} 解析好的课程数据
    */
   const baseURL = 'http://eams.uestc.edu.cn/eams/publicSearch!search.action';
-  const paramters = Object.keys(params).map(v => {
+  const parameters = Object.keys(params).map(v => {
     return [v, params[v]].join('=');
   }).join('&');
-  const url = `${baseURL}?${paramters}`;
+  const url = `${baseURL}?${parameters}`;
   const sourceText = await sendRequest(url);
   return parseResData(sourceText);
 }
