@@ -6,7 +6,7 @@
  */
 const localDevExtensionID = 'mkmngfcgelcdiolnonnigjbcnkfacijk'; // 调试用插件ID
 const isDevEnv = location.hostname === 'localhost' || location.hostname === '127.0.0.1'; // 判断是否是开发环境
-const message = {name: 'client'};
+const message = JSON.stringify({name: 'client', href: location.href});
 const port = isDevEnv
     ? chrome.runtime.connect(localDevExtensionID, message)
     : chrome.runtime.connect(message);

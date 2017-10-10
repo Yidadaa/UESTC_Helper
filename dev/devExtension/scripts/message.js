@@ -4,7 +4,11 @@
  *       一个是一卡通所在的域，如果后期功能扩增，将会被挂载到更多的域上，
  *       专门用来处理跨域请求。
  */
-var port = chrome.runtime.connect({name: 'proxy'});
+var info = JSON.stringify({
+  name: 'proxy',
+  href: location.href
+});
+var port = chrome.runtime.connect({name: info});
 port.onMessage.addListener(function (msg) {
   // 如果请求的 url 与当前 iframe 不同域，那么不进行通讯
   // console.log(msg, document.cookie)
