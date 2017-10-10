@@ -24,14 +24,15 @@ export default {
     depart: [], // 上课院系可选列表
     courseType: [], // 课程类别可选列表
     projectID: 1,
-    semesterID: null, // 开课学年
+    semesterID: null, // 开课学年 {Array}
+    curSemesterID: null, // 当前开课学年
 
     searchFields: {}, // 已选择的筛选项
     showAdvancedOptions: true, // 是否显示高级筛选项
     // 展现数据
     allPageNum: 0, // 所有页面数
     curPageNum: 0, // 当前页面数
-    showData: [] // 展示数据
+    showData: [], // 展示数据
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -46,10 +47,12 @@ export default {
     }
   },
   effects: {
-    *initFormField({payload}, {call, put}) {
+    *initFormField({payload}, {call, put, select}) {
       // 初始化表头数据
+      // TODO: 获取表头之后，初始化curSemesterID
+      const curSemesterID = yield select(state => state.queryCourse.curSemesterID);
       const {courseType, depart, projectID,
-        teachDepart, semesterID} = yield call(getFormField);
+        teachDepart, semesterID} = yield call(getFormField, curSemesterID);
       yield put({
         type: 'updateStates',
         payload: {
@@ -64,7 +67,7 @@ export default {
       const projectID = yield select(state => state.queryCourse.projectID);
       let params = Object.assign({}, payload, {
         'lesson.project.id': projectID,
-        // 'lesson.semester.id': '163'
+        'lesson.semester.id': '163'
       });
       if (params['rangeWeek']) {
         const rangeWeek = params['rangeWeek'];

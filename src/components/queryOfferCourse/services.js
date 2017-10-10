@@ -4,12 +4,13 @@
 import {sendRequest} from '../../services/services';
 import {parseFormField, parseResData} from './parser';
 
-async function getFormField(semesterID = 13) {
+async function getFormField(semesterID) {
   /**
    * @name 获取全校开课查询列表的可选信息
    * @return {Object}
    */
-  const queryURL = `http://eams.uestc.edu.cn/eams/publicSearch!index.action?semester.id=${semesterID}`;
+  const query = semesterID ? `semester.id=${semesterID}` : '';
+  const queryURL = `http://eams.uestc.edu.cn/eams/publicSearch!index.action?${query}`;
   const sourceText = await sendRequest(queryURL);
   return parseFormField(sourceText);
 }

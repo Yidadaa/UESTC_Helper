@@ -8,28 +8,21 @@ const request = require('./request');
 const message = require('antd/lib/message');
 
 let cache = {}; // 用来缓存请求
-async function parsePage(url) {
+async function sendRequest(url) {
   if (url in cache) {
     // 直接返回缓存的请求，提高性能
     return cache[url];
   } else {
+    let res = null;
     try {
-      const res = await request(url);
-      if (res === undefined || res.status === 500) {
-        message.error('土豆服务器又抽风了！一会儿刷新看看吧～');
-        return '';
-      } else {
-        const text = await res.text();
-        cache[url] = text; // 缓存请求
-        return text;
-      }
+      res = await request(url);
     } catch (e) {
-      message.error('网络出错了，请检查网络连接');
+      message.error('请求出错，请稍后重试');
     }
+    return res;
   }
 }
 
 module.exports = {
-  parsePage,
-  sendRequest: parsePage // 原来的函数命名容易产生歧义，改了
+  sendRequest
 };

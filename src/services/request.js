@@ -1,18 +1,34 @@
 /**
  * @file 请求模块
- * @desc 用于发送跨域请求，获取指定网页的内容，发出的请求会被dev-server代理到另一个专门用来发请求的服务器上
+ * @desc 用于发送跨域请求，获取指定网页的内容
  * @param {String} url 请求的URL
  * @return {Object} Promise对象
  */
+const localDevExtensionID = 'mkmngfcgelcdiolnonnigjbcnkfacijk'; // 调试用插件ID
+const isDevEnv = location.hostname === 'localhost' || location.hostname === '127.0.0.1'; // 判断是否是开发环境
+const message = {name: 'client'};
+const port = isDevEnv
+    ? chrome.runtime.connect(localDevExtensionID, message)
+    : chrome.runtime.connect(message);
 
-module.exports = (url) => {
-    !url.match(/^https?/) ? url = 'http://' + url : null; // 默认为url添加http前缀
-    if (window.location.hostname === 'localhost') {
-        // 判断是否在开发环境下
-        url = `/url?url=${url}`;
-    }
-    const config = {
-        credentials: 'include'
-    };
-    return fetch(url, config).catch(e => e);
+/**
+ * 对Chrome的通讯函数进行包装
+ * @param {*String} url 
+ */
+const request = url => {
+    return new Promise((resolve, reject) => {
+        const params = {
+            url,
+            id: Math.random().toString(),
+            type: 'request'
+        };
+        port.postMessage(params);
+        port.onMessage.addListener(msg => {
+            const {data, id} = msg;
+            if (id === params.id) resolve(data); // 校验响应与请求是否一致
+            if (msg.error) reject(msg);
+        });
+    });
 };
+
+export default request;
