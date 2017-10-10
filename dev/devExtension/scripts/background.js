@@ -26,15 +26,27 @@ function onConnect(port) {
   }
 
   port.onMessage.addListener(function (params) {
+    const {from, to} = params;
     if (params.type === REQUEST) {
       // 后台收到一个请求，将其转发给所有的跨域脚本
-      Object.keys(responsePorts).forEach(name => responsePorts[name].postMessage(params));
+      const port = responsePorts[to];
+      port && port.postMessage(params);
     } else if (params.type === RESPONSE) {
       // 后台收到跨域脚本返回的响应，将其转发回请求端
       const {id, data} = params;
-      Object.keys(requestPorts).forEach(name => requestPorts[name].postMessage({id, data}));
+      const port = requestPorts[to];
+      port && port.postMessage({id, data});
     }
   });
 }
 chrome.runtime.onConnect.addListener(onConnect); // 接收来自内容脚本的连接
 chrome.runtime.onConnectExternal.addListener(onConnect) // 接收来自网页端的连接
+
+/**
+ * 解析host
+ */
+function getHost(url) {
+  const link = document.createElement('a');
+  link.href = url;
+  return link.host;
+}

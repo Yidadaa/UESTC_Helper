@@ -6,12 +6,12 @@
  */
 var info = JSON.stringify({
   name: 'proxy',
-  href: location.href
+  href: location.host
 });
 var port = chrome.runtime.connect({name: info});
 port.onMessage.addListener(function (msg) {
   // 如果请求的 url 与当前 iframe 不同域，那么不进行通讯
-  // console.log(msg, document.cookie)
+  console.log(msg, document.cookie)
 
   var semesterID = query(msg.url)['lesson.semester.id'];
   if (semesterID) {
@@ -23,7 +23,9 @@ port.onMessage.addListener(function (msg) {
     port.postMessage({
       id: msg.id,
       data: res,
-      type: 'response'
+      type: 'response',
+      from: msg.to,
+      to: msg.from
     });
   });
 });

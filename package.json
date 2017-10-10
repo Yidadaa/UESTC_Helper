@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "roadhog server",
+    "start": "HOST=127.0.0.1 roadhog server",
     "build": "roadhog build",
     "lint": "eslint --ext .js src test",
     "server": "node ./dev/proxyServer.js"
