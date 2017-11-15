@@ -25,16 +25,6 @@
             ],
             "all_frames": true
         },
-        // {
-        //     "matches": [
-        //         // 已经登录，准备跨页面通讯
-        //         "http://portal.uestc.edu.cn/*"
-        //     ],
-        //     "js": [
-        //         "scripts/message.js"
-        //     ],
-        //     "all_frames": true
-        // },
         {
             "matches": [
                 // 已经登录，准备跨页面通讯

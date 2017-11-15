@@ -44,15 +44,30 @@ const parseResData = (sourceText) => {
   const contentNS = table.children[1].children;
   const headNS = table.children[0].children[0].children;
   const tableHead = Array.from(headNS).map(v => v.innerText);
-  const tableContent = Array.from(contentNS).map(v => {
+  let tableContent = Array.from(contentNS).map(v => {
     const tds = Array.from(v.children);
-    let content = {};
+    let tdData = {};
     tds.map((v, i) => {
-      content[tableHead[i]] = v.innerHTML;
+      let content = v.innerHTML.replace(/\<br\>/g, ' ').replace(/\s/g, ''); // 去除空格
+      switch (i) {
+        case 0:
+          const regContent = content.match(/\d+/);
+          content = regContent ? regContent[0] : content;
+          break;
+        case 5:
+          let teacherName = content.match(/(.*)\<font/);
+          let teacherNumber = content.match(/\((\d+)\)/);
+          teacherName = teacherName ? teacherName[1] : '';
+          teacherNumber = teacherNumber ? teacherNumber[1] : '';
+          content = [teacherName, teacherNumber].join('#');
+          break;
+      }
+      tdData[tableHead[i]] = {
+        name: tableHead[i], content
+      };
     });
-    return content;
+    return tdData;
   });
-  console.log(tableContent, table);
   return tableContent;
 }
 

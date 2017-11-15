@@ -104,8 +104,13 @@ export default {
         delete params['rangeWeek']; // 删除多余项
         params = Object.assign({}, params, {startWeekSchedule, endWeekSchedule});
       }
-      console.log(params);
       const res = yield call(queryCourse, params);
+      yield put({
+        type: 'updateStates',
+        payload: {
+          showData: res
+        }
+      });
     }
   },
   reducers: {
