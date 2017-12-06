@@ -53,3 +53,5 @@ function query(url) {
     return Object.assign({}, pre, {[val[0]]: val[1]});
   }, {});
 };
+
+console.debug('loaded')

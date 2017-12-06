@@ -43,28 +43,32 @@ const parseResData = (sourceText) => {
   if (!table) return null;
   const contentNS = table.children[1].children;
   const headNS = table.children[0].children[0].children;
-  const tableHead = Array.from(headNS).map(v => v.innerText);
+  const tableHead = ['key'].concat(Array.from(headNS).map(v => v.innerText).slice(1));
+  // TableHead的第一列是课程的数据库ID
+  // console.log(tableHead);
   let tableContent = Array.from(contentNS).map(v => {
     const tds = Array.from(v.children);
     let tdData = {};
     tds.map((v, i) => {
-      let content = v.innerHTML.replace(/\<br\>/g, ' ').replace(/\s/g, ''); // 去除空格
+      let content = v.innerHTML.replace(/\<br\>/g, ' ').replace(/[\n\t]/g, ' '); // 去除空格
       switch (i) {
         case 0:
           const regContent = content.match(/\d+/);
           content = regContent ? regContent[0] : content;
           break;
         case 5:
-          let teacherName = content.match(/(.*)\<font/);
-          let teacherNumber = content.match(/\((\d+)\)/);
-          teacherName = teacherName ? teacherName[1] : '';
-          teacherNumber = teacherNumber ? teacherNumber[1] : '';
-          content = [teacherName, teacherNumber].join('#');
+          let rowContent = v.innerHTML.replace(/\<br\>/g, ' ').replace(/\t/g, '').replace(/\n<f/g, '<f');
+          const teachGroup = rowContent.split('\n');
+          content = teachGroup.filter(val => val.replace(/s/g, '').length !== 0).map(val => {
+            let teacherName = val.match(/(.*)<font/);
+            let teacherNumber = val.match(/\((\d+)\)/);
+            teacherName = teacherName ? teacherName[1] : '';
+            teacherNumber = teacherNumber ? teacherNumber[1] : '';
+            return [teacherName, teacherNumber];
+          });
           break;
       }
-      tdData[tableHead[i]] = {
-        name: tableHead[i], content
-      };
+      tdData[tableHead[i]] = content;
     });
     return tdData;
   });

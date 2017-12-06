@@ -81,28 +81,30 @@ export default {
          * 2017.3.1   2017.9.1    2017.12  2018.3.1
          * 那么只需要计算对应的自然周数，就可以将自然时间转换为学期周了
         **/
-        const termOne = startTime.clone().month(2).date(1).weeks(); // 今年3.1开学周数
-        const termTwo = startTime.clone().month(8).date(1).weeks(); // 今年9.1开学周数
-        const termThree = startTime.clone().add(1, 'years')
-          .month(2).date(1).weeks() + startTime.weeksInYear(); // 明年3.1开学周数
-        let startWeek = startTime.weeks();
-        let endWeek = endTime.weeks() + (endTime.year() - startTime.year()) * startTime.weeksInYear();
-        if (startWeek < termOne && endWeek < termOne) {
-          // 都在今年1-3月份之间，为了保持计算一致性，统一放到明年来算
-          startWeek += startTime.weeksInYear();
-          endWeek += startTime.weeksInYear();
+        if (!!startTime) {
+          const termOne = startTime.clone().month(2).date(1).weeks(); // 今年3.1开学周数
+          const termTwo = startTime.clone().month(8).date(1).weeks(); // 今年9.1开学周数
+          const termThree = startTime.clone().add(1, 'years')
+            .month(2).date(1).weeks() + startTime.weeksInYear(); // 明年3.1开学周数
+          let startWeek = startTime.weeks();
+          let endWeek = endTime.weeks() + (endTime.year() - startTime.year()) * startTime.weeksInYear();
+          if (startWeek < termOne && endWeek < termOne) {
+            // 都在今年1-3月份之间，为了保持计算一致性，统一放到明年来算
+            startWeek += startTime.weeksInYear();
+            endWeek += startTime.weeksInYear();
+          }
+          if (endWeek < termTwo) {
+            // 表示选中范围是前半年
+            startWeekSchedule = Math.max(0, startWeek - termOne) + 1;
+            endWeekSchedule = endWeek - termOne + 1;
+          } else {
+            // 表示选中范围在后半年
+            startWeekSchedule = Math.max(0, startWeek - termTwo) + 1;
+            endWeekSchedule = endWeek - termTwo + 1;
+          }
+          delete params['rangeWeek']; // 删除多余项
+          params = Object.assign({}, params, {startWeekSchedule, endWeekSchedule});
         }
-        if (endWeek < termTwo) {
-          // 表示选中范围是前半年
-          startWeekSchedule = Math.max(0, startWeek - termOne) + 1;
-          endWeekSchedule = endWeek - termOne + 1;
-        } else {
-          // 表示选中范围在后半年
-          startWeekSchedule = Math.max(0, startWeek - termTwo) + 1;
-          endWeekSchedule = endWeek - termTwo + 1;
-        }
-        delete params['rangeWeek']; // 删除多余项
-        params = Object.assign({}, params, {startWeekSchedule, endWeekSchedule});
       }
       const res = yield call(queryCourse, params);
       yield put({

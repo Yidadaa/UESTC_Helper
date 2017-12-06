@@ -18,7 +18,7 @@ const QueryCourse = (props) => {
       <FormField {...{courseType, depart, teachDepart, dispatch,
         showAdvancedOptions, searchFields}}></FormField>
     </div>
-    <div className={style.FormContent}>
+    <div className={style.formContent}>
       <FormContent {...{ showData }}/>
     </div>
   </div>;

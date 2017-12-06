@@ -18,6 +18,7 @@ async function sendRequest(url) {
       res = await request(url);
     } catch (e) {
       message.error('请求出错，请稍后重试');
+      console.error(e);
     }
     return res;
   }
