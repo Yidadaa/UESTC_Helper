@@ -67,6 +67,12 @@ const parseResData = (sourceText) => {
             return [teacherName, teacherNumber];
           });
           break;
+        case 6:
+        case 8:
+        case 9:
+          content = v.innerHTML.replace(/\<br\>/g, '\n').replace(/\t/g, '')
+            .split('\n').filter(val => val.replace(/s/g, '').length !== 0);
+          break;
       }
       tdData[tableHead[i]] = content;
     });
