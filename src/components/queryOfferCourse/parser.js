@@ -70,7 +70,8 @@ const parseResData = (sourceText) => {
         case 6:
         case 8:
         case 9:
-          content = v.innerHTML.replace(/\<br\>/g, '\n').replace(/\t/g, '')
+          content = v.innerHTML.replace(/\<br\>/g, '\n').replace(/[\t\-]/g, '')
+            .replace('第二教学楼', '二教')
             .split('\n').filter(val => val.replace(/s/g, '').length !== 0);
           break;
       }

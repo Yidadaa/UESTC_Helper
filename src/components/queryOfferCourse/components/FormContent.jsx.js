@@ -2,7 +2,7 @@
  * @file 开课查询- 展示表格
  */
 import React from 'react';
-import { Table, Button, Tooltip } from 'antd';
+import { Table, Button, Tooltip, Icon } from 'antd';
 import style from '../style.less';
 import request from '../../../utils/request';
 
@@ -18,6 +18,7 @@ export default props => {
     const widthDict = {
       '年级': 100,
       '职称': 100,
+      '上课地点': 150
     }; // 设置width的时候，优先从widthDict中匹配，匹配不到就用默认值
     Object.keys(firstLine).slice(1).forEach(v => {
       // 这里的slice(1)，是因为解析到的table第一列为id
@@ -106,13 +107,21 @@ export default props => {
     document.body.appendChild(form);
     form.submit();
   };
+  const resIcon = loading ? 'loading' : 'info-circle' + (totalCount > 0 ? '' : '-o') ;
+  const dlIcon = 'check-circle' + (selectKeys.length > 0 ? '' : '-o');
   const tableTitle = () => (
     <div className={ style.formTitle }>
       {
-        showData && <span>共搜索到 {totalCount} 个结果</span>
+        showData && <span>
+          <Icon type={resIcon} className={style.icon}/>
+          共搜索到 {totalCount} 个结果
+        </span>
       }
       <div className={ style.selectInfo }>
-        <span className={ style.tip }>已选中 { selectKeys.length } 个条目</span>
+        <span className={ style.tip }>
+          <Icon type={dlIcon} className={style.icon}/>
+          已选中 { selectKeys.length } 个条目
+        </span>
         <Button icon="download" disabled={ selectKeys.length === 0 }
           type='primary' onClick={ onDowloadBtnClick }>下载课程大纲</Button>
       </div>
