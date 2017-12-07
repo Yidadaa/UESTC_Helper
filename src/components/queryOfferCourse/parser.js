@@ -78,7 +78,12 @@ const parseResData = (sourceText) => {
     });
     return tdData;
   });
-  return tableContent;
+  // 开始解析数据条目、总页数等信息
+  const tableInfo = node.querySelector('.girdbar-pgbar');
+  let pageInfo = sourceText.match(/\.pageInfo\((.*)\);/);
+  pageInfo = pageInfo ? pageInfo[1].split(',') : [1, 20, 1];
+  const [curPageNum, pageSize, totalCount] = pageInfo;
+  return { tableContent, curPageNum, pageSize, totalCount };
 }
 
 export default {

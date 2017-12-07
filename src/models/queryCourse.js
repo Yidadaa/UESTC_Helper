@@ -30,9 +30,12 @@ export default {
     searchFields: {}, // 已选择的筛选项
     showAdvancedOptions: true, // 是否显示高级筛选项
     // 展现数据
-    allPageNum: 0, // 所有页面数
     curPageNum: 0, // 当前页面数
+    totalCount: 0, // 所有条目数
+    pageSize: 20, // 每页容量
     showData: [], // 展示数据
+    loading: false, //　加载状态
+    selectKeys: [], // 选中条目的key
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -64,10 +67,24 @@ export default {
     },
     *search({payload}, {call, put, select}) {
       // 执行搜索
-      const projectID = yield select(state => state.queryCourse.projectID);
+      yield put({
+        type: 'updateStates',
+        payload: {
+          loading: true
+        }
+      });
+      const [projectID, pagesize, pageNo] = yield select(state => {
+        return [
+          state.queryCourse.projectID,
+          state.queryCourse.pageSize,
+          state.queryCourse.curPageNum
+        ];
+      });
       let params = Object.assign({}, payload, {
         'lesson.project.id': projectID,
-        'lesson.semester.id': '163'
+        'lesson.semester.id': '163',
+        'pageNo': pageNo,
+        'pageSize': pagesize
       });
       if (params['rangeWeek']) {
         const rangeWeek = params['rangeWeek'];
@@ -106,11 +123,12 @@ export default {
           params = Object.assign({}, params, {startWeekSchedule, endWeekSchedule});
         }
       }
-      const res = yield call(queryCourse, params);
+      const { tableContent, curPageNum, pageSize, totalCount } = yield call(queryCourse, params);
       yield put({
         type: 'updateStates',
         payload: {
-          showData: res
+          showData: tableContent, curPageNum, pageSize, totalCount,
+          loading: false
         }
       });
     }

@@ -9,7 +9,9 @@ import FormContent from './components/FormContent.jsx';
 
 const QueryCourse = (props) => {
   const {dispatch, courseType, depart, teachDepart,
-    showAdvancedOptions, searchFields, showData}= props;
+    showAdvancedOptions, searchFields, showData,
+    pageSize, curPageNum, totalCount, loading,
+    selectKeys }= props;
   return <div>
     <div className={style.header}>
       <div className={style.title}>全校开课查询</div>
@@ -19,7 +21,8 @@ const QueryCourse = (props) => {
         showAdvancedOptions, searchFields}}></FormField>
     </div>
     <div className={style.formContent}>
-      <FormContent {...{ showData }}/>
+      <FormContent {...{ showData, pageSize, totalCount,
+        curPageNum, loading, dispatch, searchFields, selectKeys }}/>
     </div>
   </div>;
 };
