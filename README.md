@@ -1,7 +1,7 @@
 ## 电子科技大学教务系统美化插件
 
 > 让老旧的教务系统焕发青春。  
-> 项目官网：[blog.simplenaive.cn/uestc_helper]()
+> 项目官网：[blog.simplenaive.cn/uestc_helper](http://blog.simplenaive.cn/uestc_helper)
 
 ### 开发指南
 
