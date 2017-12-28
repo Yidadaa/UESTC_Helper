@@ -7,6 +7,8 @@ const RESPONSE = 'response';
 let responsePorts = {}; // 保存所有的响应端口
 let requestPorts = {}; // 保存所有的请求端口
 
+let unhandledRequests = []; // 未处理的请求
+
 /**
  * 响应各方面的请求
  * @param {*Object} port 
@@ -25,17 +27,20 @@ function onConnect(port) {
     console.log('来自客户端的连接已建立', info.href);
   }
 
-  port.onMessage.addListener(function (params) {
-    const {from, to} = params;
-    if (params.type === REQUEST) {
-      // 后台收到一个请求，将其转发给所有的跨域脚本
-      const port = responsePorts[to];
-      port && port.postMessage(params);
-    } else if (params.type === RESPONSE) {
-      // 后台收到跨域脚本返回的响应，将其转发回请求端
-      const {id, data} = params;
-      const port = requestPorts[to];
-      port && port.postMessage({id, data});
+  if (unhandledRequests.length > 0) {
+    // 将未处理完成的请求序列处理完
+    unhandledRequests.forEach(handle);
+    unhandledRequests = [];
+  }
+
+  port.onMessage.addListener(handle);
+
+  port.onDisconnect.addListener(function () {
+    // 端口关闭时，自动讲对应的端口删除
+    if (info.name === 'proxy') {
+      delete responsePorts[info.href];
+    } else if (info.name === 'client') {
+      delete requestPorts[info.href]
     }
   });
 }
@@ -49,4 +54,30 @@ function getHost(url) {
   const link = document.createElement('a');
   link.href = url;
   return link.host;
+}
+
+/**
+ * 处理请求
+ * @param {Object} params 
+ */
+function handle(params) {
+  const {from, to} = params;
+  if (params.type === REQUEST) {
+    // 后台收到一个请求，将其转发给所有的跨域脚本
+    const port = responsePorts[to];
+    if (port) {
+      port.postMessage(params);
+    } else { // 当端口不可用时，先将请求缓存至请求序列
+      unhandledRequests.push(params);
+    }
+  } else if (params.type === RESPONSE) {
+    // 后台收到跨域脚本返回的响应，将其转发回请求端
+    const {id, data} = params;
+    const port = requestPorts[to];
+    if (port) {
+      port.postMessage({id, data});
+    } else {　// 当端口不可用时，先将请求缓存至请求序列
+      unhandledRequests.push(params);
+    }
+  }
 }

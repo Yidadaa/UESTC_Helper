@@ -12,11 +12,14 @@ const port = isDevEnv
 ? chrome.runtime.connect(localDevExtensionID, message)
 : chrome.runtime.connect(message)
 
+console.log('hello')
+
 /**
  * 对Chrome的通讯函数进行包装
  * @param {*String} url 
  */
 const request = url => {
+  console.log(url);
   return new Promise((resolve, reject) => {
     const params = {
       url,

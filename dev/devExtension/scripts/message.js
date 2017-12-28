@@ -54,4 +54,4 @@ function query(url) {
   }, {});
 };
 
-console.debug('loaded')
+console.log('loaded')
