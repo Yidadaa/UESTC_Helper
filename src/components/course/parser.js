@@ -146,7 +146,7 @@ func.parseExamData = (sourceText) => {
         return {
             name: tmp[1].innerHTML,
             date: tmp[2].innerHTML,
-            detail: tmp[3].innerHTML,
+            detail: tmp[3].innerHTML.replace(/\(.*\)/, ''),
             address: tmp[4].innerHTML,
             num: tmp[5].innerHTML,
             status: tmp[6].innerHTML

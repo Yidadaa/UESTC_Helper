@@ -2,8 +2,8 @@
  * @file 课程表 - 课程格
  * @desc 用于显示课程的详细信息
  */
-const React = require('react');
-const Popover = require('antd/lib/popover');
+import React from 'react';
+import { Popover, Icon } from 'antd';
 import style from './style.less';
 
 module.exports = props => {
@@ -34,15 +34,15 @@ module.exports = props => {
     const PopoverContent = (
       <div className="popover-content">
         <div className="item">
-          <span className="icon-tree"></span>
+          <Icon type="book" />
           <span className="content">{props.courseId}</span>
         </div>
         <div className="item">
-          <span className="icon-user"></span>
+          <Icon type="user" />
           <span className="content">{props.teacher}</span>
         </div>
         <div className="item">
-          <span className="icon-calendar"></span>
+          <Icon type="calendar" />
           <span className="content">{props.date.join(',')}</span>
         </div>
       </div>

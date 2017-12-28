@@ -2,7 +2,8 @@
  * 考试安排列表
  */
 import React from 'react';
-import {Spin, Row, Col, Card} from 'antd';
+import {Spin, Row, Col, Card, Icon} from 'antd';
+import  style from  './style.less';
 
 export default (props) => {
   const {exam, isLoading} = props;
@@ -13,13 +14,13 @@ export default (props) => {
       <Row gutter={16}>
         {exam.length > 0
         ? exam.map((v, i) => {
-          return (<Col key={i} span={8} style={{paddingBottom: '10px'}}>
-            <Card title={v.name}>
-              <p>日期：{v.date}</p>
-              <p>考场：{v.address}</p>
-              <p>座位：{v.num}</p>
-              <p>类型：{examDict[v.examType - 1]}</p>
-              <p>状态：{v.status}</p>
+          return (<Col key={i} span={8} className={ style.examRow }>
+            <Card title={v.name} className={ style.examCard } bordered={ false }>
+              <p><Icon type="calendar" /> {v.date}</p>
+              <p><Icon type="clock-circle-o" /> {v.detail}</p>
+              <p><Icon type="home" /> {v.address} {v.num}号</p>
+              <p><Icon type="tag-o" /> {examDict[v.examType - 1]}</p>
+              <p><Icon type="info-circle-o" /> {v.status}</p>
             </Card>
           </Col>);
         })

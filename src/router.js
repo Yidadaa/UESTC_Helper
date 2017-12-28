@@ -48,7 +48,10 @@ function RouterConfig({ history }) {
         path: v.key,
         component: v.component
       };
-    })
+    }),
+    indexRoute: {
+      component: Report
+    }
   };
   return (<div><Layout>
   <Header id="header"><Row>
