@@ -1,0 +1,50 @@
+{
+    "manifest_version": 2,
+    "name": "Develop Helper",
+    "description": "",
+    "version": "0.01",
+    "permissions": [
+        "http://idas.uestc.edu.cn/*",
+        "http://eams.uestc.edu.cn/*",
+        "http://img.infinitynewtab.com/*",
+        "tabs",
+        "storage"
+    ],
+    "browser_action": {
+        "default_icon": "./icon.png",
+        "default_popup": "pop_up.html"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                // 自动登录
+                "http://idas.uestc.edu.cn/authserver/login*"
+            ],
+            "js": [
+                "scripts/autologin.js"
+            ],
+            "all_frames": true
+        },
+        {
+            "matches": [
+                // 已经登录，准备跨页面通讯
+                "http://eams.uestc.edu.cn/eams/home!submenus.action?menu.id=*",
+                "http://ecard.uestc.edu.cn/web/guest/personal*"
+            ],
+            "js": [
+                "scripts/message.js"
+            ],
+            "all_frames": true
+        }
+    ],
+    "icons": {
+        "128": "icon.png"
+    },
+    "background": {
+        "scripts": ["scripts/background.js"],
+        "persistent": true
+    },
+    "externally_connectable": {
+        "matches": ["http://127.0.0.1/*"] // 允许调试页面发出的请求
+    }
+}
