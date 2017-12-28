@@ -58,6 +58,9 @@ export default props => {
       config.push(rowConfig);
     });
   }
+
+  const noData = showData.length == 0 || Object.keys(showData[0]).length == 0;
+
   const rowSelection = {
     onChange: keys => {
       dispatch({
@@ -68,6 +71,7 @@ export default props => {
       });
     }
   };
+
   const onPageChange = (page, pageSize) => {
     dispatch({
       type: 'queryCourse/updateStates',
@@ -81,6 +85,7 @@ export default props => {
       payload: searchFields
     });
   };
+
   const pagination = {
     current: parseInt(curPageNum),
     total: parseInt(totalCount),
@@ -89,6 +94,7 @@ export default props => {
     onChange: onPageChange,
     onShowSizeChange: onPageChange
   };
+
   const onDowloadBtnClick = () => {
     // 构造一个表单对象并提交，引发下载操作
     const url = 'http://eams.uestc.edu.cn/eams/courseOutlineDownload!downloadByLessonId.action';
@@ -107,8 +113,10 @@ export default props => {
     document.body.appendChild(form);
     form.submit();
   };
+
   const resIcon = loading ? 'loading' : 'info-circle' + (totalCount > 0 ? '' : '-o') ;
   const dlIcon = 'check-circle' + (selectKeys.length > 0 ? '' : '-o');
+
   const tableTitle = () => (
     <div className={ style.formTitle }>
       {
@@ -127,9 +135,14 @@ export default props => {
       </div>
     </div>
   );
+
+  // 这里之所以把rowSelection拆出来
+  // 是因为antd通过判断rowSelection字段是否有值来控制选择项的显示与否
+  let tableConfig = {};
+  if (!noData) tableConfig.rowSelection = rowSelection;
+
   return (<div className={ style.table }>
-    <Table dataSource={ showData } columns={ config } loading={ loading }
-      rowSelection={ rowSelection } pagination={ pagination }
-      title={ tableTitle }/>
+    <Table dataSource={ noData ? [] : showData } columns={ config } loading={ loading }
+      pagination={ pagination } title={ tableTitle } {...tableConfig}/>
   </div>);
 }

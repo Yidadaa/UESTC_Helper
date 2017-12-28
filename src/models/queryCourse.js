@@ -28,7 +28,7 @@ export default {
     curSemesterID: null, // 当前开课学年
 
     searchFields: {}, // 已选择的筛选项
-    showAdvancedOptions: true, // 是否显示高级筛选项
+    showAdvancedOptions: false, // 是否显示高级筛选项，默认关闭
     // 展现数据
     curPageNum: 0, // 当前页面数
     totalCount: 0, // 所有条目数

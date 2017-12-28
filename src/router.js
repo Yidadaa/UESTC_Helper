@@ -33,7 +33,7 @@ function RouterConfig({ history }) {
       key: 'ecard',
       component: Ecard,
       name: '一卡通信息',
-      active: false
+      active: true
     }, {
       key: 'queryCourse',
       component: QueryCourse,

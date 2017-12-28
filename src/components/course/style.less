@@ -11,7 +11,7 @@
     }
     .course-day {
       flex-grow: 1;
-      overflow: auto;
+      // overflow: auto;
       width: 14%;
       border-right: 1px solid @border-color;
       .course-week {
@@ -56,11 +56,11 @@
 
   .course-header {
     width: 100%;
-    overflow: auto;
     border-bottom: 1px solid #eee;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
     .course-title {
-      float: left;
       line-height: 46px;
       font-weight: bold;
       font-size: 18px;
