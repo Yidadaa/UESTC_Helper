@@ -13,7 +13,7 @@ const parseFormField = (sourceText) => {
   const teachDepart = node.querySelector('[name="lesson.teachDepart.id"]'); // 开课院系
   const depart = node.querySelector('[name="limitGroup.depart.id"]'); // 上课院系
   const courseType = node.querySelector('[name="lesson.courseType.id"]'); // 课程类别
-  const semesterID = node.querySelector('[name="semester.id"]'); // 课程类别
+  const semesterID = node.querySelector('[name="semester.id"]'); // 课程代号
   const projectID = (node.querySelector('[name="lesson.project.id"]') || {}).value || '';
   const getOptions = (select) => {
     return select ? Array.from(select.options).map(option => {
@@ -28,7 +28,8 @@ const parseFormField = (sourceText) => {
     teachDepart: getOptions(teachDepart),
     depart: getOptions(depart),
     courseType: getOptions(courseType),
-    projectID, semesterID: getOptions(semesterID)
+    projectID, semesterID: getOptions(semesterID),
+    curSemesterID: (Array.from(semesterID.children).filter(v => v.selected)[0] || {}).value || ''
   };
 };
 

@@ -52,17 +52,19 @@ export default {
   effects: {
     *initFormField({payload}, {call, put, select}) {
       // 初始化表头数据
-      // TODO: 获取表头之后，初始化curSemesterID
-      const curSemesterID = yield select(state => state.queryCourse.curSemesterID);
+      // const curSemesterID = yield select(state => state.queryCourse.curSemesterID);
       const {courseType, depart, projectID,
-        teachDepart, semesterID} = yield call(getFormField, curSemesterID);
+        teachDepart, semesterID, curSemesterID} = yield call(getFormField, '');
       yield put({
         type: 'updateStates',
         payload: {
           courseType, depart, teachDepart,
           lessonTDAutoComList: teachDepart,
-          semesterID, projectID
+          semesterID, projectID, curSemesterID
         }
+      });
+      yield put({
+        type: 'search', payload: {}
       });
     },
     *search({payload}, {call, put, select}) {
@@ -82,10 +84,11 @@ export default {
       });
       let params = Object.assign({}, payload, {
         'lesson.project.id': projectID,
-        'lesson.semester.id': '163',
+        'lesson.semester.id': '183',
         'pageNo': pageNo,
         'pageSize': pagesize
       });
+
       if (params['rangeWeek']) {
         const rangeWeek = params['rangeWeek'];
         const startTime = rangeWeek[0];

@@ -36,7 +36,7 @@ function onConnect(port) {
   port.onMessage.addListener(handle);
 
   port.onDisconnect.addListener(function () {
-    // 端口关闭时，自动讲对应的端口删除
+    // 端口关闭时，自动将对应的端口删除
     if (info.name === 'proxy') {
       delete responsePorts[info.href];
     } else if (info.name === 'client') {
@@ -80,4 +80,16 @@ function handle(params) {
       unhandledRequests.push(params);
     }
   }
+}
+
+/**
+ * 打开一个不可见窗口，用于发送跨域请求
+ * @param {String} url 
+ */
+function openSession(url) {
+  chrome.windows.create({
+    url: 'http://ecard.uestc.edu.cn/web/guest/personal',
+    height:10, width: 10, type: 'popup',
+    focused: false
+  });
 }
