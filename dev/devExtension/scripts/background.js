@@ -91,5 +91,7 @@ function openSession(url) {
     url: 'http://ecard.uestc.edu.cn/web/guest/personal',
     height:10, width: 10, type: 'popup',
     focused: false
+  }, function (window) {
+    const id = window.id; // 用于关闭该window
   });
 }

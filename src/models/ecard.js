@@ -1,4 +1,4 @@
-import {getTransactionFlow} from '../components/ecard/services';
+import { getTransactionFlow, getBasicInfo } from '../components/ecard/services';
 
 export default {
   namespace: 'ecard',
@@ -19,6 +19,8 @@ export default {
     *loadData({payload}, {call, put}) {
       // 初始化数据
       const basicData = yield call(getTransactionFlow);
+      const res = yield call(getBasicInfo);
+      console.log(basicData, res)
     }
   },
   reducers: {},
