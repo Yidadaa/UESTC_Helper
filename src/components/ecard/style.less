@@ -1,0 +1,47 @@
+.head {
+  display: flex;
+  padding-top: 20px;
+}
+
+.headRow {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.headLeft {
+  .headRow();
+  display: flex;
+  padding-right: 40px;
+}
+
+.headRight {
+  .headRow();
+  display: flex;
+  padding-top: 40px;
+}
+
+.headBlock {
+  display: flex;
+  flex-direction: column;
+  padding-right: 50px;
+}
+
+.headTitle {
+  font-size: 14px;
+}
+
+.headContent {
+  font-size: 26px;
+  font-weight: bold;
+  &:after {
+    content: '元';
+    font-size: 12px;
+    margin-left: 5px;
+  }
+}
+
+.ecardTitle {
+  &:after {
+    content: '——E-Card Summary'!important;
+  }
+}
