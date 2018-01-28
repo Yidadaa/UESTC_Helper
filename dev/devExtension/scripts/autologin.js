@@ -10,8 +10,6 @@ function $(string) {
 const username = '2014000201010'
 const passwd = '204515'
 
-document.body.onload = () => {
-  $('#username').value = username
-  $('#password').value = passwd
-  $('#casLoginForm').submit()
-}
+$('#username').value = username
+$('#password').value = passwd
+$('#casLoginForm').submit()

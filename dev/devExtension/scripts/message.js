@@ -11,12 +11,12 @@ var info = JSON.stringify({
 var port = chrome.runtime.connect({name: info});
 port.onMessage.addListener(function (msg) {
   // 如果请求的 url 与当前 iframe 不同域，那么不进行通讯
-  console.log(msg, document.cookie)
+  console.debug(msg, document.cookie)
 
-  var semesterID = query(msg.url)['lesson.semester.id'];
-  if (semesterID) {
-    document.cookie = 'semester.id=' + semesterID;
-  }
+  // var semesterID = query(msg.url)['lesson.semester.id'];
+  // if (semesterID) {
+  //   document.cookie = 'semester.id=' + semesterID;
+  // }
 
   if (isCORSHost(msg.url)) return;
   fetch(msg.url, {credentials: 'include'}).then(res => res.text()).then(res => {
@@ -53,5 +53,3 @@ function query(url) {
     return Object.assign({}, pre, {[val[0]]: val[1]});
   }, {});
 };
-
-console.log('loaded')
