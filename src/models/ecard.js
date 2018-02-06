@@ -2,7 +2,9 @@ import { getTransactionFlow, getBasicInfo } from '../components/ecard/services';
 
 export default {
   namespace: 'ecard',
-  state: {},
+  state: {
+    
+  },
   subscriptions: {
     setup({dispatch, history}) {
       history.listen(location => {
@@ -23,5 +25,14 @@ export default {
       console.log(basicData, res)
     }
   },
-  reducers: {},
+  reducers: {
+    /**
+     * 更新状态
+     * @param {*Object} state 
+     * @param {Object} action 
+     */
+    updateState(state, action) {
+      return { ...state, ...action.payload };
+    }
+  },
 };

@@ -3,6 +3,8 @@
 > 让老旧的教务系统焕发青春。  
 > 项目官网：[blog.simplenaive.cn/uestc_helper](http://blog.simplenaive.cn/uestc_helper)
 
+![截图](./docs/img/eg-1.png)
+
 ### 开发指南
 
 ```bash
@@ -19,6 +21,11 @@ npm start
 ### 文档指南
 
 项目的`docs`[文件夹](https://github.com/Yidadaa/UESTC_Helper/tree/master/docs)下有关于项目的若干文档，敬请查阅。
+
+文档索引：
+
+- [旧版插件实现逻辑](https://github.com/Yidadaa/UESTC_Helper/blob/master/docs/旧版插件逻辑说明.md)
+- [一份比较详细的插件机制介绍文档](https://github.com/Yidadaa/UESTC_Helper/blob/master/docs/插件机制简介.md)
 
 ### 问题反馈
 
