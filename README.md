@@ -11,12 +11,18 @@
 # 1. 安装开发依赖
 npm install
 
-# 2. 打开Chrome，以开发着模式加载 dev/devExtension　文件夹
+# 2. 打开Chrome，以开发者模式加载 dev/devExtension　文件夹
 
-# 3. 开始开发
+# 3. 加载完文件夹，进入Chrome的扩展管理界面，打开 ./src/services/request.js 文件第七行，修改localExtensionID为Develop Helper的ID。
+
+# 4. 开始开发
 npm start
 
 ```
+
+#### 注：插件ID是形如下图红框中的ID
+![default](https://user-images.githubusercontent.com/16968934/37384089-b7b4058c-2787-11e8-812d-20ae58b3727a.jpg)
+
 
 ### 文档指南
 

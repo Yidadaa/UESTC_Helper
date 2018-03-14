@@ -94,4 +94,11 @@ function openSession(url) {
   }, function (window) {
     const id = window.id; // 用于关闭该window
   });
+  chrome.windows.create({
+    url: 'http://eams.uestc.edu.cn/eams/home!submenus.action?menu.id=',
+    height:10, width: 10, type: 'popup',
+    focused: false
+  }, function (window) {
+    const id = window.id; // 用于关闭该window
+  });
 }

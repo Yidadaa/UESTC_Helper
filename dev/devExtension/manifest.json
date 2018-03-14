@@ -46,6 +46,6 @@
         "persistent": true
     },
     "externally_connectable": {
-        "matches": ["http://127.0.0.1/*"] // 允许调试页面发出的请求
+        "matches": ["http://127.0.0.1/*", "http://localhost/*"] // 允许调试页面发出的请求
     }
 }
