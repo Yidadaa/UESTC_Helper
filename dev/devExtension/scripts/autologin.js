@@ -7,8 +7,8 @@ function $(string) {
   return document.querySelector(string)
 }
 
-const username = '2014000201010'
-const passwd = '204515'
+const username = '20241000602010'
+const passwd = '415513'
 
 $('#username').value = username
 $('#password').value = passwd
